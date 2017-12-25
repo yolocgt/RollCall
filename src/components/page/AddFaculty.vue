@@ -2,23 +2,20 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加管理员</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
+                <el-breadcrumb-item>添加院系信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
-                <el-form-item label="账号" prop="account">
+                <el-form-item label="院系名称" prop="account">
                     <el-input v-model="form.account"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" prop="name">
+                <el-form-item label="系主任" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input type="password" v-model="form.password"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="rePsw">
-                    <el-input type="password" v-model="form.rePsw"></el-input>
+                <el-form-item label="联系电话" prop="name">
+                    <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 
                 <el-form-item>
