@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="院系名称" prop="account">
-                    <el-input v-model="form.account"></el-input>
+                    <el-input v-model="form.facultyName"></el-input>
                 </el-form-item>
                 <el-form-item label="系主任" prop="name">
                     <el-input v-model="form.name"></el-input>
@@ -58,13 +58,13 @@ export default {
     };
     return {
       form: {
-        account: "",
+        facultyName: "",
         name: "",
         password: "",
         rePsw: ""
       },
       rules: {
-        account: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
+        facultyName: [{ required: true, message: "请输入院系名称", trigger: "blur" }],
         name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
         // password: [{ validator: validatePsw, trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
