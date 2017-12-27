@@ -40,12 +40,12 @@ export default {
     var validatePsw = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else {
+      } else { 
         if (this.rules.password !== "") {
           this.$refs.form.validateField("rePsw");
         }
         callback();
-      }
+      } 
     };
     var validatePsw2 = (rule, value, callback) => {
       if (value === "") {
