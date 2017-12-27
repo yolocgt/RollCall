@@ -61,10 +61,22 @@ export default new Router({
                 {
                     path: '/modifypsw',
                     component: resolve => require(['../components/page/ModifyPsw.vue'], resolve)    // 添加管理员
-                },
-                {
+                }
+                ,{
                     path: '/addfaculty',
                     component: resolve => require(['../components/page/AddFaculty.vue'], resolve)    // 添加院系信息
+                }
+                ,{
+                    path: '/managefaculty',
+                    component: resolve => require(['../components/page/ManageFaculty.vue'], resolve)    // 添加院系信息
+                }
+                ,{
+                    path: '/addclass',
+                    component: resolve => require(['../components/page/AddClass.vue'], resolve)    // 添加院系信息
+                }
+                ,{
+                    path: '/manageclass',
+                    component: resolve => require(['../components/page/ManageClass.vue'], resolve)    // 添加院系信息
                 }
                 
             ]

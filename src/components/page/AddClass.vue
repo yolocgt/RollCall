@@ -3,18 +3,28 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加院系信息</el-breadcrumb-item>
+                <el-breadcrumb-item>添加班级信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="院系名称" prop="facultyName">
+					<el-select v-model="form.facultyName" placeholder="选啥" class="handle-select mr10">
+		                <el-option key="1" label="广东省" value="广东省"></el-option>
+		                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+		            </el-select>
+                </el-form-item>
+				
+                <el-form-item label="班级名称" prop="facultyName">
                     <el-input v-model="form.facultyName"></el-input>
+                </el-form-item>
+                <el-form-item label="联系电话" prop="name">
+                    <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="系主任" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="联系电话" prop="name">
+                <el-form-item label="班级人数" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 
@@ -40,12 +50,12 @@ export default {
     var validatePsw = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else { 
+      } else {
         if (this.rules.password !== "") {
           this.$refs.form.validateField("rePsw");
         }
         callback();
-      } 
+      }
     };
     var validatePsw2 = (rule, value, callback) => {
       if (value === "") {
