@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加管理员</el-breadcrumb-item>
+                <el-breadcrumb-item>添加系统账号</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">

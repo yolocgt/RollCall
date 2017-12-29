@@ -11,11 +11,15 @@
                 <el-form-item label="院系名称" prop="facultyName">
                     <el-input v-model="form.facultyName"></el-input>
                 </el-form-item>
-                <el-form-item label="系主任" prop="name">
-                    <el-input v-model="form.name"></el-input>
+                <el-form-item label="系主任" prop="director">
+                    <el-input v-model="form.director"></el-input>
                 </el-form-item>
-                <el-form-item label="联系电话" prop="name">
-                    <el-input v-model="form.name"></el-input>
+                <!-- <el-form-item label="" prop="">
+                    <el-input v-model.number="form.phone"></el-input>
+                </el-form-item> -->
+                
+                <el-form-item label="联系电话" prop="phone" :rules="[ { required: true, message: '请输入电话'}, { type: 'number', message: '电话必须为数字值'} ]" >
+                  <el-input type="phone" v-model.number="form.phone" auto-complete="off"></el-input>
                 </el-form-item>
                 
                 <el-form-item>
@@ -37,38 +41,16 @@
 <script>
 export default {
   data: function() {
-    var validatePsw = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else { 
-        if (this.rules.password !== "") {
-          this.$refs.form.validateField("rePsw");
-        }
-        callback();
-      } 
-    };
-    var validatePsw2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       form: {
         facultyName: "",
-        name: "",
-        password: "",
-        rePsw: ""
+        director: "",
+        phone: "",
       },
       rules: {
         facultyName: [{ required: true, message: "请输入院系名称", trigger: "blur" }],
-        name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
-        // password: [{ validator: validatePsw, trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-        rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
+        director: [{ required: true, message: "请输入主任名字", trigger: "blur" }],
+        // phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
       }
     };
   },

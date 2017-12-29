@@ -66,6 +66,7 @@
             changePage(values) {
                 this.information.pagination.per_page = values.perpage;
                 this.information.data = this.information.data;
+                console.log(values);
             },
             onSearch(searchQuery) {
                 this.query = searchQuery;
