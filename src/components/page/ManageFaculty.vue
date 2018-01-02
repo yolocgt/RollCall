@@ -17,7 +17,7 @@
         </div>
         <el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="account" label="院系名称" sortable width="150">
+            <el-table-column prop=" " label="院系名称" sortable width="150">
             </el-table-column>
             <el-table-column prop="password" label="系主任" width="120">
             </el-table-column>
