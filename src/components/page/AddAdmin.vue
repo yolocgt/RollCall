@@ -93,10 +93,6 @@ export default {
               }
               self.$refs[formName].resetFields();
             });
-          //   this.form.account = "";
-          //   this.form.name = "";
-          //   this.form.password = "";
-          //   this.form.rePsw = "";
         }
       });
     },

@@ -29,7 +29,7 @@
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -62,9 +62,8 @@ export default {
   },
   computed: {
     data2() {
-      
       const self = this;
-      
+
       return self.tableData.filter(function(d) {
         let is_del = false;
         for (let i = 0; i < self.del_list.length; i++) {
@@ -95,7 +94,7 @@ export default {
       if (process.env.NODE_ENV === "development") {
         self.url = "/ms/table/list";
       }
-      self.$axios.get(global.ApiUrl+'/admins').then(res => {
+      self.$axios.get(global.ApiUrl + "/admins").then(res => {
         console.log(res.data.data);
         self.tableData = res.data.data;
       });
@@ -112,8 +111,21 @@ export default {
     handleEdit(index, row) {
       this.$message("编辑第" + (index + 1) + "行");
     },
-    handleDelete(index, row) {
-      this.$message.error("删除第" + (index + 1) + "行");
+    handleDelete(index, row, id) {
+      this.$message.error("删除第" + (index + 1) + "行" + id);
+      this.$axios.delete(global.ApiUrl+'/admin/'+id)
+      .then(function(res){
+        console.log(res);
+        if (res.data.code == "y") {
+                console.log("删除成功");
+                self.$message.success("管理员删除成功~");
+              } else {
+                console.log("删除失败。");
+                self.$message.success("管理员删除失败！");
+              }
+              this.$root.reload()
+      })
+      
     },
     delAll() {
       const self = this,
