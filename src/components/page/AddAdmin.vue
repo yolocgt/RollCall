@@ -7,9 +7,9 @@
             </el-breadcrumb>
         </div>
         <div class="form-box">
-            <el-form :model="form" :rules="rules" ref="form" label-width="80px">
+            <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
                 <el-form-item label="账号" prop="account">
-                    <el-input v-model="form.account"></el-input>
+                    <el-input v-model="form.account" autofocus ref="inputRef"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name"></el-input>
@@ -20,7 +20,6 @@
                 <el-form-item label="确认密码" prop="rePsw">
                     <el-input type="password" v-model="form.rePsw"></el-input>
                 </el-form-item>
-                
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">提交</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -40,6 +39,7 @@
 <script>
 export default {
   data: function() {
+    // 验证输入密码
     var validatePsw = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -50,6 +50,7 @@ export default {
         callback();
       }
     };
+    // 验证再次输入密码
     var validatePsw2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
@@ -75,27 +76,43 @@ export default {
       }
     };
   },
+
+  created: function() {
+    const _this = this;
+    // window.onkeydown = function(event) {
+    //   console.log(event);
+    //   if (event.keyCode == "13") {
+
+    //   }
+    // };
+  },
+  mounted:function(){
+    // 聚焦到第一个输入框
+    this.$refs.inputRef.$el.children[0].focus();
+  },
   methods: {
+    // 提交表单
     onSubmit(formName) {
-      const self = this;
-      self.$refs[formName].validate(valid => {
+      const _this = this;
+      _this.$refs[formName].validate(valid => {
         if (valid) {
-          self.$axios
+          _this.$axios
             .post(global.ApiUrl + "/admin", this.form)
             .then(function(res) {
-              console.log(res);
               if (res.data.code == "y") {
-                console.log("添加成功");
-                self.$message.success("管理员添加成功~");
+                _this.$message.success("添加成功~");
               } else {
-                console.log("添加失败。");
-                self.$message.success("管理员添加失败！");
+                _this.$message.success("添加失败！");
               }
-              self.$refs[formName].resetFields();
+              // 聚焦到第一个输入框
+              _this.$refs.inputRef.$el.children[0].focus();
+              // 清空表单输入框
+              _this.$refs[formName].resetFields();
             });
         }
       });
     },
+    // 重置表单
     resetSubmit(formName) {
       this.$refs[formName].resetFields();
     }

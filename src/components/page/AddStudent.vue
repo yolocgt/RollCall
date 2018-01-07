@@ -107,7 +107,7 @@
 export default {
   data: function() {
     return {
-      imageUrl: "", 
+      imageUrl: "",
       form: {
         name: "",
         sex: "",
@@ -127,23 +127,24 @@ export default {
       }
     };
   },
+  
   methods: {
     onSubmit(formName) {
-      const self = this;
-      self.$refs[formName].validate(valid => {
+      const _this = this;
+      _this.$refs[formName].validate(valid => {
         if (valid) {
-          self.$axios
+          _this.$axios
             .post(global.ApiUrl + "/admin", this.form)
             .then(function(res) {
               console.log(res);
               if (res.data.code == "y") {
                 console.log("添加成功");
-                self.$message.success("管理员添加成功~");
+                _this.$message.success("管理员添加成功~");
               } else {
                 console.log("添加失败。");
-                self.$message.success("管理员添加失败！");
+                _this.$message.success("管理员添加失败！");
               }
-              self.$refs[formName].resetFields();
+              _this.$refs[formName].resetFields();
             });
           //   this.form.account = "";
           //   this.form.name = "";

@@ -8,24 +8,23 @@
         </div>
         <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-            <el-select v-model="select_cate" placeholder="筛选啥" class="handle-select mr10">
-                <el-option key="1" label="广东省" value="广东省"></el-option>
-                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+            <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
+                <el-option key="1" label="账号" value="账号"></el-option>
+                <el-option key="2" label="姓名" value="姓名"></el-option>
             </el-select>
-            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
-        <el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="account" label="账号" sortable width="150">
             </el-table-column>
             <el-table-column prop="password" label="密码" width="120">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" 
-            :formatter="formatter1">
+            <el-table-column prop="name" label="姓名" >
             </el-table-column>
             <el-table-column label="操作" width="180">
-                <template scope="scope">
+                <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
@@ -37,11 +36,25 @@
             <el-pagination
                     @current-change ="handleCurrentChange"
                     layout="prev, pager, next"
-                    :total="1000">
+                    :total="10">
             </el-pagination>
         </div>
+        <!-- 确认删除对话框 -->
+		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%" id="hhh">
+      	<span>{{dialogMsg}}</span>
+    	  <span slot="footer" class="dialog-footer">
+    	    <el-button @click="dialogVisible=false">取 消</el-button>
+    	    <el-button type="primary" @click="doDel">确 定</el-button>
+    	  </span>
+    </el-dialog>
+    
     </div>
 </template>
+<style>
+.el-dialog {
+  width: 30%;
+}
+</style>
 
 <script>
 export default {
@@ -54,29 +67,35 @@ export default {
       select_cate: "",
       select_word: "",
       del_list: [],
-      is_search: false
+      is_search: false,
+      
+      dialogVisible: false,
+      temDelRow: {},
+      dialogMsg:""
     };
   },
   created() {
     this.getData();
   },
   computed: {
-    data2() {
-      const self = this;
-
-      return self.tableData.filter(function(d) {
+    data() {
+      console.log('计算computed');
+      const _this = this;
+      console.log(_this.tableData);
+      return _this.tableData.filter(function(d) {
         let is_del = false;
-        for (let i = 0; i < self.del_list.length; i++) {
-          if (d.name === self.del_list[i].name) {
+        for (let i = 0; i < _this.del_list.length; i++) {
+          if (d.name === _this.del_list[i].name) {
             is_del = true;
             break;
           }
         }
+        console.log(d);
         if (!is_del) {
           if (
-            d.address.indexOf(self.select_cate) > -1 &&
-            (d.name.indexOf(self.select_word) > -1 ||
-              d.address.indexOf(self.select_word) > -1)
+            d.account.indexOf(_this.select_cate) > -1 &&
+            (d.name.indexOf(_this.select_word) > -1 ||
+              d.account.indexOf(_this.select_word) > -1)
           ) {
             return d;
           }
@@ -90,13 +109,14 @@ export default {
       this.getData();
     },
     getData() {
-      let self = this;
+      let _this = this;
       if (process.env.NODE_ENV === "development") {
-        self.url = "/ms/table/list";
+        // _this.url = "/ms/table/list";
+        _this.url = "/admins?page="+_this.cur_page;
       }
-      self.$axios.get(global.ApiUrl + "/admins").then(res => {
+      _this.$axios.get(global.ApiUrl + "/admins").then(res => {
         console.log(res.data.data);
-        self.tableData = res.data.data;
+        _this.tableData = res.data.data;
       });
     },
     search() {
@@ -111,32 +131,45 @@ export default {
     handleEdit(index, row) {
       this.$message("编辑第" + (index + 1) + "行");
     },
-    handleDelete(index, row, id) {
-      this.$message.error("删除第" + (index + 1) + "行" + id);
-      this.$axios.delete(global.ApiUrl+'/admin/'+id)
-      .then(function(res){
-        console.log(res);
-        if (res.data.code == "y") {
-                console.log("删除成功");
-                self.$message.success("管理员删除成功~");
-              } else {
-                console.log("删除失败。");
-                self.$message.success("管理员删除失败！");
-              }
-              this.$root.reload()
-      })
-      
+    // 确认删除提示框
+    handleDelete(index, row) {
+      this.dialogVisible = true;
+      this.dialogMsg = `确认删除管理员：${row.name}`;
+      this.temDelRow = row;
+    },
+    // 删除
+    doDel() {
+      this.dialogVisible = false;
+      const _this = this;
+      this.$axios
+        .delete(global.ApiUrl + "/admin/" + this.temDelRow._id)
+        .then(function(res) {
+          console.log(res);
+          if (res.data.code == "y") {
+            _this.$message.success("删除成功~");
+          } else {
+            _this.$message.success("删除失败！");
+          }
+          // 刷新页面
+          // _this.$router.go(0);
+          // _this.$root.reload();
+          // _this.$router.push({
+          //   name: "manageadmin",
+          //   query: { random: Math.random() }
+          // });
+          _this.getData();
+        });
     },
     delAll() {
-      const self = this,
-        length = self.multipleSelection.length;
+      const _this = this,
+        length = _this.multipleSelection.length;
       let str = "";
-      self.del_list = self.del_list.concat(self.multipleSelection);
+      _this.del_list = _this.del_list.concat(_this.multipleSelection);
       for (let i = 0; i < length; i++) {
-        str += self.multipleSelection[i].name + " ";
+        str += _this.multipleSelection[i].name + " ";
       }
-      self.$message.error("删除了" + str);
-      self.multipleSelection = [];
+      _this.$message.error("删除了" + str);
+      _this.multipleSelection = [];
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

@@ -29,7 +29,7 @@
             :formatter="formatter1">
             </el-table-column>
             <el-table-column label="操作" width="180">
-                <template scope="scope">
+                <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
