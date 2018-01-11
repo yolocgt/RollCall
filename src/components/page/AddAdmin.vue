@@ -37,6 +37,7 @@
 </style>
 
 <script>
+import ApiAdmin from '../../service/api_admin'
 export default {
   data: function() {
     // 验证输入密码
@@ -78,7 +79,7 @@ export default {
   },
 
   created: function() {
-    const _this = this;
+    // const this = this;
     // window.onkeydown = function(event) {
     //   console.log(event);
     //   if (event.keyCode == "13") {
@@ -93,23 +94,19 @@ export default {
   methods: {
     // 提交表单
     onSubmit(formName) {
-      const _this = this;
-      _this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.$axios
-            .post(global.ApiUrl + "/admin", this.form)
-            .then(function(res) {
-              if (res.data.code == "y") {
-                _this.$message.success("添加成功~");
+          ApiAdmin.save(this.form,(res) => {
+            if (res.status == "y") {
+                this.$message.success("添加成功~");
               } else {
-                _this.$message.success("添加失败！");
+                this.$message.success("添加失败！");
               }
               // 聚焦到第一个输入框
-              _this.$refs.inputRef.$el.children[0].focus();
+              this.$refs.inputRef.$el.children[0].focus();
               // 清空表单输入框
-              _this.$refs[formName].resetFields();
-            });
-        }
+              this.$refs[formName].resetFields();
+          })}
       });
     },
     // 重置表单
