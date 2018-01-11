@@ -33,10 +33,13 @@
             </el-table-column>
         </el-table>
         <div class="pagination">
+          <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
+              page-size	每页显示条目个数 -->
             <el-pagination
-                    @current-change ="handleCurrentChange"
+                    @current-change ="handlePageChange"
                     layout="prev, pager, next"
-                    :total="10">
+                    :page-count="pageCount|1" :page-size="pageSize"
+                    >
             </el-pagination>
         </div>
         <!-- 确认删除对话框 -->
@@ -57,12 +60,14 @@
 </style>
 
 <script>
+import ApiAdmin from '../../service/api_admin';
+
 export default {
   data() {
     return {
       url: "./static/vuetable.json",
       tableData: [],
-      cur_page: 1,
+      allData:[],
       multipleSelection: [],
       select_cate: "",
       select_word: "",
@@ -71,31 +76,32 @@ export default {
       
       dialogVisible: false,
       temDelRow: {},
-      dialogMsg:""
+      dialogMsg:"",
+      
+      cur_page: 1,//当前页码
+      pageCount:3,//总页数
+      pageSize:5,//页大小
     };
   },
   created() {
-    this.getData();
+    this.getDataByPage();
   },
   computed: {
     data() {
-      console.log('计算computed');
-      const _this = this;
-      console.log(_this.tableData);
-      return _this.tableData.filter(function(d) {
+      console.log(this.tableData);
+      return this.tableData.filter((d)=> {
         let is_del = false;
-        for (let i = 0; i < _this.del_list.length; i++) {
-          if (d.name === _this.del_list[i].name) {
+        for (let i = 0; i < this.del_list.length; i++) {
+          if (d.name === this.del_list[i].name) {
             is_del = true;
             break;
           }
         }
-        console.log(d);
         if (!is_del) {
           if (
-            d.account.indexOf(_this.select_cate) > -1 &&
-            (d.name.indexOf(_this.select_word) > -1 ||
-              d.account.indexOf(_this.select_word) > -1)
+            d.account.indexOf(this.select_cate) > -1 &&
+            (d.name.indexOf(this.select_word) > -1 ||
+              d.account.indexOf(this.select_word) > -1)
           ) {
             return d;
           }
@@ -104,20 +110,23 @@ export default {
     }
   },
   methods: {
-    handleCurrentChange(val) {
-      this.cur_page = val;
-      this.getData();
+    // 分页
+    getDataByPage(){
+      ApiAdmin.getDataByPage(this.cur_page,(res) => {
+        this.tableData=res.data.res;//获取分页数据
+        this.pageCount=res.data.pageCount;//获取总页数
+      })
     },
-    getData() {
-      let _this = this;
-      if (process.env.NODE_ENV === "development") {
-        // _this.url = "/ms/table/list";
-        _this.url = "/admins?page="+_this.cur_page;
-      }
-      _this.$axios.get(global.ApiUrl + "/admins").then(res => {
-        console.log(res.data.data);
-        _this.tableData = res.data.data;
-      });
+    // 所有数据
+    getData(){
+      ApiAdmin.getData((res) => {
+        this.allData=res.data.res;//获取所有数据
+      })
+    },
+    // 当前页码改变事件
+    handlePageChange(val) {
+      this.cur_page = val;
+      this.getDataByPage();
     },
     search() {
       this.is_search = true;
@@ -140,36 +149,32 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      const _this = this;
-      this.$axios
-        .delete(global.ApiUrl + "/admin/" + this.temDelRow._id)
-        .then(function(res) {
-          console.log(res);
-          if (res.data.code == "y") {
-            _this.$message.success("删除成功~");
+      ApiAdmin.deleteById(this.temDelRow._id,(res) => {
+        console.log(res);
+          if (res.status == "y") {
+            this.$message.success("删除成功~");
           } else {
-            _this.$message.success("删除失败！");
+            this.$message.success("删除失败！");
           }
-          // 刷新页面
-          // _this.$router.go(0);
-          // _this.$root.reload();
-          // _this.$router.push({
+          //刷新页面
+          // this.$router.go(0);
+          // this.$root.reload();
+          // this.$router.push({
           //   name: "manageadmin",
           //   query: { random: Math.random() }
           // });
-          _this.getData();
-        });
+          this.getDataByPage();
+      });
     },
     delAll() {
-      const _this = this,
-        length = _this.multipleSelection.length;
+        length = this.multipleSelection.length;
       let str = "";
-      _this.del_list = _this.del_list.concat(_this.multipleSelection);
+      this.del_list = this.del_list.concat(this.multipleSelection);
       for (let i = 0; i < length; i++) {
-        str += _this.multipleSelection[i].name + " ";
+        str += this.multipleSelection[i].name + " ";
       }
-      _this.$message.error("删除了" + str);
-      _this.multipleSelection = [];
+      this.$message.error("删除了" + str);
+      this.multipleSelection = [];
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
