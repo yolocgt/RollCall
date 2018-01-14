@@ -103,9 +103,11 @@ export default {
                 this.$message.success("添加失败！");
               }
               // 聚焦到第一个输入框
-              this.$refs.inputRef.$el.children[0].focus();
+              // this.$refs.inputRef.$el.children[0].focus();
               // 清空表单输入框
-              this.$refs[formName].resetFields();
+              // this.$refs[formName].resetFields();
+              // 跳转管理员管理路由
+              this.$router.push({name:'manageadmin'});
           })}
       });
     },
