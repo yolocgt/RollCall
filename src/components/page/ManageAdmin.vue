@@ -89,19 +89,18 @@ export default {
   computed: {
     data() {
       // console.log(this.tableData);
-      const self = this;
-      return self.tableData.filter(function(d){
+      return this.tableData.filter((d)=>{
         let is_del = false;
-        for (let i = 0; i < self.del_list.length; i++) {
-          if (d.name === self.del_list[i].name) {
+        for (let i = 0; i < this.del_list.length; i++) {
+          if (d.name === this.del_list[i].name) {
             is_del = true;
             break;
           }
         }
         if (!is_del) {
           if (
-            d.name.indexOf(self.select_word) > -1 ||
-            d.account.indexOf(self.select_word) > -1
+            d.name.indexOf(this.select_word) > -1 ||
+            d.account.indexOf(this.select_word) > -1
           ) {
             return d;
           }
