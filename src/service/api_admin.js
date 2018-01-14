@@ -7,10 +7,11 @@ export default {
 	 * @description 根据页码获取所有的管理员数据
 	 * @author CGT
 	 * @param {any} page 页码
+	 * @param {any} word
 	 * @param {function} callback 回调函数
 	 */
-	getDataByPage(page, callback) {
-		axios.get(`${global.ApiUrl}/admins?page=${page}`)
+	getDataByPage(page,word, callback) {
+		axios.get(`${global.ApiUrl}/admins?word=${word}&page=${page}`)
 			.then((res) => {
 			console.log('回调函数。。');
 			console.log(res);
