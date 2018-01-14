@@ -12,7 +12,7 @@
                   <el-option key="1" label="账号" value="账号"></el-option>
                   <el-option key="2" label="姓名" value="姓名"></el-option>
               </el-select> -->
-            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10"></el-input>
+            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
@@ -88,38 +88,52 @@ export default {
   },
   computed: {
     data() {
-      // console.log(this.tableData);
-      return this.tableData.filter((d)=>{
-        let is_del = false;
-        for (let i = 0; i < this.del_list.length; i++) {
-          if (d.name === this.del_list[i].name) {
-            is_del = true;
-            break;
-          }
-        }
-        if (!is_del) {
-          if (
-            d.name.indexOf(this.select_word) > -1 ||
-            d.account.indexOf(this.select_word) > -1
-          ) {
-            return d;
-          }
-        }
-      });
+      // if (this.select_word) {
+      //   console.log("筛选中~~~");
+      //   return ApiAdmin.getDataByPage(this.cur_page, this.select_word, res => {
+      //     return res.data.res; //获取分页数据
+      //     // this.pageCount = res.data.pageCount; //获取总页数
+      //   });
+      // } else {
+      //   console.log("不筛选*****");
+        return this.tableData
+      // .filter(d => {
+      //     let is_del = false;
+      //     for (let i = 0; i < this.del_list.length; i++) {
+      //       if (d.name === this.del_list[i].name) {
+      //         is_del = true;
+      //         break;
+      //       }
+      //     }
+      //     console.log("计算。。");
+      //     if (!is_del) {
+      //       if (
+      //         d.name.indexOf(this.select_word) > -1 ||
+      //         d.account.indexOf(this.select_word) > -1
+      //       ) {
+      //         return d;
+      //       }
+      //     }
+      //   });
+      // }
+      // setTimeout(() => {
+        console.group("筛选后");
+        console.log(this.tableData);
+        console.groupEnd();
+      // }, 2000);
     }
   },
   methods: {
+    hh(){
+      
+    },
     // 分页
     getDataByPage() {
-      ApiAdmin.getDataByPage(
-        this.cur_page,
-        this.select_cate,
-        this.select_word,
-        res => {
-          this.tableData = res.data.res; //获取分页数据
-          this.pageCount = res.data.pageCount; //获取总页数
-        }
-      );
+      console.log("分页");
+      ApiAdmin.getDataByPage(this.cur_page, this.select_word, res => {
+        this.tableData = res.data.res; //获取分页数据
+        this.pageCount = res.data.pageCount; //获取总页数
+      });
     },
     // 所有数据
     getData() {
