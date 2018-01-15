@@ -52,6 +52,7 @@ export default new Router({
 
                 {
                     path: '/addadmin',
+                    name: 'addadmin',
                     component: resolve => require(['../components/page/AddAdmin.vue'], resolve)    // 添加管理员
                 },
                 {

@@ -96,7 +96,7 @@ export default {
       //   });
       // } else {
       //   console.log("不筛选*****");
-        return this.tableData
+      return this.tableData;
       // .filter(d => {
       //     let is_del = false;
       //     for (let i = 0; i < this.del_list.length; i++) {
@@ -117,16 +117,14 @@ export default {
       //   });
       // }
       // setTimeout(() => {
-        console.group("筛选后");
-        console.log(this.tableData);
-        console.groupEnd();
+      console.group("筛选后");
+      console.log(this.tableData);
+      console.groupEnd();
       // }, 2000);
     }
   },
   methods: {
-    hh(){
-      
-    },
+    hh() {},
     // 分页
     getDataByPage() {
       console.log("分页");
@@ -156,7 +154,9 @@ export default {
       return row.tag === value;
     },
     handleEdit(index, row) {
-      this.$message("编辑第" + (index + 1) + "行");
+      // this.$message("编辑第" + (index + 1) + "行");
+      console.log(row._id);
+      this.$router.push({ name: "addadmin", params: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
