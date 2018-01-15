@@ -42,5 +42,12 @@ export default {
 		.then((res) => {
 			callback(res.data);
 		})
+	},
+	// 查找
+	getDataById(id, callback) {
+		axios.get(`${global.ApiUrl}/admin/${id}`)
+		.then((res) => {
+			callback(res.data);
+		})
 	}
 }
