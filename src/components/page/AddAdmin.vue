@@ -37,7 +37,7 @@
 </style>
 
 <script>
-import ApiAdmin from '../../service/api_admin'
+import ApiAdmin from "../../service/api_admin";
 export default {
   data: function() {
     // 验证输入密码
@@ -86,8 +86,17 @@ export default {
 
     //   }
     // };
+    console.log(this.$route.params);
+    var id = this.$route.params.id;
+    console.log(id);
+    if (id) {
+      ApiAdmin.getDataById(id, res => {
+        console.log(res);
+        this.form = res.data;
+      });
+    }
   },
-  mounted:function(){
+  mounted: function() {
     // 聚焦到第一个输入框
     this.$refs.inputRef.$el.children[0].focus();
   },
@@ -96,19 +105,20 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          ApiAdmin.save(this.form,(res) => {
+          ApiAdmin.save(this.form, res => {
             if (res.status == "y") {
-                this.$message.success("添加成功~");
-              } else {
-                this.$message.success("添加失败！");
-              }
-              // 聚焦到第一个输入框
-              // this.$refs.inputRef.$el.children[0].focus();
-              // 清空表单输入框
-              // this.$refs[formName].resetFields();
-              // 跳转管理员管理路由
-              this.$router.push({name:'manageadmin'});
-          })}
+              this.$message.success("添加成功~");
+            } else {
+              this.$message.success("添加失败！");
+            }
+            // 聚焦到第一个输入框
+            // this.$refs.inputRef.$el.children[0].focus();
+            // 清空表单输入框
+            // this.$refs[formName].resetFields();
+            // 跳转管理员管理路由
+            this.$router.push({ name: "manageadmin" });
+          });
+        }
       });
     },
     // 重置表单
