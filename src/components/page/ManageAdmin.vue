@@ -149,7 +149,7 @@ export default {
     },
     formatter(row, column) {
       return row.address;
-    },
+    }, 
     filterTag(value, row) {
       return row.tag === value;
     },

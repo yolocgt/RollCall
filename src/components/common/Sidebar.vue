@@ -31,7 +31,7 @@ export default {
           subs: [
             {
               index: "addadmin",
-              title: "添加管理员"
+              title: "编辑管理员"
             },
             {
               index: "manageadmin",
