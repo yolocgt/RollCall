@@ -10,44 +10,51 @@ export default {
 	 * @param {any} word
 	 * @param {function} callback 回调函数
 	 */
-	getDataByPage(page,word, callback) {
+	getDataByPage(page, word, callback) {
 		axios.get(`${global.ApiUrl}/admins?word=${word}&page=${page}`)
 			.then((res) => {
-			console.log('回调函数。。');
-			console.log(res);
-			callback(res.data);
-		}).catch((err) => {
-			console.log(err);
-		})
+				console.log('回调函数。。');
+				console.log(res);
+				callback(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
 	},
 	// 所有数据
 	getData(callback) {
 		axios.get(`${global.ApiUrl}/all_admin`)
-		.then((res) => {
-			callback(res.data);
-		}).catch((err) => {
-			console.log(err);
-		})
+			.then((res) => {
+				callback(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
 	},
 	// 保存
 	save(data, callback) {
 		axios.post(`${global.ApiUrl}/admin`, data)
-		.then((res) => {
-			callback(res.data);
-		})
+			.then((res) => {
+				callback(res.data);
+			})
+	},
+	// 修改
+	update(id, data, callback) {
+		axios.put(`${global.ApiUrl}/admin/${id}`, data)
+			.then((res) => {
+				callback(res.data);
+			})
 	},
 	// 删除
 	deleteById(id, callback) {
 		axios.delete(`${global.ApiUrl}/admin/${id}`)
-		.then((res) => {
-			callback(res.data);
-		})
+			.then((res) => {
+				callback(res.data);
+			})
 	},
 	// 查找
 	getDataById(id, callback) {
 		axios.get(`${global.ApiUrl}/admin/${id}`)
-		.then((res) => {
-			callback(res.data);
-		})
+			.then((res) => {
+				callback(res.data);
+			})
 	}
 }
