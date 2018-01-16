@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加系统账号</el-breadcrumb-item>
+                <el-breadcrumb-item>{{status}}系统账号</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
@@ -21,7 +21,7 @@
                     <el-input type="password" v-model="form.rePsw"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -62,6 +62,8 @@ export default {
       }
     };
     return {
+      id: "",
+      status:"添加",
       form: {
         account: "",
         name: "",
@@ -87,10 +89,11 @@ export default {
     //   }
     // };
     console.log(this.$route.params);
-    var id = this.$route.params.id;
-    console.log(id);
-    if (id) {
-      ApiAdmin.getDataById(id, res => {
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    if (this.id) {
+      this.status='修改';
+      ApiAdmin.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
       });
@@ -105,19 +108,32 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          ApiAdmin.save(this.form, res => {
-            if (res.status == "y") {
-              this.$message.success("添加成功~");
-            } else {
-              this.$message.success("添加失败！");
-            }
-            // 聚焦到第一个输入框
-            // this.$refs.inputRef.$el.children[0].focus();
-            // 清空表单输入框
-            // this.$refs[formName].resetFields();
-            // 跳转管理员管理路由
-            this.$router.push({ name: "manageadmin" });
-          });
+          // 修改
+          if (this.id) {
+            console.log('修改');
+            ApiAdmin.update(this.id, this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("修改成功~");
+              } else {
+                this.$message.error("修改失败！");
+              }
+            });
+          } else {
+            // 新增
+            ApiAdmin.save(this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("添加成功~");
+              } else {
+                this.$message.error("添加失败！");
+              }
+              // 聚焦到第一个输入框
+              // this.$refs.inputRef.$el.children[0].focus();
+              // 清空表单输入框
+              // this.$refs[formName].resetFields();
+              // 跳转管理员管理路由
+              this.$router.push({ name: "manageadmin" });
+            });
+          }
         }
       });
     },
