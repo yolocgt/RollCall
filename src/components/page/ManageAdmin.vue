@@ -149,7 +149,7 @@ export default {
     },
     formatter(row, column) {
       return row.address;
-    }, 
+    },
     filterTag(value, row) {
       return row.tag === value;
     },
@@ -188,11 +188,34 @@ export default {
       length = this.multipleSelection.length;
       let str = "";
       this.del_list = this.del_list.concat(this.multipleSelection);
-      for (let i = 0; i < length; i++) {
-        str += this.multipleSelection[i].name + " ";
-      }
-      this.$message.error("删除了" + str);
-      this.multipleSelection = [];
+      var delStatus = false;
+
+      let promise = new Promise(function(resolve, reject) {
+        console.log("Promise");
+        resolve();
+      });
+      promise
+        .then(() => {
+          for (let i = 0; i < length; i++) {
+            str += this.multipleSelection[i].name + ",";
+            var id = this.multipleSelection[i]._id;
+            ApiAdmin.deleteById(id, res => {
+              if (res.status == "y") {
+                delStatus = true;
+                console.log(delStatus);
+              }
+            });
+          }
+        })
+        .then(() => {
+          console.log("处理后：" + delStatus);
+          this.$message.error("删除了" + str);
+          // if (delStatus) {
+          // this.$message.success("删除成功~");
+          // }
+          this.multipleSelection = [];
+          this.getDataByPage();
+        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
