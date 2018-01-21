@@ -1,33 +1,16 @@
 <template>
-    <div class="table">
+    <div class="table" style="width: 436px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 专业信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>管理专业</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-              <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
-                  <el-option 
-                        v-for="f in faculty" 
-                        :key="f._id" 
-                        :label="f.facultyName" 
-                        :value="f._id"></el-option>
-              </el-select>
-            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" ></el-table-column>
-            <el-table-column prop="name" label="姓名" sortable > </el-table-column>
-            <el-table-column prop="sex" label="性别" sortable > </el-table-column>
-            <el-table-column prop="sno" label="工号" sortable > </el-table-column>
-            <el-table-column prop="phone" label="电话"> </el-table-column>
-            <el-table-column prop="password" label="密码" > </el-table-column>
-            <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>
-            <el-table-column prop="className.major.majorName" label="班级" > </el-table-column>
-            <el-table-column label="操作" width="150">
+        <el-table :data="data" border style="width: 500" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="majorName" label="专业名称" sortable width="200">
+            </el-table-column>
+            <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -64,17 +47,16 @@
 </style>
 
 <script>
-import { ApiHeadteacher, ApiFaculty } from "../../service/apis";
+import { ApiMajor } from "../../service/apis";
 
 export default {
   data() {
     return {
-		faculty:"",
       url: "./static/vuetable.json",
       tableData: [],
       allData: [],
       multipleSelection: [],
-      select_cate: "",
+      // select_cate: "",
       select_word: "", //搜索内容
       del_list: [],
       is_search: false,
@@ -89,9 +71,6 @@ export default {
     };
   },
   created() {
-    ApiFaculty.getData(res => {
-      this.faculty = res.data;
-    });
     this.getDataByPage();
   },
   computed: {
@@ -103,14 +82,14 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiHeadteacher.getDataByPage(this.cur_page, this.select_word, res => {
+      ApiMajor.getDataByPage(this.cur_page, this.select_word, res => {
         this.tableData = res.data.res; //获取分页数据
         this.pageCount = res.data.pageCount; //获取总页数
       });
     },
     // 所有数据
     getData() {
-      ApiHeadteacher.getData(res => {
+      ApiMajor.getData(res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -119,59 +98,26 @@ export default {
       this.cur_page = val;
       this.getDataByPage();
     },
-    search() {
-      this.is_search = true;
-      this.$axios
-        // .get("/users")
-        .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => {
-          console.log(data.data.data.users);
-          var users = data.data.data.users;
-          for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-            ApiHeadteacher.save(user, res => {
-              if (res.status == "y") {
-                this.$message.success("数据加载成功");
-                this.getDataByPage();
-              }
-            });
-          }
-        });
-    },
-    formatter(row, column) {
-      return row.address;
-    },
-    filterTag(value, row) {
-      return row.tag === value;
-    },
     handleEdit(index, row) {
-      // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addheadteacher", params: { id: row._id } });
+      this.$router.push({ name: "addmajor", params: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除辅导员：${row.name}`;
+      this.dialogMsg = `确认删除专业：${row.majorName}`;
       this.temDelRow = row;
     },
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiHeadteacher.deleteById(this.temDelRow._id, res => {
+      ApiMajor.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
         } else {
           this.$message.success("删除失败！");
         }
-        //刷新页面
-        // this.$router.go(0);
-        // this.$root.reload();
-        // this.$router.push({
-        //   name: "manageheadteacher",
-        //   query: { random: Math.random() }
-        // });
         this.getDataByPage();
       });
     },
@@ -190,7 +136,7 @@ export default {
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].name + ",";
             var id = this.multipleSelection[i]._id;
-            ApiHeadteacher.deleteById(id, res => {
+            ApiMajor.deleteById(id, res => {
               if (res.status == "y") {
                 delStatus = true;
                 console.log(delStatus);

@@ -14,8 +14,8 @@
                 </el-form-item>
 				       <el-form-item label="性别" prop="sex">
     				      <el-select v-model="form.sex" placeholder="请选择" class="handle-select mr10">
-    	                <el-option key="1" label="男" value="man"></el-option>
-    	                <el-option key="2" label="女" value="woman"></el-option>
+    	                <el-option key="1" label="男" value="男"></el-option>
+    	                <el-option key="2" label="女" value="女"></el-option>
     	            </el-select>
                 </el-form-item>
                 <el-form-item label="学号" prop="sno">
@@ -29,14 +29,17 @@
                 </el-form-item>
 				 <el-form-item label="院系名称" prop="facultyName">
     				      <el-select v-model="form.facultyName" placeholder="选择院系" class="handle-select mr10">
-    	                <el-option key="1" label="软件学院" value="rj"></el-option>
-    	                <el-option key="2" label="国际学院" value="gj"></el-option>
+    	                <el-option 
+                        v-for="f in facultyName" 
+                        :key="f._id" 
+                        :label="f.facultyName" 
+                        :value="f._id"></el-option>
     	            </el-select>
                 </el-form-item>
 				 <el-form-item label="班级名称" prop="className">
     				      <el-select v-model="form.className" placeholder="选择班级" class="handle-select mr10">
-    	                <el-option key="1" label="广东省" value="广东省"></el-option>
-    	                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+    	                <el-option
+                        v-for="c in className" :key="c._id" :label="c.cyear+'级'+c.major.majorName+c.cno+'班'" :value="c._id"></el-option>
     	            </el-select>
                 </el-form-item>
                 
@@ -50,7 +53,7 @@
                 <el-form-item label="登录账号" prop="account">
                     <el-input v-model.number="form.account"></el-input>
                 </el-form-item>
-                <el-form-item label="用户头像" prop="avatar">
+                <!-- <el-form-item label="用户头像" prop="avatar">
                     <el-upload
                       class="avatar-uploader"
                       action="https://jsonplaceholder.typicode.com/posts/"
@@ -60,7 +63,7 @@
                       <img v-if="imageUrl" :src="imageUrl" class="avatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
-                </el-form-item>
+                </el-form-item> -->
                 
                 
                 <el-form-item>
@@ -104,10 +107,13 @@
 </style>
 
 <script>
+import { ApiFaculty, ApiClassInfo, ApiStudent } from "../../service/apis";
 export default {
   data: function() {
     return {
       imageUrl: "",
+      facultyName: "",
+      className: "",
       form: {
         name: "",
         sex: "",
@@ -127,29 +133,56 @@ export default {
       }
     };
   },
-  
+  created: function() {
+    console.log(this.$route.params);
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    if (this.id) {
+      this.status = "修改";
+      ApiStudent.getDataById(this.id, res => {
+        console.log(res);
+        this.form = res.data;
+      });
+    }
+    // 学院下拉框数据
+    ApiFaculty.getData(res => {
+      this.facultyName = res.data;
+    });
+    // 班级下拉框数据
+    ApiClassInfo.getData(res => {
+      this.className = res.data;
+    });
+  },
   methods: {
     onSubmit(formName) {
-      const _this = this;
-      _this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.$axios
-            .post(global.ApiUrl + "/admin", this.form)
-            .then(function(res) {
-              console.log(res);
-              if (res.data.code == "y") {
-                console.log("添加成功");
-                _this.$message.success("管理员添加成功~");
+          // 修改
+          if (this.id) {
+            console.log("修改");
+            ApiStudent.update(this.id, this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("修改成功~");
               } else {
-                console.log("添加失败。");
-                _this.$message.success("管理员添加失败！");
+                this.$message.error("修改失败！");
               }
-              _this.$refs[formName].resetFields();
             });
-          //   this.form.account = "";
-          //   this.form.name = "";
-          //   this.form.password = "";
-          //   this.form.rePsw = "";
+          } else {
+            // 新增
+            ApiStudent.save(this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("添加成功~");
+              } else {
+                this.$message.error("添加失败！");
+              }
+              // 聚焦到第一个输入框
+              // this.$refs.inputRef.$el.children[0].focus();
+              // 清空表单输入框
+              // this.$refs[formName].resetFields();
+              // 跳转管理员管理路由
+            });
+          }
+          this.$router.push({ name: "managestudent" });
         }
       });
     },

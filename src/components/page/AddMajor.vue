@@ -2,14 +2,14 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>{{status}}课程</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 专业信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>{{status}}专业</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
-                <el-form-item label="课程名称" prop="courseName">
-                    <el-input v-model="form.courseName" autofocus ref="inputRef"></el-input>
+                <el-form-item label="专业名称" prop="majorName">
+                    <el-input v-model="form.majorName" autofocus ref="inputRef"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
@@ -27,17 +27,17 @@
 }
 </style>
 <script>
-import { ApiCourse } from "../../service/apis";
+import { ApiMajor } from "../../service/apis";
 export default {
   data: function() {
     return {
       status: "添加",
       form: {
-        courseName: ""
+        majorName: ""
       },
       rules: {
-        courseName: [
-          { required: true, message: "请输入课程名称", trigger: "blur" }
+        majorName: [
+          { required: true, message: "请输入专业名称", trigger: "blur" }
         ]
       }
     };
@@ -49,7 +49,7 @@ export default {
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
-      ApiCourse.getDataById(this.id, res => {
+      ApiMajor.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
       });
@@ -67,29 +67,35 @@ export default {
           // 修改
           if (this.id) {
             console.log("修改");
-            ApiCourse.update(this.id, this.form, res => {
+            ApiMajor.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
               } else {
                 this.$message.error("修改失败！");
               }
-            });
+			});
+			
           } else {
-            // 新增
-            ApiCourse.save(this.form, res => {
-              if (res.status == "y") {
-                this.$message.success("添加成功~");
+			  // 新增
+            ApiMajor.save(this.form, res => {
+				if (res.status == "y") {
+					this.$message.success("添加成功~");
               } else {
-                this.$message.error("添加失败！");
+				  this.$message.error("添加失败！");
               }
-            });
-          }
-          this.$router.push({ name: "managecourse" });
+		  // 聚焦到第一个输入框
+              this.$refs.inputRef.$el.children[0].focus();
+            // //   清空表单输入框
+              this.$refs[formName].resetFields();
+            });														
+		  }
+            //   跳转管理员管理路由
+        //   this.$router.push({ name: "managemajor" });
         }
       });
     },
     resetSubmit(form){
-        this.form.courseName="";
+        this.form.majorName="";
         this.$refs.inputRef.$el.children[0].focus();
     }
   }

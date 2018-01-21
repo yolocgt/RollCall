@@ -37,7 +37,7 @@
 </style>
 
 <script>
-import ApiAdmin from "../../service/api_admin";
+import { ApiAdmin } from "../../service/apis";
 export default {
   data: function() {
     // 验证输入密码
@@ -63,7 +63,7 @@ export default {
     };
     return {
       id: "",
-      status:"添加",
+      status: "添加",
       form: {
         account: "",
         name: "",
@@ -71,7 +71,9 @@ export default {
         rePsw: ""
       },
       rules: {
-        account: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
+        account: [
+          { required: true, message: "请输入用户账号", trigger: "blur" }
+        ],
         name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
         // password: [{ validator: validatePsw, trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
@@ -81,18 +83,17 @@ export default {
   },
 
   created: function() {
-    // const this = this;
     // window.onkeydown = function(event) {
     //   console.log(event);
     //   if (event.keyCode == "13") {
-
+    //     console.log('按下Enter');
     //   }
     // };
     console.log(this.$route.params);
     this.id = this.$route.params.id;
     console.log(this.id);
     if (this.id) {
-      this.status='修改';
+      this.status = "修改";
       ApiAdmin.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
@@ -110,7 +111,7 @@ export default {
         if (valid) {
           // 修改
           if (this.id) {
-            console.log('修改');
+            console.log("修改");
             ApiAdmin.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
@@ -131,15 +132,17 @@ export default {
               // 清空表单输入框
               // this.$refs[formName].resetFields();
               // 跳转管理员管理路由
-              this.$router.push({ name: "manageadmin" });
             });
           }
+          this.$router.push({ name: "manageadmin" });
         }
       });
     },
     // 重置表单
     resetSubmit(formName) {
       this.$refs[formName].resetFields();
+      this.$refs.inputRef.$el.children[0].focus();
+
     }
   }
 };

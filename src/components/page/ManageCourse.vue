@@ -1,135 +1,158 @@
 <template>
-    <div class="table">
+    <div class="table" style="width: 436px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-                <el-breadcrumb-item>班级信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>管理课程</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-            <el-select v-model="select_cate" placeholder="筛选啥" class="handle-select mr10">
-                <el-option key="1" label="广东省" value="广东省"></el-option>
-                <el-option key="2" label="湖南省" value="湖南省"></el-option>
-            </el-select>
-            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
-        <el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border style="width: 500" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="account" label="课程名称" width="150">
-            </el-table-column>
-            <el-table-column prop="account" label="院系名称" width="150">
-            </el-table-column>
-            <el-table-column prop="password" label="所属班级" width="120">
-            </el-table-column>
-            <el-table-column prop="account" label="任课教师"  width="150">
-            </el-table-column>
-            <el-table-column prop="name" label="上课时间" width="130">
-            </el-table-column>
-			<el-table-column prop="account" label="上课地点"  width="130">
+            <el-table-column prop="courseName" label="课程名称" sortable width="200">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div class="pagination">
+          <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
+              page-size	每页显示条目个数 -->
             <el-pagination
-                    @current-change ="handleCurrentChange"
+                    @current-change ="handlePageChange"
                     layout="prev, pager, next"
-                    :total="1000">
+                    :page-count="pageCount||1" :page-size="pageSize"
+                    >
             </el-pagination>
         </div>
+        <!-- 确认删除对话框 -->
+		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+      	<span>{{dialogMsg}}</span>
+    	  <span slot="footer" class="dialog-footer">
+    	    <el-button @click="dialogVisible=false">取 消</el-button>
+    	    <el-button type="primary" @click="doDel">确 定</el-button>
+    	  </span>
+    </el-dialog>
+    
     </div>
 </template>
+<style>
+.el-dialog {
+  width: 30%;
+}
+</style>
 
 <script>
+import { ApiCourse } from "../../service/apis";
+
 export default {
   data() {
     return {
       url: "./static/vuetable.json",
       tableData: [],
-      cur_page: 1,
+      allData: [],
       multipleSelection: [],
-      select_cate: "",
-      select_word: "",
+      // select_cate: "",
+      select_word: "", //搜索内容
       del_list: [],
-      is_search: false
+      is_search: false,
+
+      dialogVisible: false,
+      temDelRow: {},
+      dialogMsg: "",
+
+      cur_page: 1, //当前页码
+      pageCount: 3, //总页数
+      pageSize: 5 //页大小
     };
   },
   created() {
-    this.getData();
+    this.getDataByPage();
   },
   computed: {
-    data2() {
-      
-      const self = this;
-      
-      return self.tableData.filter(function(d) {
-        let is_del = false;
-        for (let i = 0; i < self.del_list.length; i++) {
-          if (d.name === self.del_list[i].name) {
-            is_del = true;
-            break;
-          }
-        }
-        if (!is_del) {
-          if (
-            d.address.indexOf(self.select_cate) > -1 &&
-            (d.name.indexOf(self.select_word) > -1 ||
-              d.address.indexOf(self.select_word) > -1)
-          ) {
-            return d;
-          }
-        }
-      });
+    data() {
+      return this.tableData;
     }
   },
   methods: {
-    handleCurrentChange(val) {
-      this.cur_page = val;
-      this.getData();
-    },
-    getData() {
-      let self = this;
-      if (process.env.NODE_ENV === "development") {
-        self.url = "/ms/table/list";
-      }
-      self.$axios.get(global.ApiUrl+'/admins').then(res => {
-        console.log(res.data.data);
-        self.tableData = res.data.data;
+    // 分页
+    getDataByPage() {
+      console.log("开始分页");
+      ApiCourse.getDataByPage(this.cur_page, this.select_word, res => {
+        this.tableData = res.data.res; //获取分页数据
+        this.pageCount = res.data.pageCount; //获取总页数
       });
     },
-    search() {
-      this.is_search = true;
+    // 所有数据
+    getData() {
+      ApiCourse.getData(res => {
+        this.allData = res.data.res; //获取所有数据
+      });
     },
-    formatter(row, column) {
-      return row.address;
-    },
-    filterTag(value, row) {
-      return row.tag === value;
+    // 当前页码改变事件
+    handlePageChange(val) {
+      this.cur_page = val;
+      this.getDataByPage();
     },
     handleEdit(index, row) {
-      this.$message("编辑第" + (index + 1) + "行");
+      console.log(row._id);
+      this.$router.push({ name: "addcourse", params: { id: row._id } });
     },
+    // 确认删除提示框
     handleDelete(index, row) {
-      this.$message.error("删除第" + (index + 1) + "行");
+      this.dialogVisible = true;
+      this.dialogMsg = `确认删除课程：${row.courseName}`;
+      this.temDelRow = row;
+    },
+    // 删除
+    doDel() {
+      this.dialogVisible = false;
+      ApiCourse.deleteById(this.temDelRow._id, res => {
+        console.log(res);
+        if (res.status == "y") {
+          this.$message.success("删除成功~");
+        } else {
+          this.$message.success("删除失败！");
+        }
+        this.getDataByPage();
+      });
     },
     delAll() {
-      const self = this,
-        length = self.multipleSelection.length;
+      length = this.multipleSelection.length;
       let str = "";
-      self.del_list = self.del_list.concat(self.multipleSelection);
-      for (let i = 0; i < length; i++) {
-        str += self.multipleSelection[i].name + " ";
-      }
-      self.$message.error("删除了" + str);
-      self.multipleSelection = [];
+      this.del_list = this.del_list.concat(this.multipleSelection);
+      var delStatus = false;
+
+      let promise = new Promise(function(resolve, reject) {
+        console.log("Promise");
+        resolve();
+      });
+      promise
+        .then(() => {
+          for (let i = 0; i < length; i++) {
+            str += this.multipleSelection[i].name + ",";
+            var id = this.multipleSelection[i]._id;
+            ApiCourse.deleteById(id, res => {
+              if (res.status == "y") {
+                delStatus = true;
+                console.log(delStatus);
+              }
+            });
+          }
+        })
+        .then(() => {
+          console.log("处理后：" + delStatus);
+          this.$message.error("删除了" + str);
+          // if (delStatus) {
+          // this.$message.success("删除成功~");
+          // }
+          this.multipleSelection = [];
+          this.getDataByPage();
+        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

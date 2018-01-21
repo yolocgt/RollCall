@@ -69,11 +69,28 @@ export default {
         {
           icon: "el-icon-menu",
           index: "rollcall",
-          title: "点名信息管理",
+          title: "课程信息管理",
           subs: [
             {
-              index: "managerollcall",
-              title: "点名信息管理"
+              index: "addcourse",
+              title: "编辑课程信息"
+            },{
+              index:'managecourse',
+              title:'管理课程信息'
+            }
+          ]
+        },
+        {
+          icon: "el-icon-menu",
+          index: "rollcall2",
+          title: "专业信息管理",
+          subs: [
+            {
+              index: "addmajor",
+              title: "编辑专业信息"
+            },{
+              index:'managemajor',
+              title:'管理专业信息'
             }
           ]
         },
@@ -83,11 +100,11 @@ export default {
           title: "课程管理",
           subs: [
             {
-              index: "addcourse",
+              index: "",
               title: "添加课程信息"
             },
             {
-              index: "managecourse",
+              index: "",
               title: "管理课程信息"
             }
           ]

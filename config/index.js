@@ -28,15 +28,19 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api':{
-                target:'http://jsonplaceholder.typicode.com',
-                changeOrigin:true,
-                pathRewrite:{
-                    '/api':''
+            '/api': {
+                target: 'http://jsonplaceholder.typicode.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '/api': ''
                 }
             },
-            '/ms':{
+            '/ms': {
                 target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
+                changeOrigin: true
+            },
+            '/users': {
+                target: 'https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80',
                 changeOrigin: true
             }
         },

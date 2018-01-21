@@ -8,24 +8,36 @@
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
-                <el-form-item label="院系名称" prop="facultyName">
-					<el-select v-model="form.facultyName" placeholder="选啥" class="handle-select mr10">
-		                <el-option key="1" label="广东省" value="广东省"></el-option>
-		                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+                <el-form-item label="年级" prop="cyear">
+					<el-select v-model.number="form.cyear"  class="handle-select mr10">
+		                <el-option
+			                v-for="t in cyears"
+			                :key="t.val"
+			                :label="t.val"
+			                :value="t.val">
+			            </el-option>
 		            </el-select>
                 </el-form-item>
-				
-                <el-form-item label="班级名称" prop="facultyName">
-                    <el-input v-model="form.facultyName"></el-input>
+                <el-form-item label="专业" prop="major">
+					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text>
+		                <!-- <el-option key="1" label="广东省" value="广东省"></el-option> -->
+						<el-option
+			                v-for="t in majors"
+			                :key="t._id"
+			                :label="t.majorName"
+			                :value="t._id">
+			            </el-option>
+		            </el-select>
                 </el-form-item>
-                <el-form-item label="联系电话" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="系主任" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="班级人数" prop="name">
-                    <el-input v-model="form.name"></el-input>
+                <el-form-item label="班级" prop="cno">
+					<el-select v-model.number="form.cno" class="handle-select mr10">
+		                <el-option
+			                v-for="t in cnos"
+			                :key="t.val"
+			                :label="t.val"
+			                :value="t.val">
+			            </el-option>
+		            </el-select>
                 </el-form-item>
                 
                 <el-form-item>
@@ -45,70 +57,87 @@
 </style>
 
 <script>
+import { ApiClassInfo, ApiMajor } from "../../service/apis";
 export default {
   data: function() {
-    var validatePsw = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.rules.password !== "") {
-          this.$refs.form.validateField("rePsw");
-        }
-        callback();
-      }
-    };
-    var validatePsw2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
+      cyears: [],
+      majors: [],
+      cnos: [],
+      status: "添加",
       form: {
-        facultyName: "",
-        name: "",
-        password: "",
-        rePsw: ""
+        cyear: "",
+        major: "",
+        cno: ""
       },
       rules: {
-        facultyName: [{ required: true, message: "请输入院系名称", trigger: "blur" }],
-        name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
-        // password: [{ validator: validatePsw, trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-        rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
+        cyear: { required: true, type: "number", message: "请选择年级" },
+        major: { required: true, message: "请选择专业" },
+        cno: { required: true, type: "number", message: "请选择班级" }
+        // cno: [{ required: true, message: "请选择班级", trigger: "change" },  { type: 'number', message: '年龄必须为数字值'}]
       }
     };
   },
+  created: function() {
+    ApiMajor.getData(res => {
+      this.majors = res.data;
+    });
+    // 年级
+    var year = new Date().getFullYear();
+    for (let i = year; i > year - 6; i--) {
+      var obj = {};
+      obj.val = i;
+      this.cyears.push(obj);
+    }
+    // 班级
+    for (let i = 1; i < 7; i++) {
+      var obj = {};
+      obj.val = i.toString();
+      this.cnos.push(obj);
+    }
+
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    if (this.id) {
+      this.status = "修改";
+      ApiClassInfo.getDataById(this.id, res => {
+        console.log(res);
+        this.form = res.data;
+      });
+    }
+  },
+  mounted: function() {},
   methods: {
     onSubmit(formName) {
-      const self = this;
-      self.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          self.$axios
-            .post(global.ApiUrl + "/admin", this.form)
-            .then(function(res) {
-              console.log(res);
-              if (res.data.code == "y") {
-                console.log("添加成功");
-                self.$message.success("管理员添加成功~");
+          // 修改
+          if (this.id) {
+            console.log("修改");
+            ApiClassInfo.update(this.id, this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("修改成功~");
               } else {
-                console.log("添加失败。");
-                self.$message.success("管理员添加失败！");
+                this.$message.error("修改失败！");
               }
-              self.$refs[formName].resetFields();
             });
-          //   this.form.account = "";
-          //   this.form.name = "";
-          //   this.form.password = "";
-          //   this.form.rePsw = "";
+          } else {
+            // 新增
+            ApiClassInfo.save(this.form, res => {
+              if (res.status == "y") {
+                this.$message.success("添加成功~");
+              } else {
+                this.$message.error("添加失败！");
+              }
+            });
+          }
+          this.$router.push({ name: "manageclass" });
         }
       });
     },
     resetSubmit(formName) {
-      this.$refs[formName].resetFields();
+      //   this.$refs[formName].resetFields();
+      //   this.$refs.inputRef.$el.children[0].focus();
     }
   }
 };

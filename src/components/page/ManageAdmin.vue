@@ -43,7 +43,7 @@
             </el-pagination>
         </div>
         <!-- 确认删除对话框 -->
-		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%" id="hhh">
+		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
       	<span>{{dialogMsg}}</span>
     	  <span slot="footer" class="dialog-footer">
     	    <el-button @click="dialogVisible=false">取 消</el-button>
@@ -60,7 +60,7 @@
 </style>
 
 <script>
-import ApiAdmin from "../../service/api_admin";
+import { ApiAdmin } from "../../service/apis";
 
 export default {
   data() {
@@ -88,46 +88,13 @@ export default {
   },
   computed: {
     data() {
-      // if (this.select_word) {
-      //   console.log("筛选中~~~");
-      //   return ApiAdmin.getDataByPage(this.cur_page, this.select_word, res => {
-      //     return res.data.res; //获取分页数据
-      //     // this.pageCount = res.data.pageCount; //获取总页数
-      //   });
-      // } else {
-      //   console.log("不筛选*****");
       return this.tableData;
-      // .filter(d => {
-      //     let is_del = false;
-      //     for (let i = 0; i < this.del_list.length; i++) {
-      //       if (d.name === this.del_list[i].name) {
-      //         is_del = true;
-      //         break;
-      //       }
-      //     }
-      //     console.log("计算。。");
-      //     if (!is_del) {
-      //       if (
-      //         d.name.indexOf(this.select_word) > -1 ||
-      //         d.account.indexOf(this.select_word) > -1
-      //       ) {
-      //         return d;
-      //       }
-      //     }
-      //   });
-      // }
-      // setTimeout(() => {
-      console.group("筛选后");
-      console.log(this.tableData);
-      console.groupEnd();
-      // }, 2000);
     }
   },
   methods: {
-    hh() {},
     // 分页
     getDataByPage() {
-      console.log("分页");
+      console.log("开始分页");
       ApiAdmin.getDataByPage(this.cur_page, this.select_word, res => {
         this.tableData = res.data.res; //获取分页数据
         this.pageCount = res.data.pageCount; //获取总页数
@@ -146,6 +113,22 @@ export default {
     },
     search() {
       this.is_search = true;
+      this.$axios
+        // .get("/users")
+        .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
+        .then(data => {
+          console.log(data.data.data.users);
+          var users = data.data.data.users;
+          for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+            ApiAdmin.save(user, res => {
+              if (res.status == "y") {
+                this.$message.success("数据加载成功");
+                this.getDataByPage();
+              }
+            });
+          }
+        });
     },
     formatter(row, column) {
       return row.address;

@@ -49,7 +49,7 @@ export default new Router({
                     path: '/drag',
                     component: resolve => require(['../components/page/DragList.vue'], resolve)    // 拖拽列表组件
                 },
-
+                /////
                 {
                     path: '/addadmin',
                     name: 'addadmin',
@@ -58,64 +58,86 @@ export default new Router({
                 {
                     path: '/manageadmin',
                     name: 'manageadmin',
-                    component: resolve => require(['../components/page/ManageAdmin.vue'], resolve)    // 添加管理员
+                    component: resolve => require(['../components/page/ManageAdmin.vue'], resolve)    // 管理管理员
                 },
                 {
                     path: '/modifypsw',
-                    // component: resolve => require(['../components/page/ModifyPsw.vue'], resolve)    // 添加管理员
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
+                    component: resolve => require(['../components/page/ModifyPsw.vue'], resolve)    // 修改密码
+                    // component: resolve => require(['../components/page/BaseTable.vue'], resolve)
                 }
                 , {
                     path: '/addfaculty',
+                    name: 'addfaculty',
                     component: resolve => require(['../components/page/AddFaculty.vue'], resolve)    // 添加院系信息
                 }
                 , {
                     path: '/managefaculty',
-                    component: resolve => require(['../components/page/ManageFaculty.vue'], resolve)    // 添加院系信息
+                    name: 'managefaculty',
+                    component: resolve => require(['../components/page/ManageFaculty.vue'], resolve)    // 管理院系信息
+                }
+                , {
+                    path: '/addmajor',
+                    name: 'addmajor',
+                    component: resolve => require(['../components/page/AddMajor.vue'], resolve)    // 添加院系信息
+                }
+                , {
+                    path: '/managemajor',
+                    name: 'managemajor',
+                    component: resolve => require(['../components/page/ManageMajor.vue'], resolve)    // 管理院系信息
                 }
                 , {
                     path: '/addclass',
-                    component: resolve => require(['../components/page/AddClass.vue'], resolve)    // 添加院系信息
+                    name: 'addclass',
+                    component: resolve => require(['../components/page/AddClass.vue'], resolve)    // 添加班级
                 }
                 , {
                     path: '/manageclass',
-                    component: resolve => require(['../components/page/ManageClass.vue'], resolve)    // 添加院系信息
+                    name: 'manageclass',
+                    component: resolve => require(['../components/page/ManageClass.vue'], resolve)    // 管理班级
                 }
                 , {
                     path: '/managerollcall',
-                    component: resolve => require(['../components/page/ManageRollcall.vue'], resolve)    // 添加院系信息
+                    component: resolve => require(['../components/page/ManageRollcall.vue'], resolve)    // 管理点名
                 }
                 , {
                     path: '/addcourse',
-                    component: resolve => require(['../components/page/AddCourse.vue'], resolve)    // 添加院系信息
+                    name:'addcourse',
+                    component: resolve => require(['../components/page/AddCourse.vue'], resolve)    // 添加课程
                 }
                 , {
                     path: '/managecourse',
-                    component: resolve => require(['../components/page//ManageCourse.vue'], resolve)    // 添加院系信息
+                    name:'managecourse',
+                    component: resolve => require(['../components/page//ManageCourse.vue'], resolve)    // 管理课程
                 }
                 , {
                     path: '/addstudent',
-                    component: resolve => require(['../components/page/AddStudent.vue'], resolve)    // 添加院系信息
+                    name: 'addstudent',
+                    component: resolve => require(['../components/page/AddStudent.vue'], resolve)    // 添加学生
                 }
                 , {
                     path: '/managestudent',
-                    component: resolve => require(['../components/page//ManageStudent.vue'], resolve)    // 添加院系信息
+                    name: 'managestudent',
+                    component: resolve => require(['../components/page//ManageStudent.vue'], resolve)    // 管理学生
                 }
                 , {
                     path: '/addteacher',
-                    component: resolve => require(['../components/page/AddTeacher.vue'], resolve)    // 添加院系信息
+                    name: 'addteacher',
+                    component: resolve => require(['../components/page/AddTeacher.vue'], resolve)    // 添加教师
                 }
                 , {
                     path: '/manageteacher',
-                    component: resolve => require(['../components/page//ManageTeacher.vue'], resolve)    // 添加院系信息
+                    name: 'manageteacher',
+                    component: resolve => require(['../components/page//ManageTeacher.vue'], resolve)    // 管理教师
                 }
                 , {
                     path: '/addheadteacher',
-                    component: resolve => require(['../components/page/AddHeadteacher.vue'], resolve)    // 添加院系信息
+                    name: 'addheadteacher',
+                    component: resolve => require(['../components/page/AddHeadteacher.vue'], resolve)    // 添加辅导员
                 }
                 , {
                     path: '/manageheadteacher',
-                    component: resolve => require(['../components/page//ManageHeadteacher.vue'], resolve)    // 添加院系信息
+                    name: 'manageheadteacher',
+                    component: resolve => require(['../components/page//ManageHeadteacher.vue'], resolve)    // 管理辅导员
                 }
 
             ]
