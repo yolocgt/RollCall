@@ -10,7 +10,7 @@
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
         
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="form.name"  ref="inputRef"></el-input>
                 </el-form-item>
 				       <el-form-item label="性别" prop="sex">
     				      <el-select v-model="form.sex" placeholder="请选择" class="handle-select mr10">
@@ -57,7 +57,7 @@
                 
                 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -104,6 +104,7 @@ export default {
       imageUrl: "",
       facultyName: "",
       className: "",
+      status: "添加",
       form: {
         name: "",
         sex: "",
@@ -176,6 +177,7 @@ export default {
     },
     resetSubmit(formName) {
       this.$refs[formName].resetFields();
+      this.$refs.inputRef.$el.children[0].focus();
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);

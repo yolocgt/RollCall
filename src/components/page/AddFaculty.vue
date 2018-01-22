@@ -14,9 +14,6 @@
                 <el-form-item label="系主任" prop="director">
                     <el-input v-model="form.director"></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="" prop="">
-                    <el-input v-model.number="form.phone"></el-input>
-                </el-form-item> -->
                 
                 <!-- <el-form-item label="联系电话" prop="phone" :rules="[ { required: true, message: '请输入电话'}, { type: 'number', message: '电话必须为数字值'} ]" > -->
                 <el-form-item label="联系电话" prop="phone" >
@@ -24,7 +21,7 @@
                 </el-form-item>
                 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
                 </el-form-item>
             </el-form>

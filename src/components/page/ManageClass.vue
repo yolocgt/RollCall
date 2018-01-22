@@ -98,12 +98,6 @@ export default {
     search() {
       this.is_search = true;
     },
-    formatter(row, column) {
-      return row.address;
-    },
-    filterTag(value, row) {
-      return row.tag === value;
-    },
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
