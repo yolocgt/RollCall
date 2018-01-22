@@ -77,6 +77,13 @@ export default {
             },{
               index:'managecourse',
               title:'管理课程信息'
+            },
+            {
+              index: "addarrange",
+              title: "编辑排课信息"
+            },{
+              index:'managearrange',
+              title:'管理排课信息'
             }
           ]
         },

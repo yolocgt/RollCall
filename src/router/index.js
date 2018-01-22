@@ -139,6 +139,16 @@ export default new Router({
                     name: 'manageheadteacher',
                     component: resolve => require(['../components/page//ManageHeadteacher.vue'], resolve)    // 管理辅导员
                 }
+                , {
+                    path: '/addarrange',
+                    name: 'addarrange',
+                    component: resolve => require(['../components/page/AddArrange.vue'], resolve)    // 添加辅导员
+                }
+                , {
+                    path: '/managearrange',
+                    name: 'managearrange',
+                    component: resolve => require(['../components/page//ManageArrange.vue'], resolve)    // 管理辅导员
+                }
 
             ]
         },
