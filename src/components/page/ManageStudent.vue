@@ -20,7 +20,6 @@
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" ></el-table-column>
-            <el-table-column prop="account" label="账号" sortable > </el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
             <el-table-column prop="sex" label="性别" sortable > </el-table-column>
             <el-table-column prop="sno" label="学号" sortable > </el-table-column>

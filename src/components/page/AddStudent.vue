@@ -50,9 +50,6 @@
                     placeholder="选择日期">
                   </el-date-picker>
                 </el-form-item>
-                <el-form-item label="登录账号" prop="account">
-                    <el-input v-model.number="form.account"></el-input>
-                </el-form-item>
                 <!-- <el-form-item label="用户头像" prop="avatar">
                     <el-upload
                       class="avatar-uploader"
