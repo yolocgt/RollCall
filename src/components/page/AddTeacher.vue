@@ -18,7 +18,7 @@
     	                <el-option key="2" label="女" value="女"></el-option>
     	            </el-select>
                 </el-form-item>
-                <el-form-item label="教师号" prop="sno">
+                <el-form-item label="教师号" prop="tno">
                     <el-input v-model="form.tno"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
@@ -97,14 +97,14 @@ export default {
       form: {
         name: "",
         sex: "",
-        sno: "",
+        tno: "",
         phone: "",
         facultyName: "",
       },
       rules: {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        sno: [{ required: true, message: "请输入学号", trigger: "blur" }],
+        tno: [{ required: true, message: "请输入学号", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
       }
     };
