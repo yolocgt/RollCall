@@ -6,8 +6,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
-
 Vue.use(ElementUI);
+// Vue-Cookie
+import VueCookie from 'vue-cookie';
+Vue.use(VueCookie);
+
 Vue.prototype.$axios = axios;
 global.ApiUrl = 'http://localhost:1219/api/v1';
 
