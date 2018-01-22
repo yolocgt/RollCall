@@ -83,9 +83,9 @@ export default {
     }
   },
   methods: {
-    handleCurrentChange(val) {
+    handlePageChange(val) {
       this.cur_page = val;
-      this.getData();
+      this.getDataByPage();
     },
      // 分页
     getDataByPage() {
