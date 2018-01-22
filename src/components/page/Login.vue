@@ -10,7 +10,7 @@
                     <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                 </el-form-item>
                 <el-form-item prop="role">
-                  <el-select v-model="ruleForm.role" placeholder="请选择">
+                  <el-select v-model="ruleForm.role" placeholder="请选择" @change="roleChange()">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -30,48 +30,80 @@
 </template>
 
 <script>
+import {
+  ApiStudent,
+  ApiTeacher,
+  ApiHeadteacher,
+  ApiAdmin
+} from "../../service/apis";
+import ApiLogin from '../../service/api_login';
+
 export default {
   data: function() {
     return {
+      role: "",
+      submitUrl: "",
       ruleForm: {
         username: "",
         password: "",
         role: ""
       },
       rules: {
-        username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         role: [{ required: true, message: "请选择用户角色", trigger: "change" }]
       },
       options: [
         {
-          value: "选项1",
+          value: "student",
           label: "学生"
         },
         {
-          value: "选项2",
+          value: "teacher",
           label: "教师"
         },
         {
-          value: "选项3",
+          value: "headteacher",
           label: "辅导员"
         },
         {
-          value: "选项4",
+          value: "admin",
           label: "管理员"
         }
       ]
     };
   },
+  computed: {
+  },
   methods: {
+    roleChange() {
+      console.log(this.ruleForm.role);
+      // if (this.ruleForm.role == "student") {
+      //   alert("学生");
+      // }
+      // if (this.ruleForm.role == "teacher") {
+      //   alert("教师");
+      // }
+    },
     submitForm(formName) {
+      this.$cookie.set("test", "Hello world!", 1);
+      if (this.ruleForm.role == "student") {
+        ApiStudent.getDataById;
+      }
       const self = this;
       self.$refs[formName].validate(valid => {
         if (valid) {
           // 登录
+          // ApiLogin.login(this.ruleForm)
           self.$axios
-            .post(global.ApiUrl + "/login", this.ruleForm)
+            .post(
+              global.ApiUrl + "/" + this.ruleForm.role + "/login",
+              this.ruleForm
+            )
             .then(function(res) {
+              console.log(res);
               if (res.status == "y") {
                 // this.$message({
                 //   showClose: true,
@@ -93,8 +125,8 @@ export default {
           //   return;
           // }
         } else {
-          alert("error submit!!");
-          return false;
+          // alert("error submit!!");
+          // return false;
         }
       });
     }
