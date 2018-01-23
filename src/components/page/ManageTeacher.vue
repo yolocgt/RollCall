@@ -22,7 +22,7 @@
             <el-table-column type="selection" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
             <el-table-column prop="sex" label="性别" sortable > </el-table-column>
-            <el-table-column prop="tno" label="教师号" sortable > </el-table-column>
+            <el-table-column prop="id" label="教师号" sortable > </el-table-column>
             <el-table-column prop="phone" label="电话"> </el-table-column>
             <el-table-column prop="password" label="密码" > </el-table-column>
             <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>

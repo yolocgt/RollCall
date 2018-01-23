@@ -8,8 +8,8 @@
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
-                <el-form-item label="账号" prop="account">
-                    <el-input v-model="form.account" autofocus ref="inputRef"></el-input>
+                <el-form-item label="账号" prop="id">
+                    <el-input v-model="form.id" autofocus ref="inputRef"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name"></el-input>
@@ -65,13 +65,13 @@ export default {
       id: "",
       status: "添加",
       form: {
-        account: "",
+        id: "",
         name: "",
         password: "",
         rePsw: ""
       },
       rules: {
-        account: [
+        id: [
           { required: true, message: "请输入用户账号", trigger: "blur" }
         ],
         name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],

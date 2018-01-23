@@ -18,8 +18,8 @@
     	                <el-option key="2" label="女" value="女"></el-option>
     	            </el-select>
                 </el-form-item>
-                <el-form-item label="教师号" prop="tno">
-                    <el-input v-model="form.tno"></el-input>
+                <el-form-item label="教师号" prop="id">
+                    <el-input v-model="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
@@ -98,14 +98,14 @@ export default {
       form: {
         name: "",
         sex: "",
-        tno: "",
+        id: "",
         phone: "",
         facultyName: ""
       },
       rules: {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        tno: [{ required: true, message: "请输入学号", trigger: "blur" }],
+        id: [{ required: true, message: "请输入学号", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
       }
     };
