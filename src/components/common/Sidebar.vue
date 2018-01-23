@@ -1,19 +1,19 @@
 <template>
     <div class="sidebar">
         <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router>
-            <template v-for="item in items">
-                <template v-if="item.subs">
-                    <el-submenu :index="item.index">
-                        <template slot="title" @click="hh()"><i :class="item.icon"></i>{{ item.title }}</template>
-                        <el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}
-                        </el-menu-item>
-                    </el-submenu>
-                </template>
-                <template v-else>
-                    <el-menu-item :index="item.index">
-                        <i :class="item.icon"></i>{{ item.title }}
-                    </el-menu-item>
-                </template>
+              <template v-for="item in items">
+                  <template v-if="item.subs">
+                      <el-submenu :index="item.index">
+                          <template slot="title" @click="hh()"><i :class="item.icon"></i>{{ item.title }}</template>
+                          <el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}
+                          </el-menu-item>
+                      </el-submenu>
+                  </template>
+                  <template v-else>
+                      <el-menu-item :index="item.index">
+                          <i :class="item.icon"></i>{{ item.title }}
+                      </el-menu-item>
+                  </template>
             </template>
         </el-menu>
     </div>
@@ -23,7 +23,14 @@
 export default {
   data() {
     return {
-      items: [
+      items: []
+    };
+  },
+  created: function() {
+    var role = this.$cookie.get("userrole");
+    // 管理员
+    if (role == "admin") {
+      this.items.push(
         {
           icon: "el-icon-setting",
           index: "system",
@@ -74,16 +81,18 @@ export default {
             {
               index: "addcourse",
               title: "编辑课程信息"
-            },{
-              index:'managecourse',
-              title:'管理课程信息'
+            },
+            {
+              index: "managecourse",
+              title: "管理课程信息"
             },
             {
               index: "addarrange",
               title: "编辑排课信息"
-            },{
-              index:'managearrange',
-              title:'管理排课信息'
+            },
+            {
+              index: "managearrange",
+              title: "管理排课信息"
             }
           ]
         },
@@ -95,9 +104,10 @@ export default {
             {
               index: "addmajor",
               title: "编辑专业信息"
-            },{
-              index:'managemajor',
-              title:'管理专业信息'
+            },
+            {
+              index: "managemajor",
+              title: "管理专业信息"
             }
           ]
         },
@@ -195,19 +205,78 @@ export default {
           index: "drag",
           title: "拖拽"
         }
-      ]
-    };
+      );
+    } else if (role == "student") {
+      //学生
+      this.items.push({
+        icon: "el-icon-setting",
+        index: "system",
+        title: "系统管理",
+        subs: [
+          {
+            index: "addadmin",
+            title: "编辑管理员"
+          },
+          {
+            index: "manageadmin",
+            title: "管理员管理"
+          },
+          {
+            index: "modifypsw",
+            title: "修改登录密码  "
+          }
+        ]
+      });
+    } else if (role == "teacher") {
+      //教师
+      this.items.push({
+        icon: "el-icon-menu",
+        index: "rollcall",
+        title: "课程信息管理",
+        subs: [
+          {
+            index: "addcourse",
+            title: "编辑课程信息"
+          },
+          {
+            index: "managecourse",
+            title: "管理课程信息"
+          },
+          {
+            index: "addarrange",
+            title: "编辑排课信息"
+          },
+          {
+            index: "managearrange",
+            title: "管理排课信息"
+          }
+        ]
+      });
+    } else if (role == "headteacher") {
+      //辅导员
+      this.items.push({
+        icon: "el-icon-menu",
+        index: "rollcall",
+        title: "课程信息管理",
+        subs: [
+          {
+            index: "addcourse",
+            title: "编辑课程信息"
+          },
+          {
+            index: "managecourse",
+            title: "管理课程信息"
+          }
+        ]
+      });
+    }
   },
   computed: {
     onRoutes() {
-      return this.$route.path.replace("/", "");
+      return this.$route.path.replace("/", ""); //addamdin
     }
   },
-  methods:{
-      hh(){
-          alert(2)
-      }
-  }
+  methods: {}
 };
 </script>
 
