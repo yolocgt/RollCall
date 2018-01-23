@@ -96,7 +96,9 @@ export default {
       self.$refs[formName].validate(valid => {
         if (valid) {
           // 登录
-          // ApiLogin.login(this.ruleForm)
+          ApiLogin.login(this.ruleForm,(data) => {
+            
+          })
           self.$axios
             .post(
               global.ApiUrl + "/" + this.ruleForm.role + "/login",
