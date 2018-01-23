@@ -5,7 +5,7 @@
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
                     <img class="user-logo" src="../../../static/img/img.jpg">
-                    {{username}}
+                    {{name}}
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="loginout">退出</el-dropdown-item>
@@ -18,21 +18,21 @@
 export default {
   data() {
     return {
-      name: "匿名用户"
+      username: ""
     };
   },
   computed: {
-    username() {
+    name() {
       // let username = localStorage.getItem("username");
-      let username = this.$cookie.get("username");
-      return username ? username : this.name;
+      this.username = this.$cookie.get("username");
+      return this.username ? this.username : "匿名用户";
     }
   },
   methods: {
     handleCommand(command) {
       if (command == "loginout") {
         // localStorage.removeItem("ms_username");
-        this.$cookie.delete('username');
+        this.$cookie.delete("username");
         this.$router.push("/login");
       }
     }
