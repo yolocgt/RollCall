@@ -2,15 +2,15 @@
     <div class="login-wrap">
         <div class="ms-title">点名管理系统</div>
         <div class="ms-login">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="用户名"></el-input>
+                    <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                    <el-input type="password" placeholder="密码" v-model="loginForm.password" @keyup.enter.native="submitForm('loginForm')"></el-input>
                 </el-form-item>
                 <el-form-item prop="role">
-                  <el-select v-model="ruleForm.role" placeholder="请选择" @change="roleChange()">
+                  <el-select v-model="loginForm.role" placeholder="请选择角色" @change="roleChange()">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -21,9 +21,9 @@
                 </el-form-item>
                   
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 如登录失败请尝试切换用户角色</p>
             </el-form>
         </div>
     </div>
@@ -36,17 +36,17 @@ import {
   ApiHeadteacher,
   ApiAdmin
 } from "../../service/apis";
-import ApiLogin from '../../service/api_login';
+import ApiLogin from "../../service/api_login";
 
 export default {
   data: function() {
     return {
       role: "",
       submitUrl: "",
-      ruleForm: {
-        username: "",
-        password: "",
-        role: ""
+      loginForm: {
+        username: "tt",
+        password: "123",
+        role: "admin"
       },
       rules: {
         username: [
@@ -75,60 +75,37 @@ export default {
       ]
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     roleChange() {
-      console.log(this.ruleForm.role);
-      // if (this.ruleForm.role == "student") {
-      //   alert("学生");
-      // }
-      // if (this.ruleForm.role == "teacher") {
-      //   alert("教师");
-      // }
+      console.log(this.loginForm.role);
     },
     submitForm(formName) {
-      this.$cookie.set("test", "Hello world!", 1);
-      if (this.ruleForm.role == "student") {
-        ApiStudent.getDataById;
-      }
       const self = this;
       self.$refs[formName].validate(valid => {
         if (valid) {
           // 登录
-          ApiLogin.login(this.ruleForm,(data) => {
-            
-          })
-          self.$axios
-            .post(
-              global.ApiUrl + "/" + this.ruleForm.role + "/login",
-              this.ruleForm
-            )
-            .then(function(res) {
-              console.log(res);
-              if (res.status == "y") {
-                // this.$message({
-                //   showClose: true,
-                //   message: res.msg,
-                //   type: "success"
-                // });
-                localStorage.setItem("ms_username", self.ruleForm.username);
-                self.$router.push("/readme");
-              } else {
-                alert("登录失败");
-                return;
-              }
-            });
-          // if (self.ruleForm.username == 1 && self.ruleForm.password == 1) {
-          //   localStorage.setItem("ms_username", self.ruleForm.username);
-          //   self.$router.push("/readme");
-          // } else {
-          //   alert("登录失败");
-          //   return;
-          // }
-        } else {
-          // alert("error submit!!");
-          // return false;
+          ApiLogin.login(this.loginForm, this.loginForm.role, res => {
+            console.log(res);
+            // 登录成功
+            if (res.status == "y") {
+              // localStorage.setItem("m_username", self.loginForm.username);
+              this.$cookie.set("username", this.loginForm.username, 1);
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: "success"
+              });
+              self.$router.push("/readme");
+            } else {
+              //登录失败
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: "error"
+              });
+            }
+          });
         }
       });
     }
@@ -137,12 +114,6 @@ export default {
 </script>
 
 <style scoped>
-/* .el-form-item:nth-of-type(3){
-    margin-bottom: 10px;
-} */
-/* input{
-    width: 100%!important;    
-} */
 .el-select {
   width: 100% !important;
 }
