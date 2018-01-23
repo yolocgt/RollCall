@@ -41,6 +41,7 @@ import ApiLogin from "../../service/api_login";
 export default {
   data: function() {
     return {
+      isLogin: false,
       role: "",
       submitUrl: "",
       loginForm: {
@@ -75,6 +76,14 @@ export default {
       ]
     };
   },
+  created: function() {
+    this.isLogin = this.$cookie.get("username") != null ? true : false;
+    console.log(this.isLogin);
+    // 已登录
+    if (this.isLogin) {
+      this.$router.push("/readme");
+    }
+  },
   computed: {},
   methods: {
     roleChange() {
@@ -91,12 +100,13 @@ export default {
             if (res.status == "y") {
               // localStorage.setItem("m_username", self.loginForm.username);
               this.$cookie.set("username", this.loginForm.username, 1);
+              this.$cookie.set("userrole", this.loginForm.role, 1);
               this.$message({
                 showClose: true,
                 message: res.msg,
                 type: "success"
               });
-              self.$router.push("/readme");
+              self.$router.push("/addadmin");
             } else {
               //登录失败
               this.$message({
