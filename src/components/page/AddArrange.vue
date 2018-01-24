@@ -57,8 +57,8 @@
                 </el-form-item>
                 
               <el-form-item label="上课时间" prop="section" >
-			          <el-autocomplete v-model="week" placeholder="请输入星期" :fetch-suggestions="querySearchWeek"></el-autocomplete>
-			          <el-autocomplete v-model="form.section" placeholder="请输入节次" :fetch-suggestions="querySearchSection"></el-autocomplete>
+			          <!-- <el-autocomplete v-model="week" placeholder="请输入星期" :fetch-suggestions="querySearchWeek"></el-autocomplete> -->
+			          <el-autocomplete v-model="form.section" placeholder="请输入节次" :fetch-suggestions="querySearchWeek"></el-autocomplete>
               </el-form-item>
               <el-form-item label="上课地点" prop="classroom">
                     <el-input v-model="form.classroom" placeholder="请输入教室号" ></el-input>
@@ -81,7 +81,7 @@
   font-size: 14px;
 }
 .el-autocomplete {
-  width: 107px;
+  width: 217px;
 }
 </style>
 
@@ -182,6 +182,7 @@ export default {
           // 修改
           if (this.id) {
             console.log("修改");
+            this.form.section = this.week + this.form.section;
             ApiArrange.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");

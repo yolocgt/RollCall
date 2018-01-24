@@ -18,42 +18,35 @@
 			            </el-option>
 		            </el-select>
                 </el-form-item>
-                <el-form-item label="学年" prop="learnYear">
-					<el-select v-model="form.learnYear"  class="handle-select mr10">
+                
+                
+                <el-form-item label="课程" prop="arrange">
+					<el-select v-model="form.arrange" class="handle-select mr10">
 		                <el-option
-			                v-for="t in learnYears"
-			                :key="t.val"
-			                :label="t.val"
-			                :value="t.val">
-			            </el-option>
-		            </el-select>
-                </el-form-item>
-                <el-form-item label="学期" prop="learnTerm">
-					<el-select v-model="form.learnTerm"  class="handle-select mr10">
-		                <el-option key="1" label="第一学期" value="第一学期"></el-option>
-		                <el-option key="2" label="第二学期" value="第二学期"></el-option>
-		            </el-select>
-                </el-form-item>
-                <el-form-item label="教师" prop="teacher">
-					<el-select v-model="form.teacher" class="handle-select mr10">
-		                <el-option
-			                v-for="t in teachers"
+			                v-for="t in arranges"
 			                :key="t._id"
-			                :label="t.name"
+			                :label="t.teacher.name"
 			                :value="t._id">
 			            </el-option>
 		            </el-select>
                 </el-form-item>
-                <el-form-item label="课程" prop="course">
-					<el-select v-model="form.course" class="handle-select mr10">
-		                <el-option
-			                v-for="t in courses"
-			                :key="t._id"
-			                :label="t.courseName"
-			                :value="t._id">
-			            </el-option>
-		            </el-select>
+                
+                   <el-form-item label="点名时间" prop="rollcallTime">
+                      <div class="block">
+                        <el-date-picker
+                          v-model="form.rollcallTime"
+                          type="datetime"
+                          placeholder="选择日期时间">
+                        </el-date-picker>
+                      </div>
                 </el-form-item>
+                   <el-form-item label="实际人数" prop="actual">
+                    <el-input v-model.number="form.actual" ></el-input>
+                </el-form-item>
+                <el-form-item label="实到人数" prop="fact">
+                    <el-input v-model.number="form.fact" ></el-input>
+                </el-form-item>
+                
                 
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">提交</el-button>
@@ -77,31 +70,35 @@ import {
   ApiMajor,
   ApiArrange,
   ApiTeacher,
-  ApiCourse
+  ApiCourse,
+  ApiRollcall
 } from "../../service/apis";
 export default {
   data: function() {
     return {
-      learnYears: [],
       classInfos: [],
-      teachers: [],
-
-      teachers: [],
-      courses: [],
+      arranges: [],
       status: "添加",
       form: {
-		learnYear: "",
-		learnTerm: "",
+        rollcallTime: "",
+        actual: "",
+        fact: "",
         classInfo: "",
-		teacher: "",
-		course:"",
+        teacher: "",
+        arrange: ""
       },
       rules: {
-        learnYear: { required: true, message: "请选择学年" },
-        learnTerm: { required: true, message: "请选择学期" },
         classInfo: { required: true, message: "请选择班级" },
-        teacher: { required: true, message: "请选择教师" },
-        course: { required: true, message: "请选择课程" }
+        arrange: { required: true, message: "请选择排课" },
+        rollcallTime: { required: true, message: "请选择时间" },
+        actual: [
+          { required: true, message: "请输入人数" },
+          { type: "number", message: "人数必须为数字值" }
+        ],
+        fact: [
+          { required: true, message: "请输入人数" },
+          { type: "number", message: "人数必须为数字值" }
+        ]
       }
     };
   },
@@ -110,34 +107,25 @@ export default {
     ApiClassInfo.getData(res => {
       const cs = [];
       for (const k in res.data) {
-		const c = res.data[k];
-		console.log(c);
+        const c = res.data[k];
+        console.log(c);
         c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
         cs.push(c);
       }
       this.classInfos = cs;
     });
     // 课程
-    ApiCourse.getData(res => {
-      this.courses = res.data;
+    ApiArrange.getData(res => {
+      this.arranges = res.data;
+      console.log('返回');
+      console.log(this.arranges);
     });
-    // 教师
-    ApiTeacher.getData(res => {
-      this.teachers = res.data;
-    });
-    // 学年
-    var year = new Date().getFullYear();
-    for (let i = year; i > year - 6; i--) {
-      var obj = {};
-      obj.val = i - 1 + "-" + i;
-      this.learnYears.push(obj);
-    }
 
     this.id = this.$route.params.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
-      ApiArrange.getDataById(this.id, res => {
+      ApiRollcall.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
       });
@@ -151,7 +139,7 @@ export default {
           // 修改
           if (this.id) {
             console.log("修改");
-            ApiArrange.update(this.id, this.form, res => {
+            ApiRollcall.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
               } else {
@@ -160,7 +148,7 @@ export default {
             });
           } else {
             // 新增
-            ApiArrange.save(this.form, res => {
+            ApiRollcall.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");
               } else {
@@ -168,12 +156,12 @@ export default {
               }
             });
           }
-          this.$router.push({ name: "managearrange" });
+          this.$router.push({ name: "managerollcall" });
         }
       });
     },
     resetSubmit(formName) {
-        this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     }
   }
 };
