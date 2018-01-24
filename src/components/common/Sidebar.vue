@@ -47,11 +47,11 @@ export default {
             {
               index: "manageadmin",
               title: "管理员管理"
-            },
-            {
-              index: "modifypsw",
-              title: "修改登录密码  "
             }
+            // ,{
+            //   index: "modifypsw",
+            //   title: "修改登录密码  "
+            // }
           ]
         },
         {

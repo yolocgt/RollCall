@@ -13,6 +13,7 @@ var ApiStudent = new c_Api('student');			//学生
 var ApiHeadteacher = new c_Api('headteacher');	//辅导员
 var ApiTeacher = new c_Api('teacher');			//教师
 var ApiArrange = new c_Api('arrange');			//排课
+var ApiRollcall = new c_Api('rollcall');		//点名
 
 // 导出
 export {
@@ -24,5 +25,6 @@ export {
 	ApiStudent,
 	ApiHeadteacher,
 	ApiTeacher,
-	ApiArrange
+	ApiArrange,
+	ApiRollcall
 }
