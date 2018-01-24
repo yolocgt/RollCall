@@ -103,12 +103,12 @@ export default {
     },
     handleEdit(index, row) {
       console.log(row._id);
-      this.$router.push({ name: "addmajor", params: { id: row._id } });
+      this.$router.push({ name: "addrollcall", params: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除专业：${row.majorName}`;
+      this.dialogMsg = `确认删除该次点名?`;
       this.temDelRow = row;
     },
     // 删除
@@ -118,8 +118,10 @@ export default {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
+        this.getDataByPage();
         } else {
           this.$message.success("删除失败！");
+        this.getDataByPage();
         }
         this.getDataByPage();
       });

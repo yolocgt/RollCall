@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
                 <el-form-item label="账号" prop="id">
-                    <el-input v-model="form.id" autofocus ref="inputRef"></el-input>
+                    <el-input v-model="form.id" autofocus ref="inputRef" change="isExists()"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name"></el-input>
@@ -116,6 +116,9 @@ export default {
     this.$refs.inputRef.$el.children[0].focus();
   },
   methods: {
+    isExists(){
+      ApiAdmin.getData(form.id)
+    },
     // 提交表单
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {

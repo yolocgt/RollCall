@@ -8,6 +8,11 @@ export default {
 			.then((res) => {
 				callback(res.data);
 			})
+	},
+	exists(id,  callback) {
+		axios.post(`${global.ApiUrl}/exists`, data)
+			.then((res) => {
+				callback(res.data);
+			})
 	}
-
 }	

@@ -161,58 +161,59 @@ export default {
             }
           ]
         },
-        {
-          icon: "el-icon-menu",
-          index: "7",
-          title: "表格",
-          subs: [
-            {
-              index: "basetable",
-              title: "基础表格"
-            },
-            {
-              index: "vuetable",
-              title: "Vue表格组件"
-            }
-          ]
-        },
-        {
-          icon: "el-icon-date",
-          index: "4",
-          title: "表单",
-          subs: [
-            {
-              index: "baseform",
-              title: "基本表单"
-            },
-            {
-              index: "vueeditor",
-              title: "编辑器"
-            },
-            {
-              index: "markdown",
-              title: "markdown"
-            },
-            {
-              index: "upload",
-              title: "文件上传"
-            }
-          ]
-        },
-        {
-          icon: "el-icon-star-on",
-          index: "basecharts",
-          title: "图表"
-        },
-        {
-          icon: "el-icon-upload2",
-          index: "drag",
-          title: "拖拽"
-        }
+        // {
+        //   icon: "el-icon-menu",
+        //   index: "7",
+        //   title: "表格",
+        //   subs: [
+        //     {
+        //       index: "basetable",
+        //       title: "基础表格"
+        //     },
+        //     {
+        //       index: "vuetable",
+        //       title: "Vue表格组件"
+        //     }
+        //   ]
+        // },
+        // {
+        //   icon: "el-icon-date",
+        //   index: "4",
+        //   title: "表单",
+        //   subs: [
+        //     {
+        //       index: "baseform",
+        //       title: "基本表单"
+        //     },
+        //     {
+        //       index: "vueeditor",
+        //       title: "编辑器"
+        //     },
+        //     {
+        //       index: "markdown",
+        //       title: "markdown"
+        //     },
+        //     {
+        //       index: "upload",
+        //       title: "文件上传"
+        //     }
+        //   ]
+        // },
+        // {
+        //   icon: "el-icon-star-on",
+        //   index: "basecharts",
+        //   title: "图表"
+        // },
+        // {
+        //   icon: "el-icon-upload2",
+        //   index: "drag",
+        //   title: "拖拽"
+        // }
       );
     } else if (role == "student") {
       //学生
-      this.items.push({
+      this.items.push(
+        {
         icon: "el-icon-setting",
         index: "system",
         title: "系统管理",
@@ -230,7 +231,8 @@ export default {
             title: "修改登录密码  "
           }
         ]
-      });
+      },
+      );
     } else if (role == "teacher") {
       //教师
       this.items.push({
@@ -255,7 +257,38 @@ export default {
             title: "管理排课信息"
           }
         ]
-      });
+      },
+      {
+          icon: "el-icon-star-on",
+          index: "user",
+          title: "学生信息管理",
+          subs: [
+            {
+              index: "addstudent",
+              title: "添加学生信息"
+            },
+            {
+              index: "managestudent",
+              title: "管理学生信息"
+            }
+          ]
+        },
+        {
+          icon: "el-icon-date",
+          index: "course",
+          title: "点名信息管理",
+          subs: [
+            {
+              index: "addrollcall",
+              title: "添加点名信息"
+            },
+            {
+              index: "managerollcall",
+              title: "管理点名信息"
+            }
+          ]
+        },
+      );
     } else if (role == "headteacher") {
       //辅导员
       this.items.push({

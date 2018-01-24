@@ -1,6 +1,6 @@
 <template>
     <div class="login-wrap">
-        <div class="ms-title">点名管理系统</div>
+        <div class="ms-title">学生点名管理系统</div>
         <div class="ms-login">
             <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
@@ -57,18 +57,18 @@ export default {
         role: [{ required: true, message: "请选择用户角色", trigger: "change" }]
       },
       options: [
-        {
-          value: "student",
-          label: "学生"
-        },
+        // {
+        //   value: "student",
+        //   label: "学生"
+        // },
         {
           value: "teacher",
           label: "教师"
         },
-        {
-          value: "headteacher",
-          label: "辅导员"
-        },
+        // {
+        //   value: "headteacher",
+        //   label: "辅导员"
+        // },
         {
           value: "admin",
           label: "管理员"
