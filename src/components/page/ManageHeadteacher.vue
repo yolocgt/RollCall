@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
+        <!-- <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
               <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
                   <el-option 
@@ -17,7 +17,7 @@
               </el-select>
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
+        </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>

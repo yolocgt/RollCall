@@ -13,7 +13,7 @@
                   <el-option key="2" label="姓名" value="姓名"></el-option>
               </el-select> -->
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
+            <el-button type="primary" icon="search" @click="search2">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
@@ -130,6 +130,9 @@ export default {
           }
         });
     },
+    search2() {
+      
+    },
     formatter(row, column) {
       return row.address;
     },
@@ -189,10 +192,11 @@ export default {
               }
             });
           }
+          this.getDataByPage();
         })
         .then(() => {
           console.log("处理后：" + delStatus);
-          this.$message.error("删除了" + str);
+          // this.$message.error("删除了" + str);
           // if (delStatus) {
           // this.$message.success("删除成功~");
           // }

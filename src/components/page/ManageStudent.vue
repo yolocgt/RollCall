@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>管理学生信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
+        <!-- <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
               <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
                   <el-option 
@@ -17,7 +17,7 @@
               </el-select>
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
+        </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
@@ -25,7 +25,7 @@
             <el-table-column prop="id" label="学号" sortable > </el-table-column>
             <el-table-column prop="phone" label="电话"> </el-table-column>
             <el-table-column prop="address" label="住址" > </el-table-column>
-            <el-table-column prop="birth" label="生日" > </el-table-column>
+            <el-table-column prop="birth" :formatter="dateFormat" label="生日" > </el-table-column>
             <el-table-column prop="password" label="密码" > </el-table-column>
             <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>
             <el-table-column prop="className.major.majorName" label="班级" > </el-table-column>
@@ -66,12 +66,13 @@
 </style>
 
 <script>
+// import {moment} from 'vue-moment';
 import { ApiStudent, ApiFaculty } from "../../service/apis";
-
+// import moment from 'moment'
 export default {
   data() {
     return {
-		faculty:"",
+      faculty: "",
       url: "./static/vuetable.json",
       tableData: [],
       allData: [],
@@ -140,12 +141,16 @@ export default {
           }
         });
     },
-    formatter(row, column) {
-      return row.address;
+
+    //时间格式化
+    dateFormat: function(row, column) {
+      var date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return this.$moment(date).format("YYYY-MM-DD");
     },
-    filterTag(value, row) {
-      return row.tag === value;
-    },
+
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);

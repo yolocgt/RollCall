@@ -6,15 +6,15 @@
                 <el-breadcrumb-item>班级信息管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
-            <!-- <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button> -->
+        <!-- <div class="handle-box">
+            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
             <el-select v-model="select_cate" placeholder="筛选啥" class="handle-select mr10">
                 <el-option key="1" label="广东省" value="广东省"></el-option>
                 <el-option key="2" label="湖南省" value="湖南省"></el-option>
             </el-select>
             <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
+        </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="cyear" label="年级" sortable width="150">
@@ -101,7 +101,7 @@ export default {
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除：${row.ClassInfoName}`;
+      this.dialogMsg = `确认删除：${row.cyear+'级'+row.major.majorName+row.cno+'班'}`;
       this.temDelRow = row;
     },
     // 编辑
