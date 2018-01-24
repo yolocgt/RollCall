@@ -37,24 +37,38 @@
 </style>
 
 <script>
-import {ApiFaculty} from '../../service/apis'
+import { ApiFaculty } from "../../service/apis";
 export default {
   data: function() {
     return {
-      status:'添加',
+      status: "添加",
       form: {
         facultyName: "",
         director: "",
-        phone: "",
+        phone: ""
       },
       rules: {
-        facultyName: [{ required: true, message: "请输入院系名称", trigger: "blur" }],
-        director: [{ required: true, message: "请输入主任名字", trigger: "blur" }],
-        phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
+        facultyName: [
+          { required: true, message: "请输入院系名称", trigger: "blur" }
+        ],
+        director: [
+          { required: true, message: "请输入主任名字", trigger: "blur" },
+          {
+            pattern: /^[\u4E00-\u9FA5]+$/,
+            message: "请输入正确的姓名"
+          }
+        ],
+        phone: [
+          { required: true, message: "请输入电话", trigger: "blur" },
+          {
+            pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
+            message: "请输入正确的手机号"
+          }
+        ]
       }
     };
   },
-  created:function(){
+  created: function() {
     console.log(this.$route.params);
     this.id = this.$route.params.id;
     console.log(this.id);
@@ -66,7 +80,7 @@ export default {
       });
     }
   },
-  mounted:function(){
+  mounted: function() {
     this.$refs.inputRef.$el.children[0].focus();
   },
   methods: {
