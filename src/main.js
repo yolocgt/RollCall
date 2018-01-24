@@ -10,8 +10,13 @@ Vue.use(ElementUI);
 // Vue-Cookie
 import VueCookie from 'vue-cookie';
 Vue.use(VueCookie);
-
+// import moment from 'vue-moment';
+// Vue.use(moment);
+// Vue.use(require('vue-moment'));
+import moment from 'moment';
+Vue.use(moment);
 Vue.prototype.$axios = axios;
+Vue.prototype.$moment = moment;
 global.ApiUrl = 'http://localhost:1219/api/v1';
 
 new Vue({
