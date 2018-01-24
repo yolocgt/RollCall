@@ -37,6 +37,10 @@ export default {
           title: "系统管理",
           subs: [
             {
+              index: "readme",
+              title: "关于系统"
+            },
+            {
               index: "addadmin",
               title: "编辑管理员"
             },
@@ -76,7 +80,7 @@ export default {
         {
           icon: "el-icon-menu",
           index: "rollcall",
-          title: "课程信息管理",
+          title: "课程排课管理",
           subs: [
             {
               index: "addcourse",
@@ -114,15 +118,15 @@ export default {
         {
           icon: "el-icon-date",
           index: "course",
-          title: "课程管理",
+          title: "点名信息管理",
           subs: [
             {
-              index: "",
-              title: "添加课程信息"
+              index: "addrollcall",
+              title: "添加点名信息"
             },
             {
-              index: "",
-              title: "管理课程信息"
+              index: "managerollcall",
+              title: "管理点名信息"
             }
           ]
         },
@@ -141,11 +145,11 @@ export default {
             },
             {
               index: "addheadteacher",
-              title: "添加班主任信息"
+              title: "添加辅导员信息"
             },
             {
               index: "manageheadteacher",
-              title: "管理班主任信息"
+              title: "管理辅导员信息"
             },
             {
               index: "addteacher",

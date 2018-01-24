@@ -27,6 +27,10 @@
             </el-table-column>
             <el-table-column prop="course.courseName" label="课程" >
             </el-table-column>
+            <el-table-column prop="section" label="节次" >
+            </el-table-column>
+            <el-table-column prop="classroom" label="教室" >
+            </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
                     <el-button size="small"

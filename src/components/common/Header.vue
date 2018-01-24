@@ -23,9 +23,10 @@ export default {
   },
   computed: {
     name() {
-      // let username = localStorage.getItem("username");
-      this.username = this.$cookie.get("username");
-      return this.username ? this.username : "匿名用户";
+      // this.username = this.$cookie.get("username");
+      // return this.username ? this.username : "匿名用户";
+      let name = localStorage.getItem("name");
+      return name ? name : "匿名用户";
     }
   },
   methods: {

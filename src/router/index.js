@@ -142,12 +142,22 @@ export default new Router({
                 , {
                     path: '/addarrange',
                     name: 'addarrange',
-                    component: resolve => require(['../components/page/AddArrange.vue'], resolve)    // 添加辅导员
+                    component: resolve => require(['../components/page/AddArrange.vue'], resolve)    // 添加排课
                 }
                 , {
                     path: '/managearrange',
                     name: 'managearrange',
-                    component: resolve => require(['../components/page//ManageArrange.vue'], resolve)    // 管理辅导员
+                    component: resolve => require(['../components/page//ManageArrange.vue'], resolve)    // 管理排课
+                }
+                , {
+                    path: '/addrollcall',
+                    name: 'addrollcall',
+                    component: resolve => require(['../components/page/AddRollcall.vue'], resolve)    // 添加点名信息
+                }
+                , {
+                    path: '/managerollcall',
+                    name: 'managerollcall',
+                    component: resolve => require(['../components/page//ManageRollcall.vue'], resolve)    // 管理点名信息
                 }
 
             ]

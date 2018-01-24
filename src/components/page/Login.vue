@@ -98,7 +98,7 @@ export default {
             console.log(res);
             // 登录成功
             if (res.status == "y") {
-              // localStorage.setItem("m_username", self.loginForm.username);
+              localStorage.setItem("name", res.name);
               this.$cookie.set("username", this.loginForm.username, 1);
               this.$cookie.set("userrole", this.loginForm.role, 1);
               this.$message({
@@ -106,7 +106,7 @@ export default {
                 message: res.msg,
                 type: "success"
               });
-              self.$router.push("/addadmin");
+              self.$router.push("/readme");
             } else {
               //登录失败
               this.$message({
