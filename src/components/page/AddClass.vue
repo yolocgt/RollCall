@@ -112,6 +112,14 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let major = {};
+          major = this.majors.find(item => {
+            console.log(item);
+            return item._id == this.form.major;
+          });
+          this.form.className =
+            this.form.cyear + "级" + major.majorName + this.form.cno + "班";
+          // console.log(this.form.className);
           // 修改
           if (this.id) {
             console.log("修改");
@@ -137,7 +145,7 @@ export default {
       });
     },
     resetSubmit(formName) {
-        this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     }
   }
 };

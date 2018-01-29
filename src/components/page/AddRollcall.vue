@@ -25,7 +25,7 @@
 		                <el-option
 			                v-for="t in arranges"
 			                :key="t._id"
-			                :label="t.teacher.name"
+			                :label="t.course.courseName"
 			                :value="t._id">
 			            </el-option>
 		            </el-select>
@@ -108,7 +108,7 @@ export default {
       const cs = [];
       for (const k in res.data) {
         const c = res.data[k];
-        console.log(c);
+        // console.log(c);
         c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
         cs.push(c);
       }
@@ -126,7 +126,7 @@ export default {
     if (this.id) {
       this.status = "修改";
       ApiRollcall.getDataById(this.id, res => {
-        console.log(res);
+        // console.log(res);
         this.form = res.data;
       });
     }
@@ -148,6 +148,7 @@ export default {
             });
           } else {
             // 新增
+            // console.log(this.form);
             ApiRollcall.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");

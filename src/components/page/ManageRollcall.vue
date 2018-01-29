@@ -8,8 +8,8 @@
         </div>
         <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="classInfo.cyear" label="班级" > </el-table-column>
-            <el-table-column prop="arrange.learnTerm" label="课程" > </el-table-column>
+            <el-table-column prop="classInfo.major.majorName" label="班级" > </el-table-column>
+            <el-table-column prop="arrange.course.courseName" label="课程" > </el-table-column>
             <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" > </el-table-column>
             <el-table-column prop="actual" label="总数" > </el-table-column>
             <el-table-column prop="fact" label="人数" > </el-table-column>

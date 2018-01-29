@@ -1,5 +1,6 @@
 <template>
-    <div class="table">
+      <div class="table" style="width: 436px">
+
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
@@ -17,13 +18,13 @@
         </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="cyear" label="年级" sortable width="150">
+            <!-- <el-table-column prop="cyear" label="年级" sortable width="150">
             </el-table-column>
             <el-table-column prop="major.majorName" label="专业" width="120">
+            </el-table-column> -->
+            <el-table-column prop="className" label="班级" >
             </el-table-column>
-            <el-table-column prop="cno" label="班级" >
-            </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作" >
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>

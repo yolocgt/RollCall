@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>管理课程</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data" border style="width: 500" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="courseName" label="课程名称" sortable width="200">
             </el-table-column>

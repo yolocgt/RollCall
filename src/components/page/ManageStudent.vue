@@ -92,6 +92,24 @@ export default {
     };
   },
   created() {
+    this.is_search = true;
+    this.$axios
+      // .get("/users")
+      // .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/student")
+      // .then(data => {
+      //   console.log(data.data.data.users);
+      //   var users = data.data.data.users;
+      //   for (let i = 0; i < users.length; i++) {
+      //     const user = users[i];
+      //     ApiStudent.save(user, res => {
+      //       if (res.status == "y") {
+      //         this.$message.success("数据加载成功");
+      //         this.getDataByPage();
+      //       }
+      //     });
+      //   }
+      // });
+
     ApiFaculty.getData(res => {
       this.faculty = res.data;
     });

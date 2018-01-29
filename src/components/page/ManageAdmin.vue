@@ -13,7 +13,7 @@
                   <el-option key="2" label="姓名" value="姓名"></el-option>
               </el-select> -->
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search2">搜索</el-button>
+            <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
@@ -116,7 +116,7 @@ export default {
       this.$axios
         // .get("/users")
         .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => {
+        .then(data => { 
           console.log(data.data.data.users);
           var users = data.data.data.users;
           for (let i = 0; i < users.length; i++) {

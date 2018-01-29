@@ -45,9 +45,12 @@ export default {
       role: "",
       submitUrl: "",
       loginForm: {
-        username: "tt",
-        password: "123",
-        role: "admin"
+        // username: "cgt",
+        // password: "adminn",
+        // role: "admin"
+        username: "",
+        password: "",
+        role: ""
       },
       rules: {
         username: [

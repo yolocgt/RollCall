@@ -124,10 +124,10 @@ export default {
         account: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入学生姓名", trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        id: [{ required: true, message: "请输入学号", trigger: "blur" }],
-        phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
+        name: [{ required: true, message: "请输入学生姓名" }],
+        sex: [{ required: true, message: "请选择性别" }],
+        id: [{ required: true, message: "请输入学号" }],
+        phone: [{ required: true, message: "请输入电话" }]
       }
     };
   },
