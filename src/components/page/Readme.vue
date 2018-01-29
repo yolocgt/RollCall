@@ -15,7 +15,19 @@
                 <p>对于大学生的考勤方面，现在越来越显示出重要性。虽然大学生都已经步入成年，但是有些时候会出现小小的偷懒也情有可原。很多方面还需要代课老师和学校的监督，当然对于上课点名很占用时间，而且效果不好，老师也不能对学生每次点名情况都有明确的了解，所以一个可视化的点名系统成为必须。</p>
                 <p>此外，对于学生上课表现情况，老师可以对问题的次数以及质量来进行打分。所以在上课时有一个能够面向学生的点名系统对学生的进行的提问也成为老师们十分想要的一个系统。</p>
                 <h2>功能</h2>
+                <el-checkbox disabled checked>Vue 2.x</el-checkbox>
+                <br>
                 <el-checkbox disabled checked>Element UI</el-checkbox>
+                <br>
+                <el-checkbox disabled checked>LocalStorage</el-checkbox>
+                <br>
+                <el-checkbox disabled checked>Express框架</el-checkbox>
+                <br>
+                <el-checkbox disabled checked>Webpack打包</el-checkbox>
+                <br>
+                <el-checkbox disabled checked>ES6 Babel</el-checkbox>
+                <br>
+                <el-checkbox disabled checked>Cookie</el-checkbox>
                 <br>
                 <el-checkbox disabled checked>登录/注销</el-checkbox>
                 <br>
@@ -23,7 +35,7 @@
                 <br>
                 <el-checkbox disabled checked>表单</el-checkbox>
                 <br>
-                <el-checkbox disabled checked>图表</el-checkbox>
+                <!-- <el-checkbox disabled checked>图表</el-checkbox>
                 <br>
                 <el-checkbox disabled checked>富文本编辑器</el-checkbox>
                 <br>
@@ -31,9 +43,9 @@
                 <br>
                 <el-checkbox disabled checked>图片拖拽/裁剪上传</el-checkbox>
                 <br>
-                <el-checkbox disabled checked>支持切换主题色</el-checkbox>
-                <br>
                 <el-checkbox disabled checked>列表拖拽排序</el-checkbox>
+                <br> -->
+                <el-checkbox disabled checked>支持切换主题色</el-checkbox>
                 <br>
             </article>
         </div>
