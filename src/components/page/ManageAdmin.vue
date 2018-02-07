@@ -19,8 +19,8 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="账号" sortable width="150">
             </el-table-column>
-            <el-table-column prop="password" label="密码" width="120">
-            </el-table-column>
+            <!-- <el-table-column prop="password" label="密码" width="120">
+            </el-table-column> -->
             <el-table-column prop="name" label="姓名" >
             </el-table-column>
             <el-table-column label="操作" width="180">

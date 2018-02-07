@@ -14,12 +14,12 @@
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <!-- <el-form-item label="密码" prop="password">
                     <el-input type="password" v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="rePsw">
                     <el-input type="password" v-model="form.rePsw"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -38,6 +38,7 @@
 
 <script>
 import { ApiAdmin } from "../../service/apis";
+import crypto from "crypto-js";
 export default {
   data: function() {
     // 验证输入密码
@@ -71,24 +72,24 @@ export default {
         rePsw: ""
       },
       rules: {
-        id: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
-        name: [
-          { required: true, message: "请输入用户姓名", trigger: "blur" },
-          {
-            pattern: /^[\u4E00-\u9FA5]+$/,
-            message: "用户名只能为中文"
-          }
-        ],
-        // password: [{ validator: validatePsw, trigger: "blur" }],
-        password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, max: 10, message: "密码长度至少6个字符" },
-          {
-            pattern: /^[a-zA-Z][0-9a-zA-Z_]{3,17}$/,
-            message: "以字母开头，只能包含字符、数字和下划线"
-          }
-        ],
-        rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
+        // id: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
+        // name: [
+        //   { required: true, message: "请输入用户姓名", trigger: "blur" },
+        //   {
+        //     pattern: /^[\u4E00-\u9FA5]+$/,
+        //     message: "用户名只能为中文"
+        //   }
+        // ],
+        // // password: [{ validator: validatePsw, trigger: "blur" }],
+        // password: [
+        //   { required: true, message: "请输入密码", trigger: "blur" },
+        //   { min: 6, max: 10, message: "密码长度至少6个字符" },
+        //   {
+        //     pattern: /^[a-zA-Z][0-9a-zA-Z_]{3,17}$/,
+        //     message: "以字母开头，只能包含字符、数字和下划线"
+        //   }
+        // ],
+        // rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
       }
     };
   },
@@ -124,6 +125,8 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // md5加密密码
+          // this.form.password = crypto.MD5(this.form.password).toString();
           // 修改
           if (this.id) {
             console.log("修改");

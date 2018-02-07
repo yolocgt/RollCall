@@ -37,7 +37,7 @@ import {
   ApiAdmin
 } from "../../service/apis";
 import ApiLogin from "../../service/api_login";
-
+import crypto from "crypto-js";
 export default {
   data: function() {
     return {
@@ -97,6 +97,8 @@ export default {
       self.$refs[formName].validate(valid => {
         if (valid) {
           // 登录
+          // md5加密
+          this.loginForm.password = crypto.MD5(this.loginForm.password).toString();
           ApiLogin.login(this.loginForm, this.loginForm.role, res => {
             console.log(res);
             // 登录成功
