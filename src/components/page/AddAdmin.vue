@@ -68,8 +68,6 @@ export default {
       form: {
         id: "",
         name: "",
-        password: "",
-        rePsw: ""
       },
       rules: {
         // id: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
@@ -127,6 +125,7 @@ export default {
         if (valid) {
           // md5加密密码
           // this.form.password = crypto.MD5(this.form.password).toString();
+          console.log(this.form);
           // 修改
           if (this.id) {
             console.log("修改");

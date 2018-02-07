@@ -23,12 +23,14 @@
             </el-table-column> -->
             <el-table-column prop="name" label="姓名" >
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作" width="240">
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
                             @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
+                    <el-button size="small" type="success"
+                            @click="handleResetPsw(scope.$index, scope.row,scope.row._id)">重置密码</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -116,7 +118,7 @@ export default {
       this.$axios
         // .get("/users")
         .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => { 
+        .then(data => {
           console.log(data.data.data.users);
           var users = data.data.data.users;
           for (let i = 0; i < users.length; i++) {
@@ -130,9 +132,7 @@ export default {
           }
         });
     },
-    search2() {
-      
-    },
+    search2() {},
     formatter(row, column) {
       return row.address;
     },
@@ -149,6 +149,14 @@ export default {
       this.dialogVisible = true;
       this.dialogMsg = `确认删除管理员：${row.name}`;
       this.temDelRow = row;
+    },
+    // 重置密码
+    handleResetPsw(index, row) {
+      var id = row._id;
+      ApiAdmin.resetPsw(id,(res) => {
+        console.log(res);
+        
+      })
     },
     // 删除
     doDel() {

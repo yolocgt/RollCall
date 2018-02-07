@@ -18,14 +18,14 @@ export default {
     };
   },
   created: function() {
-    if (!this.seen) {
-      this.$message({
-        showClose: true,
-        message: "您可能没有权限访问，请与管理员联系",
-        type: "error"
-      });
-      this.$router.push("/login");
-    }
+    // if (!this.seen) {
+    //   this.$message({
+    //     showClose: true,
+    //     message: "您可能没有权限访问，请与管理员联系",
+    //     type: "error"
+    //   });
+    //   this.$router.push("/login");
+    // }
   },
   computed: {
     seen() {
