@@ -9,8 +9,11 @@ export default {
 				callback(res.data);
 			})
 	},
-	exists(id,  callback) {
-		axios.post(`${global.ApiUrl}/exists`, data)
+	exists(id, role, callback) {
+		// console.log('exists............');
+		// console.log(id);
+		// console.log(role);
+		axios.get(`${global.ApiUrl}/${role}/exists/${id}`)
 			.then((res) => {
 				callback(res.data);
 			})

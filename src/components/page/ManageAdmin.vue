@@ -1,5 +1,5 @@
 <template>
-    <div class="table">
+    <div class="table" style="width:640px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
@@ -16,7 +16,7 @@
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column prop="id" label="账号" sortable width="150">
             </el-table-column>
             <!-- <el-table-column prop="password" label="密码" width="120">
@@ -53,6 +53,14 @@
     	  </span>
     </el-dialog>
     
+    <el-dialog title="请确认重置信息" :visible.sync="dialogVisible2" width="30%">
+      	<span>{{dialogMsg2}}</span>
+    	  <span slot="footer" class="dialog-footer">
+    	    <el-button @click="dialogVisible2=false">取 消</el-button>
+    	    <el-button type="primary" @click="doReset">确 定</el-button>
+    	  </span>
+    </el-dialog>
+    
     </div>
 </template>
 <style>
@@ -77,8 +85,10 @@ export default {
       is_search: false,
 
       dialogVisible: false,
+      dialogVisible2: false,
       temDelRow: {},
       dialogMsg: "",
+      dialogMsg2: "",
 
       cur_page: 1, //当前页码
       pageCount: 3, //总页数
@@ -152,11 +162,21 @@ export default {
     },
     // 重置密码
     handleResetPsw(index, row) {
-      var id = row._id;
-      ApiAdmin.resetPsw(id,(res) => {
-        console.log(res);
-        
-      })
+      this.dialogVisible2 = true;
+      this.dialogMsg2 = `确认重置该管理员密码：${row.name}`;
+      this.temDelRow = row;
+      
+    },
+    doReset(){
+      this.dialogVisible2 = false;
+      
+      var id = this.temDelRow._id;
+      this.temDelRow.password = "e10adc3949ba59abbe56e057f20f883e";
+      ApiAdmin.update(id, this.temDelRow, res => {
+        if (res.status == "y") {
+          this.$message.success("重置密码成功~");
+        }
+      });
     },
     // 删除
     doDel() {

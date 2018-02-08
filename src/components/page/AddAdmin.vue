@@ -9,7 +9,8 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
                 <el-form-item label="账号" prop="id">
-                    <el-input v-model="form.id" autofocus ref="inputRef" @click="isExists"></el-input>
+                    <!-- <el-input v-model="form.id" autofocus ref="inputRef" @blur="isExists"></el-input> -->
+                    <el-input v-model="form.id" autofocus ref="inputRef" ></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name"></el-input>
@@ -39,6 +40,7 @@
 <script>
 import { ApiAdmin } from "../../service/apis";
 import crypto from "crypto-js";
+import login from "../../service/api_login";
 export default {
   data: function() {
     // 验证输入密码
@@ -62,15 +64,40 @@ export default {
         callback();
       }
     };
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.id.trim() != "") {
+        login.exists(this.form.id, this.$cookie.get("userrole"), res => {
+          // console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该账号已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
+
     return {
       id: "",
       status: "添加",
       form: {
         id: "",
-        name: "",
+        name: ""
+        // password:""
       },
       rules: {
-        // id: [{ required: true, message: "请输入用户账号", trigger: "blur" }],
+        id: [
+          {
+            required: true,
+            message: "请输入用户账号",
+            trigger: "blur"
+          },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
+        ]
         // name: [
         //   { required: true, message: "请输入用户姓名", trigger: "blur" },
         //   {
@@ -116,8 +143,15 @@ export default {
   },
   methods: {
     isExists() {
-      console.log("object");
-      ApiAdmin.getData(form.id);
+      console.log(this.form.id);
+      if (this.form.id.trim() != "") {
+        login.exists(this.form.id, this.$cookie.get("userrole"), res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            this.$message.error("用户已存在");
+          }
+        });
+      }
     },
     // 提交表单
     onSubmit(formName) {
@@ -125,7 +159,8 @@ export default {
         if (valid) {
           // md5加密密码
           // this.form.password = crypto.MD5(this.form.password).toString();
-          console.log(this.form);
+          // delete this.form.password;
+          // console.log(this.form);
           // 修改
           if (this.id) {
             console.log("修改");
