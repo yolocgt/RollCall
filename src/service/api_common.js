@@ -6,7 +6,7 @@ export default class c_Api {
 	constructor(mName) {
 		this.mName = mName;
 	}
-	
+
 	// 保存
 	save(data, callback) {
 		axios.post(`${global.ApiUrl}/${this.mName}`, data)
@@ -35,7 +35,7 @@ export default class c_Api {
 				callback(res.data);
 			})
 	}
-	
+
 	// 所有数据
 	getData(callback) {
 		axios.get(`${global.ApiUrl}/all_${this.mName}`)
@@ -64,5 +64,14 @@ export default class c_Api {
 			})
 	};
 
-	
+	// 判断一个实体是否存在
+	isExist(name, callback) {
+		if (this.mName == "classInfo") { this.mName = "class"; }
+		axios.get(`${global.ApiUrl}/${this.mName}/exists/${name}`).then((res) => {
+			console.log(res);
+			callback(res.data);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
 }
