@@ -19,6 +19,8 @@
                 <br>
                 <el-checkbox disabled checked>Element UI</el-checkbox>
                 <br>
+                <el-checkbox disabled checked>前后端分离</el-checkbox>
+                <br>
                 <el-checkbox disabled checked>LocalStorage</el-checkbox>
                 <br>
                 <el-checkbox disabled checked>Express框架</el-checkbox>

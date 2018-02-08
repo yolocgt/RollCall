@@ -6,6 +6,45 @@ export default class c_Api {
 	constructor(mName) {
 		this.mName = mName;
 	}
+	
+	// 保存
+	save(data, callback) {
+		axios.post(`${global.ApiUrl}/${this.mName}`, data)
+			.then((res) => {
+				callback(res.data);
+			})
+	};
+	// 删除
+	deleteById(id, callback) {
+		axios.delete(`${global.ApiUrl}/${this.mName}/${id}`)
+			.then((res) => {
+				callback(res.data);
+			})
+	};
+	// 修改
+	update(id, data, callback) {
+		axios.put(`${global.ApiUrl}/${this.mName}/${id}`, data)
+			.then((res) => {
+				callback(res.data);
+			})
+	};
+	// 查找
+	getDataById(id, callback) {
+		axios.get(`${global.ApiUrl}/${this.mName}/${id}`)
+			.then((res) => {
+				callback(res.data);
+			})
+	}
+	
+	// 所有数据
+	getData(callback) {
+		axios.get(`${global.ApiUrl}/all_${this.mName}`)
+			.then((res) => {
+				callback(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+	};
 	/**
 	 * @description 根据页码获取所有的管理员数据
 	 * @author CGT
@@ -24,41 +63,6 @@ export default class c_Api {
 				console.log(err);
 			})
 	};
-	// 所有数据
-	getData(callback) {
-		axios.get(`${global.ApiUrl}/all_${this.mName}`)
-			.then((res) => {
-				callback(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
-	};
-	// 保存
-	save(data, callback) {
-		axios.post(`${global.ApiUrl}/${this.mName}`, data)
-			.then((res) => {
-				callback(res.data);
-			})
-	};
-	// 修改
-	update(id, data, callback) {
-		axios.put(`${global.ApiUrl}/${this.mName}/${id}`, data)
-			.then((res) => {
-				callback(res.data);
-			})
-	};
-	// 删除
-	deleteById(id, callback) {
-		axios.delete(`${global.ApiUrl}/${this.mName}/${id}`)
-			.then((res) => {
-				callback(res.data);
-			})
-	};
-	// 查找
-	getDataById(id, callback) {
-		axios.get(`${global.ApiUrl}/${this.mName}/${id}`)
-			.then((res) => {
-				callback(res.data);
-			})
-	}
+
+	
 }
