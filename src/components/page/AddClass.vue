@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="年级" prop="cyear">
-					<el-select v-model.number="form.cyear"  class="handle-select mr10">
+					<el-select v-model.number="form.cyear"  class="handle-select mr10" @change="isClassNameExist">
 		                <el-option
 			                v-for="t in cyears"
 			                :key="t.val"
@@ -19,7 +19,7 @@
 		            </el-select>
                 </el-form-item>
                 <el-form-item label="专业" prop="major">
-					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text>
+					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
 		                <!-- <el-option key="1" label="广东省" value="广东省"></el-option> -->
 						<el-option
 			                v-for="t in majors"
@@ -30,7 +30,7 @@
 		            </el-select>
                 </el-form-item>
                 <el-form-item label="班级" prop="cno">
-					<el-select v-model.number="form.cno" class="handle-select mr10">
+					<el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
 		                <el-option
 			                v-for="t in cnos"
 			                :key="t.val"
@@ -47,6 +47,14 @@
             </el-form>
         </div>
 
+  <!-- 确认删除对话框 -->
+		<el-dialog title="班级名重复" :visible.sync="dialogVisible" width="30%">
+      	<span>该班级已存在，请重新操作</span>
+    	  <span slot="footer" class="dialog-footer">
+    	    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    	    <!-- <el-button type="primary" >确 定</el-button> -->
+    	  </span>
+    </el-dialog>
     </div>
 </template>
 
@@ -60,20 +68,47 @@
 import { ApiClassInfo, ApiMajor } from "../../service/apis";
 export default {
   data: function() {
+    // 验证是否存在
+    // var isExist = (rule, value, callback) => {
+    //   console.log(this.form.cyear);
+    //   console.log(this.form.major);
+    //   if (this.className != "") {
+    //     ApiClassInfo.isExist(this.className, res => {
+    //       // console.log(res);
+    //       if (res.data && res.data.length > 0) {
+    //         callback(new Error("该班级已存在，请重新操作"));
+    //       } else {
+    //         callback();
+    //       }
+    //     });
+    //   }
+    // };
     return {
+      dialogVisible: false,
+      dialogMsg: "",
       cyears: [],
       majors: [],
       cnos: [],
       status: "添加",
+      className: "",
       form: {
         cyear: "",
         major: "",
         cno: ""
       },
       rules: {
-        cyear: { required: true, type: "number", message: "请选择年级" },
-        major: { required: true, message: "请选择专业" },
-        cno: { required: true, type: "number", message: "请选择班级" }
+        cyear: [
+          { required: true, type: "number", message: "请选择年级" }
+          // { validator: isExist, trigger: "change" }
+        ],
+        major: [
+          { required: true, message: "请选择专业" }
+          // { validator: isExist, trigger: "change" }
+        ],
+        cno: [
+          { required: true, type: "number", message: "请选择班级" }
+          // { validator: isExist, trigger: "change" }
+        ]
         // cno: [{ required: true, message: "请选择班级", trigger: "change" },  { type: 'number', message: '年龄必须为数字值'}]
       }
     };
@@ -109,9 +144,36 @@ export default {
   },
   mounted: function() {},
   methods: {
+    // clearSelected() {
+    //   this.dialogVisible = false;
+    //   // this.resetSubmit("form");
+    // },
+    isClassNameExist() {
+      if (
+        this.form.major != "" &&
+        this.form.cyear != "" &&
+        this.form.cno != ""
+      ) {
+        let major = {};
+        major = this.majors.find(item => {
+          console.log(item);
+          return item._id == this.form.major;
+        });
+        this.className =
+          this.form.cyear + "级" + major.majorName + this.form.cno + "班";
+        console.log(this.className);
+        ApiClassInfo.isExist(this.className, res => {
+          // console.log(res);
+          if (res.data && res.data.length > 0) {
+            // this.$message.error("该班级已存在，请重新操作");
+            this.dialogVisible = true;
+          }
+        });
+      } else return false;
+    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid) {
+        if (valid && this.isClassNameExist()) {
           let major = {};
           major = this.majors.find(item => {
             console.log(item);

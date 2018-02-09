@@ -68,7 +68,7 @@ export default class c_Api {
 	isExist(name, callback) {
 		if (this.mName == "classInfo") { this.mName = "class"; }
 		axios.get(`${global.ApiUrl}/${this.mName}/exists/${name}`).then((res) => {
-			console.log(res);
+			console.log(res.data);
 			callback(res.data);
 		}).catch((err) => {
 			console.log(err);
