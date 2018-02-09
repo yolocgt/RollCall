@@ -38,6 +38,7 @@
 
 <script>
 import { ApiFaculty } from "../../service/apis";
+// import ApiCommon from "../../service/api_common";
 export default {
   data: function() {
     // 验证是否存在
