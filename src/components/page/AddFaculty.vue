@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="院系名称" prop="facultyName">
-                    <el-input v-model="form.facultyName" autofocus ref="inputRef"></el-input>
+                    <el-input v-model.trim="form.facultyName" autofocus ref="inputRef"></el-input>
                 </el-form-item>
                 <el-form-item label="系主任" prop="director">
                     <el-input v-model="form.director"></el-input>
@@ -40,6 +40,19 @@
 import { ApiFaculty } from "../../service/apis";
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.facultyName.trim() != "") {
+        ApiFaculty.isExist(this.form.facultyName, res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该院系已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       status: "添加",
       form: {
@@ -49,7 +62,8 @@ export default {
       },
       rules: {
         facultyName: [
-          { required: true, message: "请输入院系名称", trigger: "blur" }
+          { required: true, message: "请输入院系名称", trigger: "blur" },
+          { validator: isExist, trigger: "blur" }
         ],
         director: [
           { required: true, message: "请输入主任名字", trigger: "blur" },

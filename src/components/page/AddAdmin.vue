@@ -10,10 +10,10 @@
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
                 <el-form-item label="账号" prop="id">
                     <!-- <el-input v-model="form.id" autofocus ref="inputRef" @blur="isExists"></el-input> -->
-                    <el-input v-model="form.id" autofocus ref="inputRef" ></el-input>
+                    <el-input v-model.trim="form.id" autofocus ref="inputRef" ></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model.trim="form.name"></el-input>
                 </el-form-item>
                 <!-- <el-form-item label="密码" prop="password">
                     <el-input type="password" v-model="form.password"></el-input>
