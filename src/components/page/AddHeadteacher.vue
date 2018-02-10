@@ -27,7 +27,7 @@
                 <!-- <el-form-item label="家庭住址" prop="address">
                     <el-input v-model="form.address"></el-input>
                 </el-form-item> -->
-				 <el-form-item label="所在院系" prop="facultyName">
+				 <!-- <el-form-item label="所在院系" prop="facultyName">
     				      <el-select v-model="form.facultyName" placeholder="选择院系" class="handle-select mr10">
     	                <el-option 
                         v-for="f in facultyName" 
@@ -41,7 +41,7 @@
     	                <el-option
                         v-for="c in className" :key="c._id" :label="c.cyear+'级'+c.major.majorName+c.cno+'班'" :value="c._id"></el-option>
     	            </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 
                 <!-- <el-form-item label="用户头像" prop="avatar">
                     <el-upload
@@ -97,9 +97,24 @@
 </style>
 
 <script>
-import { ApiFaculty, ApiClassInfo, ApiHeadteacher } from "../../service/apis";
+import { ApiFaculty, ApiClassInfo, ApiCounselor } from "../../service/apis";
+import login from "../../service/api_login";
+
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.id != "") {
+        login.exists(this.form.id, "counselor", res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该工号已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       imageUrl: "",
       facultyName: "",
@@ -117,7 +132,13 @@ export default {
       rules: {
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        id: [{ required: true, message: "请输入工号", trigger: "blur" }],
+        id: [
+          { required: true, message: "请输入工号", trigger: "blur" },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
+        ],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
       }
     };
@@ -128,7 +149,7 @@ export default {
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
-      ApiHeadteacher.getDataById(this.id, res => {
+      ApiCounselor.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
       });
@@ -149,7 +170,7 @@ export default {
           // 修改
           if (this.id) {
             console.log("修改");
-            ApiHeadteacher.update(this.id, this.form, res => {
+            ApiCounselor.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
               } else {
@@ -158,7 +179,7 @@ export default {
             });
           } else {
             // 新增
-            ApiHeadteacher.save(this.form, res => {
+            ApiCounselor.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");
               } else {

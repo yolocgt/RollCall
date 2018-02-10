@@ -10,7 +10,7 @@ var ApiFaculty = new c_Api('faculty');			//学院
 var ApiMajor = new c_Api('major');				//专业
 var ApiClassInfo = new c_Api('classInfo');		//班级
 var ApiStudent = new c_Api('student');			//学生
-var ApiHeadteacher = new c_Api('headteacher');	//辅导员
+var ApiCounselor = new c_Api('counselor');		//辅导员
 var ApiTeacher = new c_Api('teacher');			//教师
 var ApiArrange = new c_Api('arrange');			//排课
 var ApiRollcall = new c_Api('rollcall');		//点名
@@ -23,7 +23,7 @@ export {
 	ApiMajor,
 	ApiClassInfo,
 	ApiStudent,
-	ApiHeadteacher,
+	ApiCounselor,
 	ApiTeacher,
 	ApiArrange,
 	ApiRollcall

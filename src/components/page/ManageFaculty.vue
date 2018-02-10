@@ -1,5 +1,5 @@
 <template>
-    <div class="table">
+    <div class="table" style="width:699px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
