@@ -21,7 +21,7 @@
             </el-table-column>
             <el-table-column prop="learnTerm" label="学期" width="120">
             </el-table-column>
-            <el-table-column prop="classInfo.major.majorName" label="班级" >
+            <el-table-column prop="classInfo.className" label="班级" >
             </el-table-column>
             <el-table-column prop="teacher.name" label="教师" >
             </el-table-column>

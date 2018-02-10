@@ -8,7 +8,7 @@
         </div>
         <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="classInfo.major.majorName" label="班级" > </el-table-column>
+            <el-table-column prop="arrange.classInfo.className" label="班级" > </el-table-column>
             <el-table-column prop="arrange.course.courseName" label="课程" > </el-table-column>
             <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" > </el-table-column>
             <el-table-column prop="actual" label="总数" > </el-table-column>
@@ -87,6 +87,7 @@ export default {
       console.log("开始分页");
       ApiRollcall.getDataByPage(this.cur_page, this.select_word, res => {
         this.tableData = res.data.res; //获取分页数据
+        console.log(this.tableData);
         this.pageCount = res.data.pageCount; //获取总页数
       });
     },

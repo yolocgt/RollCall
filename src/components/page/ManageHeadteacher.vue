@@ -25,8 +25,8 @@
             <el-table-column prop="id" label="工号" sortable > </el-table-column>
             <el-table-column prop="phone" label="电话"> </el-table-column>
             <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
-            <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>
-            <el-table-column prop="className.major.majorName" label="班级" > </el-table-column>
+            <!-- <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>
+            <el-table-column prop="className.major.majorName" label="班级" > </el-table-column> -->
             <el-table-column label="操作" width="150">
                 <template  slot-scope="scope">
                     <el-button size="small"
@@ -64,7 +64,7 @@
 </style>
 
 <script>
-import { ApiHeadteacher, ApiFaculty } from "../../service/apis";
+import { ApiCounselor, ApiFaculty } from "../../service/apis";
 
 export default {
   data() {
@@ -103,14 +103,14 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiHeadteacher.getDataByPage(this.cur_page, this.select_word, res => {
+      ApiCounselor.getDataByPage(this.cur_page, this.select_word, res => {
         this.tableData = res.data.res; //获取分页数据
         this.pageCount = res.data.pageCount; //获取总页数
       });
     },
     // 所有数据
     getData() {
-      ApiHeadteacher.getData(res => {
+      ApiCounselor.getData(res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -129,7 +129,7 @@ export default {
           var users = data.data.data.users;
           for (let i = 0; i < users.length; i++) {
             const user = users[i];
-            ApiHeadteacher.save(user, res => {
+            ApiCounselor.save(user, res => {
               if (res.status == "y") {
                 this.$message.success("数据加载成功");
                 this.getDataByPage();
@@ -158,7 +158,7 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiHeadteacher.deleteById(this.temDelRow._id, res => {
+      ApiCounselor.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
@@ -190,7 +190,7 @@ export default {
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].name + ",";
             var id = this.multipleSelection[i]._id;
-            ApiHeadteacher.deleteById(id, res => {
+            ApiCounselor.deleteById(id, res => {
               if (res.status == "y") {
                 delStatus = true;
                 console.log(delStatus);

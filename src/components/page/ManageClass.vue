@@ -1,5 +1,5 @@
 <template>
-      <div class="table" style="width: 436px">
+      <div class="table" style="width: 736px">
 
         <div class="crumbs">
             <el-breadcrumb separator="/">
@@ -22,8 +22,9 @@
             </el-table-column>
             <el-table-column prop="major.majorName" label="专业" width="120">
             </el-table-column> -->
-            <el-table-column prop="className" label="班级" >
-            </el-table-column>
+            <el-table-column prop="faculty.facultyName" label="院系" > </el-table-column>
+            <el-table-column prop="className" label="班级" > </el-table-column>
+            <el-table-column prop="counselor.name" label="辅导员" > </el-table-column>
             <el-table-column label="操作" >
                 <template  slot-scope="scope">
                     <el-button size="small"
@@ -102,7 +103,11 @@ export default {
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除：${row.cyear+'级'+row.major.majorName+row.cno+'班'}`;
+      this.dialogMsg = `确认删除：${row.cyear +
+        "级" +
+        row.major.majorName +
+        row.cno +
+        "班"}`;
       this.temDelRow = row;
     },
     // 编辑
