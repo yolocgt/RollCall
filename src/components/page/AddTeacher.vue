@@ -10,7 +10,7 @@
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
         
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="form.name" ref="inputRef"></el-input>
+                    <el-input v-model.trim="form.name" ref="inputRef"></el-input>
                 </el-form-item>
 				       <el-form-item label="性别" prop="sex">
     				      <el-select v-model="form.sex" placeholder="请选择" class="handle-select mr10">
@@ -19,7 +19,7 @@
     	            </el-select>
                 </el-form-item>
                 <el-form-item label="教师号" prop="id">
-                    <el-input v-model="form.id"></el-input>
+                    <el-input v-model.trim="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
@@ -88,8 +88,23 @@
 
 <script>
 import { ApiFaculty, ApiClassInfo, ApiTeacher } from "../../service/apis";
+import login from "../../service/api_login";
+
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.id != "") {
+        login.exists(this.form.id, "teacher", res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该教师号已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       imageUrl: "",
       facultyName: "",
@@ -105,7 +120,13 @@ export default {
       rules: {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        id: [{ required: true, message: "请输入学号", trigger: "blur" }],
+        id: [
+          { required: true, message: "请输入学号", trigger: "blur" },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
+        ],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
       }
     };

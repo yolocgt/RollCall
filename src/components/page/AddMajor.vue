@@ -30,6 +30,19 @@
 import { ApiMajor } from "../../service/apis";
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.majorName != "") {
+        ApiMajor.isExist(this.form.majorName, res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该专业已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       status: "添加",
       form: {
@@ -37,7 +50,11 @@ export default {
       },
       rules: {
         majorName: [
-          { required: true, message: "请输入专业名称", trigger: "blur" }
+          { required: true, message: "请输入专业名称", trigger: "blur" },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
         ]
       }
     };
@@ -73,30 +90,29 @@ export default {
               } else {
                 this.$message.error("修改失败！");
               }
-			});
-			
+            });
           } else {
-			  // 新增
+            // 新增
             ApiMajor.save(this.form, res => {
-				if (res.status == "y") {
-					this.$message.success("添加成功~");
+              if (res.status == "y") {
+                this.$message.success("添加成功~");
               } else {
-				  this.$message.error("添加失败！");
+                this.$message.error("添加失败！");
               }
-		  // 聚焦到第一个输入框
+              // 聚焦到第一个输入框
               // this.$refs.inputRef.$el.children[0].focus();
-            // //   清空表单输入框
+              // //   清空表单输入框
               // this.$refs[formName].resetFields();
-            });														
-		  }
-            //   跳转管理员管理路由
+            });
+          }
+          //   跳转管理员管理路由
           this.$router.push({ name: "managemajor" });
         }
       });
     },
-    resetSubmit(form){
-        this.form.majorName="";
-        this.$refs.inputRef.$el.children[0].focus();
+    resetSubmit(form) {
+      this.form.majorName = "";
+      this.$refs.inputRef.$el.children[0].focus();
     }
   }
 };

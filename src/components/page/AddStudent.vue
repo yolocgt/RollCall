@@ -27,19 +27,22 @@
                 <el-form-item label="家庭住址" prop="address">
                     <el-input v-model="form.address"></el-input>
                 </el-form-item>
-				 <el-form-item label="院系名称" prop="facultyName">
-    				      <el-select v-model="form.facultyName" placeholder="选择院系" class="handle-select mr10">
+				 <el-form-item label="院系名称" prop="faculty">
+    				      <el-select v-model="form.faculty" placeholder="选择院系" class="handle-select mr10">
     	                <el-option 
-                        v-for="f in facultyName" 
+                        v-for="f in faculties" 
                         :key="f._id" 
                         :label="f.facultyName" 
                         :value="f._id"></el-option>
     	            </el-select>
                 </el-form-item>
-				 <el-form-item label="班级名称" prop="className">
-    				      <el-select v-model="form.className" placeholder="选择班级" class="handle-select mr10">
+				 <el-form-item label="班级名称" prop="classInfo">
+    				      <el-select v-model="form.classInfo" placeholder="选择班级" class="handle-select mr10">
     	                <el-option
-                        v-for="c in className" :key="c._id" :label="c.cyear+'级'+c.major.majorName+c.cno+'班'" :value="c._id"></el-option>
+                        v-for="c in classInfos" 
+                        :key="c._id" 
+                        :label="c.className" 
+                        :value="c._id"></el-option>
     	            </el-select>
                 </el-form-item>
                 
@@ -105,12 +108,27 @@
 
 <script>
 import { ApiFaculty, ApiClassInfo, ApiStudent } from "../../service/apis";
+import login from "../../service/api_login";
+
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.id != "") {
+        login.exists(this.form.id, "student", res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该学号已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       imageUrl: "",
-      facultyName: "",
-      className: "",
+      faculties: "",
+      classInfos: "",
       status: "添加",
       form: {
         name: "",
@@ -118,15 +136,21 @@ export default {
         id: "",
         address: "",
         phone: "",
-        facultyName: "",
-        className: "",
+        faculty: "",
+        classInfo: "",
         birth: "",
         account: ""
       },
       rules: {
         name: [{ required: true, message: "请输入学生姓名" }],
         sex: [{ required: true, message: "请选择性别" }],
-        id: [{ required: true, message: "请输入学号" }],
+        id: [
+          { required: true, message: "请输入学号" },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
+        ],
         phone: [{ required: true, message: "请输入电话" }]
       }
     };
@@ -144,11 +168,11 @@ export default {
     }
     // 学院下拉框数据
     ApiFaculty.getData(res => {
-      this.facultyName = res.data;
+      this.faculties = res.data;
     });
     // 班级下拉框数据
     ApiClassInfo.getData(res => {
-      this.className = res.data;
+      this.classInfos = res.data;
     });
   },
   methods: {

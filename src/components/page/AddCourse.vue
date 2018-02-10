@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
                 <el-form-item label="课程名称" prop="courseName">
-                    <el-input v-model="form.courseName" autofocus ref="inputRef"></el-input>
+                    <el-input v-model.trim="form.courseName" autofocus ref="inputRef"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
@@ -30,6 +30,19 @@
 import { ApiCourse } from "../../service/apis";
 export default {
   data: function() {
+    // 验证是否存在
+    var isExist = (rule, value, callback) => {
+      if (this.form.courseName != "") {
+        ApiCourse.isExist(this.form.courseName, res => {
+          console.log(res);
+          if (res.data && res.data.length > 0) {
+            callback(new Error("该课程已存在，请重新输入"));
+          } else {
+            callback();
+          }
+        });
+      }
+    };
     return {
       status: "添加",
       form: {
@@ -37,7 +50,11 @@ export default {
       },
       rules: {
         courseName: [
-          { required: true, message: "请输入课程名称", trigger: "blur" }
+          { required: true, message: "请输入课程名称", trigger: "blur" },
+          {
+            validator: isExist,
+            trigger: "blur"
+          }
         ]
       }
     };
@@ -88,9 +105,9 @@ export default {
         }
       });
     },
-    resetSubmit(form){
-        this.form.courseName="";
-        this.$refs.inputRef.$el.children[0].focus();
+    resetSubmit(form) {
+      this.form.courseName = "";
+      this.$refs.inputRef.$el.children[0].focus();
     }
   }
 };

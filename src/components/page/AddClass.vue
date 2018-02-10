@@ -9,35 +9,58 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="年级" prop="cyear">
-					<el-select v-model.number="form.cyear"  class="handle-select mr10" @change="isClassNameExist">
-		                <el-option
-			                v-for="t in cyears"
-			                :key="t.val"
-			                :label="t.val"
-			                :value="t.val">
-			            </el-option>
-		            </el-select>
+  					      <el-select v-model.number="form.cyear"  class="handle-select mr10" @change="isClassNameExist">
+  		                <el-option
+  			                v-for="t in cyears"
+  			                :key="t.val"
+  			                :label="t.val"
+  			                :value="t.val">
+  			            </el-option>
+  		            </el-select>
                 </el-form-item>
+                
                 <el-form-item label="专业" prop="major">
-					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
-		                <!-- <el-option key="1" label="广东省" value="广东省"></el-option> -->
-						<el-option
-			                v-for="t in majors"
-			                :key="t._id"
-			                :label="t.majorName"
-			                :value="t._id">
-			            </el-option>
-		            </el-select>
+        					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
+        						<el-option
+    			                v-for="t in majors"
+    			                :key="t._id"
+    			                :label="t.majorName"
+    			                :value="t._id">
+    			            </el-option>
+    		            </el-select>
                 </el-form-item>
+                
                 <el-form-item label="班级" prop="cno">
-					<el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
-		                <el-option
-			                v-for="t in cnos"
-			                :key="t.val"
-			                :label="t.val"
-			                :value="t.val">
-			            </el-option>
-		            </el-select>
+  				      	<el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
+  		                <el-option
+  			                v-for="t in cnos"
+  			                :key="t.val"
+  			                :label="t.val"
+  			                :value="t.val">
+  			            </el-option>
+  		            </el-select>
+                </el-form-item>
+                
+                <el-form-item label="院系" prop="faculty">
+        					<el-select v-model="form.faculty"  class="handle-select mr10" loading-text="加载中" no-match-text>
+        						<el-option
+    			                v-for="t in facultys"
+    			                :key="t._id"
+    			                :label="t.facultyName"
+    			                :value="t._id">
+    			            </el-option>
+    		            </el-select>
+                </el-form-item>
+                
+                <el-form-item label="辅导员" prop="counselor">
+        					<el-select v-model="form.counselor"  class="handle-select mr10" loading-text="加载中" no-match-text>
+        						<el-option
+    			                v-for="t in counselors"
+    			                :key="t._id"
+    			                :label="t.name"
+    			                :value="t._id">
+    			            </el-option>
+    		            </el-select>
                 </el-form-item>
                 
                 <el-form-item>
@@ -52,7 +75,7 @@
       	<span>该班级已存在，请重新操作</span>
     	  <span slot="footer" class="dialog-footer">
     	    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-    	    <!-- <el-button type="primary" >确 定</el-button> -->
+    	    <el-button type="primary" @click="clearSelected">重置</el-button>
     	  </span>
     </el-dialog>
     </div>
@@ -65,7 +88,12 @@
 </style>
 
 <script>
-import { ApiClassInfo, ApiMajor } from "../../service/apis";
+import {
+  ApiClassInfo,
+  ApiMajor,
+  ApiFaculty,
+  ApiCounselor
+} from "../../service/apis";
 export default {
   data: function() {
     // 验证是否存在
@@ -84,31 +112,30 @@ export default {
     //   }
     // };
     return {
+      isClassExist: false,
       dialogVisible: false,
       dialogMsg: "",
       cyears: [],
       majors: [],
       cnos: [],
+
+      counselors: [],
+      facultys: [],
       status: "添加",
       className: "",
       form: {
         cyear: "",
         major: "",
-        cno: ""
+        cno: "",
+        faculty: "",
+        counselor: ""
       },
       rules: {
-        cyear: [
-          { required: true, type: "number", message: "请选择年级" }
-          // { validator: isExist, trigger: "change" }
-        ],
-        major: [
-          { required: true, message: "请选择专业" }
-          // { validator: isExist, trigger: "change" }
-        ],
-        cno: [
-          { required: true, type: "number", message: "请选择班级" }
-          // { validator: isExist, trigger: "change" }
-        ]
+        cyear: [{ required: true, type: "number", message: "请选择年级" }],
+        major: [{ required: true, message: "请选择专业" }],
+        cno: [{ required: true, type: "number", message: "请选择班级" }],
+        faculty: [{ required: true, message: "请选择院系" }],
+        counselor: [{ required: true, message: "请选择辅导员" }]
         // cno: [{ required: true, message: "请选择班级", trigger: "change" },  { type: 'number', message: '年龄必须为数字值'}]
       }
     };
@@ -117,6 +144,14 @@ export default {
     // 专业
     ApiMajor.getData(res => {
       this.majors = res.data;
+    });
+    // 院系
+    ApiFaculty.getData(res => {
+      this.facultys = res.data;
+    });
+    // 辅导员
+    ApiCounselor.getData(res => {
+      this.counselors = res.data;
     });
     // 年级
     var year = new Date().getFullYear();
@@ -144,10 +179,10 @@ export default {
   },
   mounted: function() {},
   methods: {
-    // clearSelected() {
-    //   this.dialogVisible = false;
-    //   // this.resetSubmit("form");
-    // },
+    clearSelected() {
+      this.dialogVisible = false;
+      this.resetSubmit("form");
+    },
     isClassNameExist() {
       if (
         this.form.major != "" &&
@@ -156,27 +191,32 @@ export default {
       ) {
         let major = {};
         major = this.majors.find(item => {
-          console.log(item);
+          // console.log(item);
           return item._id == this.form.major;
         });
         this.className =
           this.form.cyear + "级" + major.majorName + this.form.cno + "班";
-        console.log(this.className);
+        // console.log(this.className);
         ApiClassInfo.isExist(this.className, res => {
           // console.log(res);
           if (res.data && res.data.length > 0) {
             // this.$message.error("该班级已存在，请重新操作");
             this.dialogVisible = true;
+            // console.log(this.className + "存在了。。。。。。。");
+            this.isClassExist = true;
+          } else {
+            // console.log("不存在~~~");
+            this.isClassExist = false;
           }
         });
-      } else return false;
+      } else this.isClassExist = false;
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid && this.isClassNameExist()) {
+        this.isClassNameExist();
+        if (valid && !this.isClassExist) {
           let major = {};
           major = this.majors.find(item => {
-            console.log(item);
             return item._id == this.form.major;
           });
           this.form.className =
@@ -194,6 +234,7 @@ export default {
             });
           } else {
             // 新增
+            console.log("添加");
             ApiClassInfo.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");
