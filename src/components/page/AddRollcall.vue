@@ -80,7 +80,7 @@ export default {
       arranges: [],
       status: "添加",
       form: {
-        rollcallTime: "",
+        rollcallTime: Date.now(),
         actual: "",
         fact: "",
         classInfo: "",
@@ -90,7 +90,7 @@ export default {
       rules: {
         classInfo: { required: true, message: "请选择班级" },
         arrange: { required: true, message: "请选择排课" },
-        rollcallTime: { required: true, message: "请选择时间" },
+        // rollcallTime: { required: true, message: "请选择时间" },
         actual: [
           { required: true, message: "请输入人数" },
           { type: "number", message: "人数必须为数字值" }
@@ -103,16 +103,18 @@ export default {
     };
   },
   created: function() {
+    
     // 班级
     ApiClassInfo.getData(res => {
-      const cs = [];
-      for (const k in res.data) {
-        const c = res.data[k];
-        // console.log(c);
-        c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
-        cs.push(c);
-      }
-      this.classInfos = cs;
+      // const cs = [];
+      // for (const k in res.data) {
+      //   const c = res.data[k];
+      //   // console.log(c);
+      //   c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
+      //   cs.push(c);
+      // }
+      console.log(res.data);
+      this.classInfos = res.data;
     });
     // 课程
     ApiArrange.getData(res => {
@@ -136,6 +138,9 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if (this.form.rollcallTime=="") {
+            delete this.form.rollcallTime
+          }
           // 修改
           if (this.id) {
             console.log("修改");

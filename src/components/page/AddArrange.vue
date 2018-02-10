@@ -139,14 +139,16 @@ export default {
   created: function() {
     // 班级
     ApiClassInfo.getData(res => {
-      const cs = [];
-      for (const k in res.data) {
-        const c = res.data[k];
-        console.log(c);
-        c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
-        cs.push(c);
-      }
-      this.classInfos = cs;
+      // const cs = [];
+      // for (const k in res.data) {
+      //   const c = res.data[k];
+      //   console.log(c);
+      //   c.className = c.cyear + "级" + c.major.majorName + c.cno + "班";
+      //   res.data.push(c);
+      // }
+      console.log(res.data);
+      this.classInfos = res.data;
+      // console.log(this.classInfos);
     });
     // 课程
     ApiCourse.getData(res => {
