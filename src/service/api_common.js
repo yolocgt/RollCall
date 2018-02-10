@@ -57,7 +57,7 @@ export default class c_Api {
 			.then((res) => {
 				// console.log('回调函数。。');
 				// 获取的分页数据
-				console.log(res);
+				console.log(res.data.data.res);
 				callback(res.data);
 			}).catch((err) => {
 				console.log(err);
@@ -66,7 +66,6 @@ export default class c_Api {
 
 	// 判断一个实体是否存在
 	isExist(name, callback) {
-		if (this.mName == "classInfo") { this.mName = "class"; }
 		axios.get(`${global.ApiUrl}/${this.mName}/exists/${name}`).then((res) => {
 			console.log(res.data);
 			callback(res.data);

@@ -66,7 +66,7 @@ export default {
     };
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.id.trim() != "") {
+      if (this.form.id != "") {
         login.exists(this.form.id, this.$cookie.get("userrole"), res => {
           // console.log(res);
           if (res.data && res.data.length > 0) {
