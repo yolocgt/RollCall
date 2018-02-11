@@ -73,4 +73,15 @@ export default class c_Api {
 			console.log(err);
 		})
 	}
+	
+	
+	// 查询学生数量
+	queryStuCount(classidObj,callback) {
+		axios.post(`${global.ApiUrl}/${this.mName}/count/`,classidObj).then((res) => {
+			console.log(res);
+			callback(res);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
 }
