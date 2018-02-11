@@ -19,7 +19,7 @@
     	            </el-select>
                 </el-form-item>
                 <el-form-item label="学号" prop="id">
-                    <el-input v-model="form.id"></el-input>
+                    <el-input v-model.number="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
@@ -107,7 +107,7 @@
 </style>
 
 <script>
-import {  ApiClassInfo, ApiStudent } from "../../service/apis";
+import { ApiClassInfo, ApiStudent } from "../../service/apis";
 import login from "../../service/api_login";
 
 export default {
@@ -136,13 +136,13 @@ export default {
         phone: "",
         // faculty: "",
         classInfo: "",
-        birth: "",
+        birth: ""
       },
       rules: {
         name: [{ required: true, message: "请输入学生姓名" }],
         sex: [{ required: true, message: "请选择性别" }],
         id: [
-          { required: true, message: "请输入学号" },
+          { required: true, type: "number", message: "请输入学号" },
           {
             validator: isExist,
             trigger: "blur"

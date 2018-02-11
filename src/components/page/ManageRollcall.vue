@@ -8,9 +8,13 @@
         </div>
         <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="arrange.learnYear" label="学年" > </el-table-column>
+            <el-table-column prop="arrange.learnTerm" label="学期" > </el-table-column>
             <el-table-column prop="arrange.classInfo.className" label="班级" > </el-table-column>
             <el-table-column prop="arrange.course.courseName" label="课程" > </el-table-column>
-            <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" > </el-table-column>
+            <el-table-column prop="arrange.teacher.name" label="教师" > </el-table-column>
+            <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="115"> </el-table-column>
+            <el-table-column prop="arrange.section" label="节次" > </el-table-column>
             <el-table-column prop="actual" label="总数" > </el-table-column>
             <el-table-column prop="fact" label="人数" > </el-table-column>
             <el-table-column label="操作" width="180">
@@ -119,10 +123,10 @@ export default {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
-        this.getDataByPage();
+          this.getDataByPage();
         } else {
           this.$message.success("删除失败！");
-        this.getDataByPage();
+          this.getDataByPage();
         }
         this.getDataByPage();
       });
