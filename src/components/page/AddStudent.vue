@@ -27,7 +27,7 @@
                 <el-form-item label="家庭住址" prop="address">
                     <el-input v-model="form.address"></el-input>
                 </el-form-item>
-				 <el-form-item label="院系名称" prop="faculty">
+				 <!-- <el-form-item label="院系名称" prop="faculty">
     				      <el-select v-model="form.faculty" placeholder="选择院系" class="handle-select mr10">
     	                <el-option 
                         v-for="f in faculties" 
@@ -35,7 +35,7 @@
                         :label="f.facultyName" 
                         :value="f._id"></el-option>
     	            </el-select>
-                </el-form-item>
+                </el-form-item> -->
 				 <el-form-item label="班级名称" prop="classInfo">
     				      <el-select v-model="form.classInfo" placeholder="选择班级" class="handle-select mr10">
     	                <el-option
@@ -107,7 +107,7 @@
 </style>
 
 <script>
-import { ApiFaculty, ApiClassInfo, ApiStudent } from "../../service/apis";
+import {  ApiClassInfo, ApiStudent } from "../../service/apis";
 import login from "../../service/api_login";
 
 export default {
@@ -134,7 +134,7 @@ export default {
         id: "",
         address: "",
         phone: "",
-        faculty: "",
+        // faculty: "",
         classInfo: "",
         birth: "",
       },
@@ -165,9 +165,9 @@ export default {
       });
     }
     // 学院下拉框数据
-    ApiFaculty.getData(res => {
-      this.faculties = res.data;
-    });
+    // ApiFaculty.getData(res => {
+    //   this.faculties = res.data;
+    // });
     // 班级下拉框数据
     ApiClassInfo.getData(res => {
       this.classInfos = res.data;

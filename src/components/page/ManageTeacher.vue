@@ -25,7 +25,7 @@
             <el-table-column prop="id" label="教师号" sortable > </el-table-column>
             <el-table-column prop="phone" label="电话"> </el-table-column>
             <el-table-column prop="password" label="密码" > </el-table-column>
-            <el-table-column prop="facultyName.facultyName" label="学院" > </el-table-column>
+            <el-table-column prop="faculty.facultyName" label="所属院系" > </el-table-column>
             <el-table-column label="操作" width="150">
                 <template  slot-scope="scope">
                     <el-button size="small"

@@ -27,7 +27,7 @@
             <el-table-column prop="address" label="住址" > </el-table-column>
             <el-table-column prop="birth" :formatter="dateFormat" label="生日" > </el-table-column>
             <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
-            <el-table-column prop="faculty.facultyName" label="学院" > </el-table-column>
+            <el-table-column prop="classInfo.faculty.facultyName" label="学院" > </el-table-column>
             <el-table-column prop="classInfo.className" label="班级" > </el-table-column>
             <el-table-column label="操作" width="150">
                 <template  slot-scope="scope">

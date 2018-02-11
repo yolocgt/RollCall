@@ -24,10 +24,10 @@
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
                 </el-form-item>
-				 <el-form-item label="院系名称" prop="facultyName">
-    				      <el-select v-model="form.facultyName" placeholder="选择院系" class="handle-select mr10">
+				 <el-form-item label="院系名称" prop="faculty">
+    				      <el-select v-model="form.faculty" placeholder="选择院系" class="handle-select mr10">
     	                <el-option 
-                        v-for="f in facultyName" 
+                        v-for="f in facultys" 
                         :key="f._id" 
                         :label="f.facultyName" 
                         :value="f._id"></el-option>
@@ -105,7 +105,7 @@ export default {
     };
     return {
       imageUrl: "",
-      facultyName: "",
+      facultys: "",
       className: "",
       status: "添加",
       form: {
@@ -113,7 +113,7 @@ export default {
         sex: "",
         id: "",
         phone: "",
-        facultyName: ""
+        faculty: ""
       },
       rules: {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
@@ -148,7 +148,7 @@ export default {
     }
     // 学院下拉框数据
     ApiFaculty.getData(res => {
-      this.facultyName = res.data;
+      this.facultys = res.data;
     });
   },
   methods: {
