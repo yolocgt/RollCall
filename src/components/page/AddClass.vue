@@ -96,23 +96,8 @@ import {
 } from "../../service/apis";
 export default {
   data: function() {
-    // 验证是否存在
-    // var isExist = (rule, value, callback) => {
-    //   console.log(this.form.cyear);
-    //   console.log(this.form.major);
-    //   if (this.className != "") {
-    //     ApiClassInfo.isExist(this.className, res => {
-    //       // console.log(res);
-    //       if (res.data && res.data.length > 0) {
-    //         callback(new Error("该班级已存在，请重新操作"));
-    //       } else {
-    //         callback();
-    //       }
-    //     });
-    //   }
-    // };
     return {
-      isClassExist: false,
+      isExist: false,
       dialogVisible: false,
       dialogMsg: "",
       cyears: [],
@@ -122,7 +107,6 @@ export default {
       counselors: [],
       facultys: [],
       status: "添加",
-      className: "",
       form: {
         cyear: "",
         major: "",
@@ -173,17 +157,14 @@ export default {
       this.status = "修改";
       ApiClassInfo.getDataById(this.id, res => {
         console.log(res);
+        this.o_className = res.data.className;
         this.form = res.data;
       });
     }
   },
-  mounted: function() {},
-  methods: {
-    clearSelected() {
-      this.dialogVisible = false;
-      this.resetSubmit("form");
-    },
-    isClassNameExist() {
+  computed: {
+    // 生成班级名
+    className: function() {
       if (
         this.form.major != "" &&
         this.form.cyear != "" &&
@@ -191,46 +172,40 @@ export default {
       ) {
         let major = {};
         major = this.majors.find(item => {
-          // console.log(item);
           return item._id == this.form.major;
         });
-        this.className =
-          this.form.cyear + "级" + major.majorName + this.form.cno + "班";
-        // console.log(this.className);
+        return this.form.cyear + "级" + major.majorName + this.form.cno + "班";
+      }
+    }
+  },
+  methods: {
+    clearSelected() {
+      this.dialogVisible = false;
+      this.resetSubmit("form");
+    },
+    isClassNameExist() {
+      console.log(this.className);
+      if (this.className && this.className != this.o_className) {
         ApiClassInfo.isExist(this.className, res => {
-          // console.log(res);
           if (res.data && res.data.length > 0) {
-            // this.$message.error("该班级已存在，请重新操作");
-            this.dialogVisible = true;
-            // console.log(this.className + "存在了。。。。。。。");
-            this.isClassExist = true;
-          } else {
-            // console.log("不存在~~~");
-            this.isClassExist = false;
-          }
+            this.dialogVisible = true; // this.$message.error("该班级已存在，请重新操作");
+            this.isExist = true; // console.log(this.className + "存在了。。。。。。。");
+          } else this.isExist = false; // console.log("不存在~~~");
         });
-      } else this.isClassExist = false;
+      } else this.isExist = false;
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        this.isClassNameExist();
-        if (valid && !this.isClassExist) {
-          let major = {};
-          major = this.majors.find(item => {
-            return item._id == this.form.major;
-          });
-          this.form.className =
-            this.form.cyear + "级" + major.majorName + this.form.cno + "班";
-          // console.log(this.form.className);
+        if (valid && !this.isClassNameExist() && !this.isExist) {
+          this.form.className = this.className;
+          // console.log("提交前的班级名：" + this.form.className);
           // 修改
           if (this.id) {
             console.log("修改");
             ApiClassInfo.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
-              } else {
-                this.$message.error("修改失败！");
-              }
+              } else this.$message.error("修改失败！");
             });
           } else {
             // 新增
@@ -238,9 +213,7 @@ export default {
             ApiClassInfo.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");
-              } else {
-                this.$message.error("添加失败！");
-              }
+              } else this.$message.error("添加失败！");
             });
           }
           this.$router.push({ name: "manageclass" });
