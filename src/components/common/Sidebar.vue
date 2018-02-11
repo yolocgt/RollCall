@@ -3,14 +3,14 @@
         <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router>
               <template v-for="item in items">
                   <template v-if="item.subs">
-                      <el-submenu :index="item.index">
-                          <template slot="title" @click="hh()"><i :class="item.icon"></i>{{ item.title }}</template>
+                      <el-submenu :index="item.index" :key="item.index">
+                          <template slot="title"><i :class="item.icon"></i>{{ item.title }}</template>
                           <el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}
                           </el-menu-item>
                       </el-submenu>
                   </template>
                   <template v-else>
-                      <el-menu-item :index="item.index">
+                      <el-menu-item :index="item.index" :key="item.index">
                           <i :class="item.icon"></i>{{ item.title }}
                       </el-menu-item>
                   </template>
@@ -144,11 +144,11 @@ export default {
               title: "管理学生信息"
             },
             {
-              index: "addheadteacher",
+              index: "addcounselor",
               title: "添加辅导员信息"
             },
             {
-              index: "manageheadteacher",
+              index: "managecounselor",
               title: "管理辅导员信息"
             },
             {
@@ -160,7 +160,7 @@ export default {
               title: "管理任课教师"
             }
           ]
-        },
+        }
         // {
         //   icon: "el-icon-menu",
         //   index: "7",
@@ -212,8 +212,7 @@ export default {
       );
     } else if (role == "student") {
       //学生
-      this.items.push(
-        {
+      this.items.push({
         icon: "el-icon-setting",
         index: "system",
         title: "系统管理",
@@ -231,34 +230,34 @@ export default {
             title: "修改登录密码  "
           }
         ]
-      },
-      );
+      });
     } else if (role == "teacher") {
       //教师
-      this.items.push({
-        icon: "el-icon-menu",
-        index: "rollcall",
-        title: "课程信息管理",
-        subs: [
-          {
-            index: "addcourse",
-            title: "编辑课程信息"
-          },
-          {
-            index: "managecourse",
-            title: "管理课程信息"
-          },
-          {
-            index: "addarrange",
-            title: "编辑排课信息"
-          },
-          {
-            index: "managearrange",
-            title: "管理排课信息"
-          }
-        ]
-      },
-      {
+      this.items.push(
+        {
+          icon: "el-icon-menu",
+          index: "rollcall",
+          title: "课程信息管理",
+          subs: [
+            {
+              index: "addcourse",
+              title: "编辑课程信息"
+            },
+            {
+              index: "managecourse",
+              title: "管理课程信息"
+            },
+            {
+              index: "addarrange",
+              title: "编辑排课信息"
+            },
+            {
+              index: "managearrange",
+              title: "管理排课信息"
+            }
+          ]
+        },
+        {
           icon: "el-icon-star-on",
           index: "user",
           title: "学生信息管理",
@@ -287,9 +286,9 @@ export default {
               title: "管理点名信息"
             }
           ]
-        },
+        }
       );
-    } else if (role == "headteacher") {
+    } else if (role == "counselor") {
       //辅导员
       this.items.push({
         icon: "el-icon-menu",

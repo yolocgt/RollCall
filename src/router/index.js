@@ -107,7 +107,7 @@ export default new Router({
                 , {
                     path: '/managecourse',
                     name:'managecourse',
-                    component: resolve => require(['../components/page//ManageCourse.vue'], resolve)    // 管理课程
+                    component: resolve => require(['../components/page/ManageCourse.vue'], resolve)    // 管理课程
                 }
                 , {
                     path: '/addstudent',
@@ -117,7 +117,7 @@ export default new Router({
                 , {
                     path: '/managestudent',
                     name: 'managestudent',
-                    component: resolve => require(['../components/page//ManageStudent.vue'], resolve)    // 管理学生
+                    component: resolve => require(['../components/page/ManageStudent.vue'], resolve)    // 管理学生
                 }
                 , {
                     path: '/addteacher',
@@ -127,17 +127,17 @@ export default new Router({
                 , {
                     path: '/manageteacher',
                     name: 'manageteacher',
-                    component: resolve => require(['../components/page//ManageTeacher.vue'], resolve)    // 管理教师
+                    component: resolve => require(['../components/page/ManageTeacher.vue'], resolve)    // 管理教师
                 }
                 , {
-                    path: '/addheadteacher',
-                    name: 'addheadteacher',
-                    component: resolve => require(['../components/page/AddHeadteacher.vue'], resolve)    // 添加辅导员
+                    path: '/addcounselor',
+                    name: 'addcounselor',
+                    component: resolve => require(['../components/page/AddCounselor.vue'], resolve)    // 添加辅导员
                 }
                 , {
-                    path: '/manageheadteacher',
-                    name: 'manageheadteacher',
-                    component: resolve => require(['../components/page//ManageHeadteacher.vue'], resolve)    // 管理辅导员
+                    path: '/managecounselor',
+                    name: 'managecounselor',
+                    component: resolve => require(['../components/page/ManageCounselor.vue'], resolve)    // 管理辅导员
                 }
                 , {
                     path: '/addarrange',
@@ -147,7 +147,7 @@ export default new Router({
                 , {
                     path: '/managearrange',
                     name: 'managearrange',
-                    component: resolve => require(['../components/page//ManageArrange.vue'], resolve)    // 管理排课
+                    component: resolve => require(['../components/page/ManageArrange.vue'], resolve)    // 管理排课
                 }
                 , {
                     path: '/addrollcall',
@@ -157,7 +157,7 @@ export default new Router({
                 , {
                     path: '/managerollcall',
                     name: 'managerollcall',
-                    component: resolve => require(['../components/page//ManageRollcall.vue'], resolve)    // 管理点名信息
+                    component: resolve => require(['../components/page/ManageRollcall.vue'], resolve)    // 管理点名信息
                 }
 
             ]
