@@ -114,16 +114,14 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.id != "") {
+      if (this.form.id != "" && this.form.id != this.o_id) {
         login.exists(this.form.id, "student", res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该学号已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       imageUrl: "",
@@ -139,7 +137,6 @@ export default {
         faculty: "",
         classInfo: "",
         birth: "",
-        account: ""
       },
       rules: {
         name: [{ required: true, message: "请输入学生姓名" }],
@@ -163,6 +160,7 @@ export default {
       this.status = "修改";
       ApiStudent.getDataById(this.id, res => {
         console.log(res);
+        this.o_id = res.data.id;
         this.form = res.data;
       });
     }

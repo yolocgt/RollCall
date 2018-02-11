@@ -32,16 +32,14 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.majorName != "") {
+      if (this.form.majorName != "" && this.form.majorName != this.o_majorName) {
         ApiMajor.isExist(this.form.majorName, res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该专业已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       status: "添加",
@@ -68,6 +66,7 @@ export default {
       this.status = "修改";
       ApiMajor.getDataById(this.id, res => {
         console.log(res);
+        this.o_majorName = res.data.majorName;
         this.form = res.data;
       });
     }

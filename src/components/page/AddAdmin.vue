@@ -66,16 +66,14 @@ export default {
     };
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.id != "") {
+      if (this.form.id != "" && this.form.id != this.o_id) {
         login.exists(this.form.id, this.$cookie.get("userrole"), res => {
           // console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该账号已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
 
     return {
@@ -133,6 +131,7 @@ export default {
       this.status = "修改";
       ApiAdmin.getDataById(this.id, res => {
         console.log(res);
+        this.o_id = res.data.id;
         this.form = res.data;
       });
     }

@@ -19,7 +19,7 @@
     	            </el-select>
                 </el-form-item>
                 <el-form-item label="工号" prop="id">
-                    <el-input v-model="form.id"></el-input>
+                    <el-input v-model.number="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
@@ -104,16 +104,14 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.id != "") {
+      if (this.form.id != "" && this.form.id != this.o_id) {
         login.exists(this.form.id, "counselor", res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该工号已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       imageUrl: "",
@@ -124,22 +122,16 @@ export default {
         name: "",
         sex: "",
         id: "",
-        phone: "",
-        facultyName: "",
-        className: "",
-        account: ""
+        phone: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
+        name: [{ required: true, message: "请输入姓名" }],
+        sex: [{ required: true, message: "请选择性别" }],
         id: [
-          { required: true, message: "请输入工号", trigger: "blur" },
-          {
-            validator: isExist,
-            trigger: "blur"
-          }
+          { required: true, type: "number", message: "请输入工号" },
+          { validator: isExist }
         ],
-        phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
+        phone: [{ required: true, message: "请输入电话" }]
       }
     };
   },
@@ -151,6 +143,7 @@ export default {
       this.status = "修改";
       ApiCounselor.getDataById(this.id, res => {
         console.log(res);
+        this.o_id = res.data.id;
         this.form = res.data;
       });
     }
@@ -192,7 +185,7 @@ export default {
               // 跳转管理员管理路由
             });
           }
-          this.$router.push({ name: "manageheadteacher" });
+          this.$router.push({ name: "managecounselor" });
         }
       });
     },

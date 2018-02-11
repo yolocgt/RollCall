@@ -32,16 +32,17 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.courseName != "") {
+      if (
+        this.form.courseName != "" &&
+        this.form.courseName != this.o_courseName
+      ) {
         ApiCourse.isExist(this.form.courseName, res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该课程已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       status: "添加",
@@ -68,6 +69,7 @@ export default {
       this.status = "修改";
       ApiCourse.getDataById(this.id, res => {
         console.log(res);
+        this.o_courseName = res.data.courseName;
         this.form = res.data;
       });
     }

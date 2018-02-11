@@ -30,12 +30,6 @@
 </template>
 
 <script>
-import {
-  ApiStudent,
-  ApiTeacher,
-  ApiHeadteacher,
-  ApiAdmin
-} from "../../service/apis";
 import ApiLogin from "../../service/api_login";
 import crypto from "crypto-js";
 export default {

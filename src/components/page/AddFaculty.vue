@@ -43,16 +43,17 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.facultyName.trim() != "") {
+      if (
+        this.form.facultyName.trim() != "" &&
+        this.form.facultyName != this.o_facultyName
+      ) {
         ApiFaculty.isExist(this.form.facultyName, res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该院系已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       status: "添加",
@@ -91,6 +92,7 @@ export default {
       this.status = "修改";
       ApiFaculty.getDataById(this.id, res => {
         console.log(res);
+        this.o_facultyName = res.data.facultyName;
         this.form = res.data;
       });
     }

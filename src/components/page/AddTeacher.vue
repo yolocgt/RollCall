@@ -19,7 +19,7 @@
     	            </el-select>
                 </el-form-item>
                 <el-form-item label="教师号" prop="id">
-                    <el-input v-model.trim="form.id"></el-input>
+                    <el-input v-model.number="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
@@ -94,16 +94,14 @@ export default {
   data: function() {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
-      if (this.form.id != "") {
+      if (this.form.id != "" && this.form.id != this.o_id) {
         login.exists(this.form.id, "teacher", res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
             callback(new Error("该教师号已存在，请重新输入"));
-          } else {
-            callback();
-          }
+          } else callback();
         });
-      }
+      } else callback();
     };
     return {
       imageUrl: "",
@@ -121,7 +119,12 @@ export default {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
         id: [
-          { required: true, message: "请输入学号", trigger: "blur" },
+          {
+            required: true,
+            type: "number",
+            message: "请输入教师号",
+            trigger: "blur"
+          },
           {
             validator: isExist,
             trigger: "blur"
@@ -139,6 +142,7 @@ export default {
       this.status = "修改";
       ApiTeacher.getDataById(this.id, res => {
         console.log(res);
+        this.o_id = res.data.id;
         this.form = res.data;
       });
     }
