@@ -17,11 +17,11 @@
         </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="learnYear" label="学年" sortable width="150">
+            <el-table-column prop="learnYear" label="学年" sortable width="105">
             </el-table-column>
-            <el-table-column prop="learnTerm" label="学期" width="120">
+            <el-table-column prop="learnTerm" label="学期" width="95">
             </el-table-column>
-            <el-table-column prop="classInfo.className" label="班级" >
+            <el-table-column prop="classInfo.className" label="班级"  >
             </el-table-column>
             <el-table-column prop="teacher.name" label="教师" >
             </el-table-column>
@@ -29,9 +29,20 @@
             </el-table-column>
             <el-table-column prop="section" label="节次" >
             </el-table-column>
-            <el-table-column prop="classroom" label="教室" >
+            <el-table-column prop="classroom" label="教室" width="66">
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="点名" width="150">
+                <template  slot-scope="scope">
+                    <el-button size="small" type="success">
+                      <router-link :to="{path:'/addrollcall',query: {id: scope.row._id}}">点名</router-link>
+                    </el-button>
+                    <el-button size="small" type="info">
+                      查看<i class="el-icon-arrow-right">
+                    </i></el-button>
+                    
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="140">
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -57,6 +68,11 @@
     </el-dialog>
     </div>
 </template>
+<style scoped>
+.el-button--success span a {
+  color: white;
+}
+</style>
 
 <script>
 import { ApiArrange } from "../../service/apis";

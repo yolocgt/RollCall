@@ -9,7 +9,7 @@
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item label="班级" prop="classInfo">
-					<el-select v-model="form.classInfo"  class="handle-select mr10" loading-text="加载中" no-match-text>
+					<el-select v-model="form.classInfo"  disabled class="handle-select mr10" loading-text="加载中" no-match-text>
 						<el-option
 			                v-for="t in classInfos"
 			                :key="t._id"
@@ -21,7 +21,7 @@
                 
                 
                 <el-form-item label="课程" prop="arrange">
-					<el-select v-model="form.arrange" class="handle-select mr10">
+					<el-select v-model="form.arrange" disabled class="handle-select mr10">
 		                <el-option
 			                v-for="t in arranges"
 			                :key="t._id"
@@ -103,7 +103,6 @@ export default {
     };
   },
   created: function() {
-    
     // 班级
     ApiClassInfo.getData(res => {
       // const cs = [];
@@ -119,8 +118,14 @@ export default {
     // 课程
     ApiArrange.getData(res => {
       this.arranges = res.data;
-      console.log('返回');
+      console.log("返回");
       console.log(this.arranges);
+    });
+
+    // 排课表数据操作
+    console.log(this.$route.query);
+    ApiArrange.getDataById(this.$route.query.id, res => {
+      console.log(res);
     });
 
     this.id = this.$route.params.id;
@@ -138,8 +143,8 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (this.form.rollcallTime=="") {
-            delete this.form.rollcallTime
+          if (this.form.rollcallTime == "") {
+            delete this.form.rollcallTime;
           }
           // 修改
           if (this.id) {

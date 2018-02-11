@@ -120,10 +120,10 @@ export default {
           index: "course",
           title: "点名信息管理",
           subs: [
-            {
-              index: "addrollcall",
-              title: "添加点名信息"
-            },
+            // {
+            //   index: "addrollcall",
+            //   title: "添加点名信息"
+            // },
             {
               index: "managerollcall",
               title: "管理点名信息"
