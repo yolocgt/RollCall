@@ -53,7 +53,7 @@
                 <el-form-item label="实到人数" prop="fact">
                     <!-- <el-input  v-model.number="form.fact" ></el-input> -->
                     <!-- <el-input-number v-model="form.fact" :min="1" :max="10" label="描述文字"></el-input-number> -->
-                    <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number>
+                    <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
                 </el-form-item>
                 
@@ -141,7 +141,7 @@ export default {
       //     return span
       // }
       // return h('span', {}, [`${option.name}-${option.mail}`])
-      
+
       o_classInfo: "",
       o_course: "",
       classInfo: "",
@@ -200,7 +200,11 @@ export default {
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
     },
-
+    renderFunc(h, option) {
+      // return <span> {" "} {option.key} - {option.label}{" "} </span>;
+      const span = h(span, {}, option.key + "-" + option.label);
+      return span;
+    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
