@@ -173,6 +173,9 @@ export default {
       ApiArrange.getDataById(this.id, res => {
         console.log(res);
         this.form = res.data;
+        this.form.classInfo=res.data.classInfo._id;
+        this.form.course=res.data.course._id;
+        console.log(res.data);
       });
     }
   },
