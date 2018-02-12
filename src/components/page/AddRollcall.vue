@@ -132,7 +132,7 @@ export default {
 
       ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
         console.log(res.data.data);
-        this.form.actual = res.data.data.count; //应到学生总数
+        this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
       });
     });
 
