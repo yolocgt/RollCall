@@ -53,15 +53,32 @@
                 <el-form-item label="实到人数" prop="fact">
                     <!-- <el-input  v-model.number="form.fact" ></el-input> -->
                     <!-- <el-input-number v-model="form.fact" :min="1" :max="10" label="描述文字"></el-input-number> -->
-                    
-                  <template>
                     <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number>
-                    
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
-                  </template>
-                    
                 </el-form-item>
                 
+                <el-form-item label="缺勤同学" prop="absence">
+                    <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
+                    
+                    <el-transfer
+                      v-model="value3"
+                      filterable
+                      :left-default-checked="[2, 3]"
+                      :right-default-checked="[1]"
+                      :render-content="renderFunc"
+                      :titles="['Source', 'Target']"
+                      :button-texts="['到左边', '到右边']"
+                      :format="{
+                        noChecked: '${total}',
+                        hasChecked: '${checked}/${total}'
+                      }"
+                       @change="handleChange"
+                      :data="data">
+                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
+                      <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
+                    </el-transfer>
+                    
+                </el-form-item>
                 
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">提交</el-button>
@@ -78,6 +95,11 @@
 .el-input-number {
   width: 220px;
 }
+
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
 </style>
 
 <script>
@@ -92,7 +114,34 @@ import {
 } from "../../service/apis";
 export default {
   data: function() {
+    const generateData = _ => {
+      const data = [];
+      for (let i = 1; i <= 15; i++) {
+        data.push({
+          key: i,
+          label: `备选项 ${i}`,
+          disabled: i % 4 === 0
+        });
+      }
+      return data;
+    };
     return {
+      data: generateData(),
+      value3: [1],
+      // renderFunc(h, option) {
+      //   return <span> {" "} {option.key} - {option.label}{" "} </span>;
+      // },
+      renderFunc(h, option) {
+        // return <span> {" "} {option.key} - {option.label}{" "} </span>;
+        const span = h(span, {}, option.key + "-" + option.label);
+        return span;
+      },
+      // renderFunc (h, option) {
+      //     const span = h(span, {}, option.name + '-' + option.mail)
+      //     return span
+      // }
+      // return h('span', {}, [`${option.name}-${option.mail}`])
+      
       o_classInfo: "",
       o_course: "",
       classInfo: "",
@@ -148,6 +197,10 @@ export default {
   },
   mounted: function() {},
   methods: {
+    handleChange(value, direction, movedKeys) {
+      console.log(value, direction, movedKeys);
+    },
+
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
