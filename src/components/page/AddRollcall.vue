@@ -92,8 +92,8 @@
                       }"
                       @change="handleChange"
                       :data="data">
-                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-                      <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
+                      <!-- <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button> -->
+                      <el-button class="transfer-footer" slot="right-footer" size="small" @click="roll">确定</el-button>
                     </el-transfer>
                     
                 </el-form-item>
@@ -132,20 +132,10 @@ import {
 } from "../../service/apis";
 export default {
   data: function() {
-    const generateData = _ => {
-      const data = [];
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-          disabled: i % 4 === 0
-        });
-      }
-      return data;
-    };
+    
     return {
-      data: generateData(),
-      value3: [1],
+      data: [],
+      value3: [],
       // renderFunc(h, option) {
       //   return <span> {" "} {option.key} - {option.label}{" "} </span>;
       // },
@@ -185,6 +175,9 @@ export default {
     };
   },
   created: function() {
+    const data = [];
+    var stus = {};
+
     // 排课表数据操作
     console.log(this.$route.query);
     var aid = this.$route.query.id; //排课记录_id
@@ -202,7 +195,22 @@ export default {
       ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
         console.log(res.data.data);
         this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
+
+        stus = res.data.data.res;
+        console.log("学生");
+        console.log(stus);
+
+        for (const i in stus) {
+          data.push({
+            key: stus[i]._id,
+            label: stus[i].name
+          });
+        }
+        console.log(data);
+        this.data = data;
+        console.log(this.data);
       });
+      
     });
 
     this.id = this.$route.query.id;
@@ -212,13 +220,19 @@ export default {
       ApiRollcall.getDataById(this.id, res => {
         console.log(res.data);
         // this.form = res.data;
-        this.o_classInfo = 2;
-        this.o_course = 3;
+        // this.o_classInfo = 2;
+        // this.o_course = 3;
       });
     }
   },
   mounted: function() {},
   methods: {
+    roll(){
+      // alert('roll')
+      console.log(this.value3);
+      
+    },
+    
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
     },

@@ -108,7 +108,7 @@ export default {
     },
     handleEdit(index, row) {
       console.log(row._id);
-      this.$router.push({ name: "addrollcall", params: { id: row._id } });
+      this.$router.push({ name: "addrollcall", query: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
