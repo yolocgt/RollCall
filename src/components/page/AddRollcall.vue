@@ -18,7 +18,7 @@
                 </el-form-item> -->
               
                 <el-form-item label="班级" prop="o_classInfo">
-					<el-select v-model="o_classInfo"  disabled class="handle-select mr10" loading-text="加载中" no-match-text>
+					<el-select v-model="o_classInfo"   class="handle-select mr10" loading-text="加载中" no-match-text>
 						<el-option
 			                :key="classInfo._id"
 			                :label="classInfo.className"
@@ -29,7 +29,7 @@
                 
                 
                 <el-form-item label="课程" prop="o_course">
-					<el-select v-model="o_course" disabled class="handle-select mr10">
+					<el-select v-model="o_course"  class="handle-select mr10">
 		                <el-option
 			                :key="course._id"
 			                :label="course.courseName"
@@ -47,6 +47,8 @@
                         </el-date-picker>
                       </div>
                 </el-form-item>
+                
+                
                    <el-form-item label="应到人数" prop="actual">
                     <el-input readonly  v-model.number="form.actual" ></el-input>
                 </el-form-item>
@@ -77,7 +79,7 @@
                     </el-transfer> -->
                     
                       <!-- :render-content="renderFunc" -->
-                     <!-- <el-transfer
+                     <el-transfer
                       v-model="value3"
                       filterable
                       :left-default-checked="[2, 3]"
@@ -92,12 +94,12 @@
                       :data="data">
                       <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
                       <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
-                    </el-transfer> -->
+                    </el-transfer>
                     
                 </el-form-item>
                 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -187,7 +189,9 @@ export default {
     console.log(this.$route.query);
     var aid = this.$route.query.id; //排课记录_id
     ApiArrange.getDataById(aid, res => {
+      console.log(aid);
       console.log("查找到排课数据记录：");
+      console.log(res.data);
       var arrange = res.data;
       this.form.arrange = aid;
       this.classInfo = arrange.classInfo;
@@ -201,13 +205,15 @@ export default {
       });
     });
 
-    this.id = this.$route.params.id;
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
       ApiRollcall.getDataById(this.id, res => {
-        // console.log(res);
-        this.form = res.data;
+        console.log(res.data);
+        // this.form = res.data;
+        this.o_classInfo = 2;
+        this.o_course = 3;
       });
     }
   },
