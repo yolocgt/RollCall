@@ -124,8 +124,8 @@ export default {
     //     console.log('按下Enter');
     //   }
     // };
-    console.log(this.$route.params);
-    this.id = this.$route.params.id;
+    console.log(this.$route);
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
