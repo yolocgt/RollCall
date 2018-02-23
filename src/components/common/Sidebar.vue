@@ -57,7 +57,7 @@ export default {
         {
           icon: "el-icon-setting",
           index: "faculty",
-          title: "院系班级管理",
+          title: "院系信息管理",
           subs: [
             {
               index: "addfaculty",
@@ -66,21 +66,36 @@ export default {
             {
               index: "managefaculty",
               title: "管理院系信息"
+            }
+          ]
+        },
+        {
+          icon: "el-icon-star-on",
+          index: "user",
+          title: "用户信息管理",
+          subs: [
+            {
+              index: "addcounselor",
+              title: "添加辅导员信息"
             },
             {
-              index: "addclass",
-              title: "添加班级信息"
+              index: "managecounselor",
+              title: "管理辅导员信息"
             },
             {
-              index: "manageclass",
-              title: "管理班级信息"
+              index: "addteacher",
+              title: "添加任课教师"
+            },
+            {
+              index: "manageteacher",
+              title: "管理任课教师"
             }
           ]
         },
         {
           icon: "el-icon-menu",
           index: "rollcall",
-          title: "课程排课管理",
+          title: "课程信息管理",
           subs: [
             {
               index: "addcourse",
@@ -89,14 +104,6 @@ export default {
             {
               index: "managecourse",
               title: "管理课程信息"
-            },
-            {
-              index: "addarrange",
-              title: "编辑排课信息"
-            },
-            {
-              index: "managearrange",
-              title: "管理排课信息"
             }
           ]
         },
@@ -116,24 +123,24 @@ export default {
           ]
         },
         {
-          icon: "el-icon-date",
-          index: "course",
-          title: "点名信息管理",
+          icon: "el-icon-star-on",
+          index: "classs",
+          title: "班级信息管理",
           subs: [
-            // {
-            //   index: "addrollcall",
-            //   title: "添加点名信息"
-            // },
             {
-              index: "managerollcall",
-              title: "管理点名信息"
+              index: "addclass",
+              title: "添加班级信息"
+            },
+            {
+              index: "manageclass",
+              title: "管理班级信息"
             }
           ]
         },
         {
           icon: "el-icon-star-on",
-          index: "user",
-          title: "用户信息管理",
+          index: "user2",
+          title: "学生信息管理",
           subs: [
             {
               index: "addstudent",
@@ -142,25 +149,33 @@ export default {
             {
               index: "managestudent",
               title: "管理学生信息"
+            }
+          ]
+        },
+        {
+          icon: "el-icon-date",
+          index: "course",
+          title: "排课点名管理",
+          subs: [
+            // {
+            //   index: "addrollcall",
+            //   title: "添加点名信息"
+            // },
+            {
+              index: "addarrange",
+              title: "编辑排课信息"
             },
             {
-              index: "addcounselor",
-              title: "添加辅导员信息"
+              index: "managearrange",
+              title: "管理排课信息"
             },
             {
-              index: "managecounselor",
-              title: "管理辅导员信息"
-            },
-            {
-              index: "addteacher",
-              title: "添加任课教师"
-            },
-            {
-              index: "manageteacher",
-              title: "管理任课教师"
+              index: "managerollcall",
+              title: "管理点名信息"
             }
           ]
         }
+
         // {
         //   icon: "el-icon-menu",
         //   index: "7",
