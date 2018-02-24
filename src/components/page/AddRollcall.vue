@@ -18,43 +18,75 @@
                 </el-form-item> -->
               
                 <el-form-item label="班级" prop="o_classInfo">
-					<el-select v-model="o_classInfo"   class="handle-select mr10" loading-text="加载中" no-match-text>
-						<el-option
-			                :key="classInfo._id"
-			                :label="classInfo.className"
-			                :value="classInfo._id">
-			            </el-option>
-		            </el-select>
+        					<el-select v-model="o_classInfo"   class="handle-select mr10" loading-text="加载中" no-match-text>
+        						<el-option
+  			                :key="classInfo._id"
+  			                :label="classInfo.className"
+  			                :value="classInfo._id">
+  			            </el-option>
+  		            </el-select>
                 </el-form-item>
                 
                 
                 <el-form-item label="课程" prop="o_course">
-					<el-select v-model="o_course"  class="handle-select mr10">
+        					<el-select v-model="o_course"  class="handle-select mr10">
 		                <el-option
 			                :key="course._id"
 			                :label="course.courseName"
 			                :value="course._id">
-			            </el-option>
-		            </el-select>
+			              </el-option>
+		             </el-select>
                 </el-form-item>
                 
-                   <el-form-item label="点名时间" prop="rollcallTime">
-                      <div class="block">
-                        <el-date-picker
-                          v-model="form.rollcallTime"
-                          type="datetime"
-                          placeholder="选择日期时间">
-                        </el-date-picker>
-                      </div>
+               <el-form-item label="点名时间" prop="rollcallTime">
+                  <div class="block">
+                    <el-date-picker
+                      v-model="form.rollcallTime"
+                      type="datetime"
+                      placeholder="选择日期时间">
+                    </el-date-picker>
+                  </div>
                 </el-form-item>
                 
                 
-                   <el-form-item label="应到人数" prop="actual">
-                    <el-input readonly  v-model.number="form.actual" ></el-input>
+               <el-form-item label="应到人数" prop="actual">
+                  <el-input readonly  v-model.number="form.actual" ></el-input>
                 </el-form-item>
+               
                 <el-form-item label="实到人数" prop="fact">
                     <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number>
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
+                </el-form-item>
+                
+                <el-form-item label="请假" prop="actual">
+                  <el-select v-model="leave" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.key"
+                      :label="item.label"
+                      :value="item.key">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="旷课" prop="actual">
+                  <el-select v-model="truancy" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.key"
+                      :label="item.label"
+                      :value="item.key">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="迟到早退" prop="actual">
+                  <el-select v-model="tardiness" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.key"
+                      :label="item.label"
+                      :value="item.key">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 
                 <el-form-item label="缺勤同学" prop="absence">
@@ -132,7 +164,6 @@ import {
 } from "../../service/apis";
 export default {
   data: function() {
-    
     return {
       data: [],
       value3: [],
@@ -149,6 +180,33 @@ export default {
       //     return span
       // }
       // return h('span', {}, [`${option.name}-${option.mail}`])
+      options: [
+        {
+          key: "选项1",
+          label: "黄金糕"
+        },
+        {
+          key: "选项2",
+          label: "双皮奶"
+        },
+        {
+          key: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          key: "选项4",
+          label: "龙须面"
+        },
+        {
+          key: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
+      // value5: [],
+      truancy:[],
+      tardiness:[],
+      leave:[],
+      value11: [],
 
       o_classInfo: "",
       o_course: "",
@@ -208,9 +266,10 @@ export default {
         }
         console.log(data);
         this.data = data;
-        console.log(this.data);
+        this.options = data;
+        console.clear();
+        console.log(this.options);
       });
-      
     });
 
     this.id = this.$route.query.id;
@@ -227,12 +286,11 @@ export default {
   },
   mounted: function() {},
   methods: {
-    roll(){
+    roll() {
       // alert('roll')
       console.log(this.value3);
-      
     },
-    
+
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
     },
