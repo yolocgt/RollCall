@@ -160,7 +160,8 @@ import {
   ApiTeacher,
   ApiCourse,
   ApiRollcall,
-  ApiStudent
+  ApiStudent,
+  ApiAbsence
 } from "../../service/apis";
 export default {
   data: function() {
@@ -203,9 +204,9 @@ export default {
         }
       ],
       // value5: [],
-      truancy:[],
-      tardiness:[],
-      leave:[],
+      truancy: [],
+      tardiness: [],
+      leave: [],
       value11: [],
 
       o_classInfo: "",
@@ -306,23 +307,43 @@ export default {
             delete this.form.rollcallTime; //取数据库默认时间值
           }
           // 修改
-          if (this.id) {
-            console.log("修改");
-            ApiRollcall.update(this.id, this.form, res => {
-              if (res.status == "y") {
-                this.$message.success("修改成功~");
-              } else this.$message.error("修改失败！");
+          // if (this.id) {
+          //   console.log("修改");
+          //   ApiRollcall.update(this.id, this.form, res => {
+          //     if (res.status == "y") {
+          //       this.$message.success("修改成功~");
+          //     } else this.$message.error("修改失败！");
+          //   });
+          // } else {
+          // 新增
+          // console.log(this.form);
+          ApiRollcall.save(this.form, res => {
+            if (res.status == "y") {
+              this.$message.success("添加成功~");
+            } else this.$message.error("添加失败！");
+            ApiRollcall.getData(data => {
+              console.log("添加后的数据哈。。");
+              // console.log(data.data);
+              // 本次新增的一条点名记录
+              var newRoll = data.data.reverse()[0];
+              console.log(newRoll);
+              var obj = {};
+              obj.rollcall = newRoll._id;
+              // obj.student=
+              // ApiAbsence.save()
+              for (let i = 0; i < this.leave.length; i++) {
+                var stu = this.leave[i];
+                console.log(stu);
+                obj.student = this.stu;
+                ApiAbsence.save(obj,(res) => {
+                  console.log(res);
+                  
+                });
+              }
             });
-          } else {
-            // 新增
-            // console.log(this.form);
-            ApiRollcall.save(this.form, res => {
-              if (res.status == "y") {
-                this.$message.success("添加成功~");
-              } else this.$message.error("添加失败！");
-            });
-          }
-          this.$router.push({ name: "managerollcall" });
+          });
+          // }
+          // this.$router.push({ name: "managerollcall" });
         }
       });
     },

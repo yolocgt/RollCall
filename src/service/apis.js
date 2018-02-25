@@ -14,7 +14,7 @@ var ApiCounselor = new c_Api('counselor');		//辅导员
 var ApiTeacher = new c_Api('teacher');			//教师
 var ApiArrange = new c_Api('arrange');			//排课
 var ApiRollcall = new c_Api('rollcall');		//点名
-
+var ApiAbsence = new c_Api('absence');	//请假
 // 导出
 export {
 	ApiAdmin,
@@ -26,5 +26,6 @@ export {
 	ApiCounselor,
 	ApiTeacher,
 	ApiArrange,
-	ApiRollcall
+	ApiRollcall,
+	ApiAbsence
 }
