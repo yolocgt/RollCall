@@ -16,7 +16,12 @@
             <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="115"> </el-table-column>
             <el-table-column prop="arrange.section" label="节次" > </el-table-column>
             <el-table-column prop="actual" label="总数" > </el-table-column>
-            <el-table-column prop="fact" label="人数" > </el-table-column>
+            <el-table-column   label="缺勤" >
+               <template slot-scope="scope">
+                 <!-- <a prop="fact" href="http://">{{scope.row.fact}}</a> -->
+                 <router-link :to="{path:'/manageabsence',query:{id:scope.row._id}}">{{scope.row.fact}}</router-link>
+               </template>
+             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
                     <el-button size="small"
