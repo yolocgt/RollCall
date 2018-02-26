@@ -20,10 +20,13 @@
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
-                    <el-button size="small"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <template v-if="scope.row.absenceReson=='旷课'">
+                      <el-button size="small" type="success" @click="handleHandLeave(scope.$index, scope.row)">销假</el-button>
+                    </template>
+                    <template v-else>
+                      <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
                 </template>
             </el-table-column>
         </el-table>
@@ -70,8 +73,8 @@ export default {
     };
   },
   created() {
-	this.getDataByPage();
-	console.log(this.$route.query.id);
+    this.getDataByPage();
+    console.log(this.$route.query.id);
     if (this.$route.query.id) {
       this.isShowDatail = false;
     }
@@ -84,7 +87,7 @@ export default {
   methods: {
     //时间格式化
     dateFormat: function(row, column) {
-      console.log(">>>>>");
+      // console.log(">>>>>");
       //   console.log(column);
       //   console.log(row);
       var date = row.rollcall.rollcallTime;
@@ -125,11 +128,23 @@ export default {
       this.dialogMsg = `确认删除该考勤记录？`;
       this.temDelRow = row;
     },
+    // 请假销假
+    handleHandLeave(index, row) {
+      var obj = {};
+      obj.absenceReson = "请假";
+      ApiAbsence.update(row._id, obj, res => {
+        console.log(res);
+        if (res.status == "y") {
+          this.$message.success("销假成功~");
+        }
+        this.getDataByPage();
+      });
+    },
     // 编辑
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addabsence", params: { id: row._id } });
+      this.$router.push({ name: "addabsence", query: { id: row._id } });
     },
     // 删除
     doDel() {
@@ -163,10 +178,10 @@ export default {
   width: 300px;
   display: inline-block;
 }
-.smallTable{
-	width: 555px;
+.smallTable {
+  width: 555px;
 }
-.bigTable{
-	width: 100%;
+.bigTable {
+  width: 100%;
 }
 </style>
