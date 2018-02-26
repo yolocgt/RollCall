@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理系统账号</el-breadcrumb-item>
+                <el-breadcrumb-item>管理系统账号 <i class="el-icon-upload" @click="loadData"></i></el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="handle-box">
@@ -123,7 +123,7 @@ export default {
       this.cur_page = val;
       this.getDataByPage();
     },
-    search() {
+    loadData() {
       this.is_search = true;
       this.$axios
         // .get("/users")
