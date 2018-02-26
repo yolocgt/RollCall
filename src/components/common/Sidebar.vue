@@ -157,10 +157,6 @@ export default {
           index: "course",
           title: "排课点名管理",
           subs: [
-            // {
-            //   index: "addrollcall",
-            //   title: "添加点名信息"
-            // },
             {
               index: "addarrange",
               title: "编辑排课信息"
@@ -169,9 +165,17 @@ export default {
               index: "managearrange",
               title: "管理排课信息"
             },
+            // {
+            //   index: "addrollcall",
+            //   title: "添加点名信息"
+            // },
             {
               index: "managerollcall",
               title: "管理点名信息"
+            },
+            {
+              index: "manageabsence",
+              title: "管理考勤信息"
             }
           ]
         }

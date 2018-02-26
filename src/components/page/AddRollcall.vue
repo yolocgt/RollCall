@@ -53,43 +53,47 @@
                   <el-input readonly  v-model.number="form.actual" ></el-input>
                 </el-form-item>
                
-                <el-form-item label="实到人数" prop="fact">
+                <el-form-item label="未到人数" prop="fact">
                     <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number>
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
                 </el-form-item>
                 
-                <el-form-item label="请假" prop="actual">
-                  <el-select v-model="leave" multiple placeholder="请选择">
+                <el-form-item label="考勤记录" prop="actual">
+                   <!-- <el-form-item label="迟到早退" prop="actual"> -->
+                  <el-select v-model="tardiness" multiple placeholder="迟到同学"  @change="absenceChange">
                     <el-option
-                      v-for="item in options"
-                      :key="item.key"
+                      v-for="item in students"
+                      :key="item.value"
                       :label="item.label"
-                      :value="item.key">
+                      :disabled="item.disabled"
+                      :value="item.value">
                     </el-option>
                   </el-select>
-                </el-form-item>
-                <el-form-item label="旷课" prop="actual">
-                  <el-select v-model="truancy" multiple placeholder="请选择">
+                <!-- </el-form-item> -->
+                  <el-select v-model="leave" multiple placeholder="请假同学" @change="absenceChange">
                     <el-option
-                      v-for="item in options"
-                      :key="item.key"
+                      v-for="item in students"
+                      :key="item.value"
                       :label="item.label"
-                      :value="item.key">
+                      :disabled="item.disabled"
+                      :value="item.value">
                     </el-option>
                   </el-select>
-                </el-form-item>
-                <el-form-item label="迟到早退" prop="actual">
-                  <el-select v-model="tardiness" multiple placeholder="请选择">
+                <!-- </el-form-item> -->
+                <!-- <el-form-item label="旷课" prop="actual"> -->
+                  <el-select v-model="truancy" multiple placeholder="旷课同学"  @change="absenceChange">
                     <el-option
-                      v-for="item in options"
-                      :key="item.key"
+                      v-for="item in students"
+                      :key="item.value"
                       :label="item.label"
-                      :value="item.key">
+                      :value="item.value"
+                      :disabled="item.disabled"
+                      >
                     </el-option>
                   </el-select>
                 </el-form-item>
                 
-                <el-form-item label="缺勤同学" prop="absence">
+                <!-- <el-form-item label="缺勤同学" prop="absence"> -->
                     <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
                     
                     <!-- <el-transfer
@@ -111,7 +115,7 @@
                     </el-transfer> -->
                     
                       <!-- :render-content="renderFunc" -->
-                     <el-transfer
+                     <!-- <el-transfer
                       v-model="value3"
                       filterable
                       :left-default-checked="[2, 3]"
@@ -124,11 +128,11 @@
                       }"
                       @change="handleChange"
                       :data="data">
-                      <!-- <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button> -->
+                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button> 
                       <el-button class="transfer-footer" slot="right-footer" size="small" @click="roll">确定</el-button>
-                    </el-transfer>
+                    </el-transfer> -->
                     
-                </el-form-item>
+              <!--   </el-form-item> -->
                 
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
@@ -181,28 +185,7 @@ export default {
       //     return span
       // }
       // return h('span', {}, [`${option.name}-${option.mail}`])
-      options: [
-        {
-          key: "选项1",
-          label: "黄金糕"
-        },
-        {
-          key: "选项2",
-          label: "双皮奶"
-        },
-        {
-          key: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          key: "选项4",
-          label: "龙须面"
-        },
-        {
-          key: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
+      students: [],
       // value5: [],
       truancy: [],
       tardiness: [],
@@ -233,6 +216,11 @@ export default {
       }
     };
   },
+  computed: {
+    // fact:function(){
+    //   return leave.length
+    // }
+  },
   created: function() {
     const data = [];
     var stus = {};
@@ -253,7 +241,8 @@ export default {
 
       ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
         console.log(res.data.data);
-        this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
+        // this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
+        this.form.actual = res.data.data.count; //应到学生总数
 
         stus = res.data.data.res;
         console.log("学生");
@@ -261,15 +250,17 @@ export default {
 
         for (const i in stus) {
           data.push({
-            key: stus[i]._id,
-            label: stus[i].name
+            value: JSON.stringify(stus[i]),
+            // id: stus[i]._id,
+            label: stus[i].name,
+            disabled: stus[i].disabled
           });
         }
         console.log(data);
         this.data = data;
-        this.options = data;
+        this.students = data;
         console.clear();
-        console.log(this.options);
+        console.log(this.students);
       });
     });
 
@@ -290,6 +281,17 @@ export default {
     roll() {
       // alert('roll')
       console.log(this.value3);
+    },
+    absenceChange(val) {
+      this.form.fact = this.leave.length + this.truancy.length;
+      console.log(val);
+      // console.log(this.students);
+      // for (let i = 0; i < this.students.length; i++) {
+      //   const stu = this.students[i];
+      //   if (stu.value == val[i]) {
+      //     stu.disabled = "disabled";
+      //   }
+      // }
     },
 
     handleChange(value, direction, movedKeys) {
@@ -322,22 +324,45 @@ export default {
               this.$message.success("添加成功~");
             } else this.$message.error("添加失败！");
             ApiRollcall.getData(data => {
-              console.log("添加后的数据哈。。");
-              // console.log(data.data);
               // 本次新增的一条点名记录
               var newRoll = data.data.reverse()[0];
-              console.log(newRoll);
-              var obj = {};
-              obj.rollcall = newRoll._id;
-              // obj.student=
-              // ApiAbsence.save()
+              console.log("本次新增的一条点名记录：");
+              console.log(newRoll._id);
+
               for (let i = 0; i < this.leave.length; i++) {
-                var stu = this.leave[i];
+                console.log("请假的++++++++++++++++");
+                var stu = JSON.parse(this.leave[i]);
                 console.log(stu);
-                obj.student = this.stu;
-                ApiAbsence.save(obj,(res) => {
+                var obj = {};
+                obj.rollcall = newRoll._id;
+                obj.student = stu._id;
+                obj.absenceReson = "请假";
+                ApiAbsence.save(obj, res => {
                   console.log(res);
-                  
+                });
+              }
+              for (let i = 0; i < this.truancy.length; i++) {
+                console.log("旷课的>>>>>>>>>>>>>>>");
+                var stu = JSON.parse(this.truancy[i]);
+                console.log(stu);
+                var obj = {};
+                obj.rollcall = newRoll._id;
+                obj.student = stu._id;
+                obj.absenceReson = "旷课";
+                ApiAbsence.save(obj, res => {
+                  console.log(res);
+                });
+              }
+              for (let i = 0; i < this.tardiness.length; i++) {
+                console.log("迟到早退的的~~~~~~~");
+                var stu = JSON.parse(this.tardiness[i]);
+                console.log(stu);
+                var obj = {};
+                obj.rollcall = newRoll._id;
+                obj.student = stu._id;
+                obj.absenceReson = "迟到早退";
+                ApiAbsence.save(obj, res => {
+                  console.log(res);
                 });
               }
             });

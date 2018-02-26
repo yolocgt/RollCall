@@ -50,7 +50,7 @@ a{text-decoration: none}
 }
 /*BaseForm*/
 .form-box{
-    width:600px;
+    /* width:600px; */
 }
 .form-box .line{
     text-align: center;
@@ -110,4 +110,13 @@ a{text-decoration: none}
 }
 .editor-btn{
     margin-top: 20px;
+}
+
+/* table单元格居中 */
+.cell{
+    /* text-align: center; */
+}
+/* 远程加载mock数据的图标 */
+.el-icon-upload{
+    cursor: pointer;
 }

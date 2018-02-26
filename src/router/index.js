@@ -159,6 +159,16 @@ export default new Router({
                     name: 'managerollcall',
                     component: resolve => require(['../components/page/ManageRollcall.vue'], resolve)    // 管理点名信息
                 }
+                , {
+                    path: '/addabsence',
+                    name: 'addabsence',
+                    component: resolve => require(['../components/page/AddAbsence.vue'], resolve)    // 添加点名信息
+                }
+                , {
+                    path: '/manageabsence',
+                    name: 'manageabsence',
+                    component: resolve => require(['../components/page/ManageAbsence.vue'], resolve)    // 管理点名信息
+                }
 
             ]
         },

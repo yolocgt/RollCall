@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" :class="'rollcall'" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="arrange.learnYear" label="学年" > </el-table-column>
             <el-table-column prop="arrange.learnTerm" label="学期" > </el-table-column>
@@ -15,11 +15,11 @@
             <el-table-column prop="arrange.teacher.name" label="教师" > </el-table-column>
             <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="115"> </el-table-column>
             <el-table-column prop="arrange.section" label="节次" > </el-table-column>
-            <el-table-column prop="actual" label="总数" > </el-table-column>
-            <el-table-column   label="缺勤" >
+            <el-table-column prop="actual" label="总数" > <el-tag type="danger">标签五</el-tag></el-table-column>
+            <el-table-column label="缺勤" >
                <template slot-scope="scope">
-                 <!-- <a prop="fact" href="http://">{{scope.row.fact}}</a> -->
-                 <router-link :to="{path:'/manageabsence',query:{id:scope.row._id}}">{{scope.row.fact}}</router-link>
+                 <!-- <router-link :to="{path:'/manageabsence',query:{id:scope.row._id}}"><el-tag type="danger">{{scope.row.fact}}</el-tag></router-link> -->
+                 <router-link :class="scope.row.fact!=0?'c_danger':''" :to="{path:'/manageabsence',query:{id:scope.row._id}}">{{scope.row.fact==0?"\\":scope.row.fact}}</router-link>
                </template>
              </el-table-column>
             <el-table-column label="操作" width="180">
@@ -52,10 +52,29 @@
     
     </div>
 </template>
-<style>
+<style >
 .el-dialog {
   /* width: 30%; */
 }
+a {
+  color: #000;
+  cursor: default;
+  text-decoration: none;
+}
+/* 缺勤人数样式 */
+.c_danger {
+  color: red;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.c_danger::after {
+  content: "人";
+}
+/* 单元格居中 */
+.rollcall .cell{
+  text-align: center;
+}
+
 </style>
 
 <script>
