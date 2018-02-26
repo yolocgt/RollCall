@@ -155,7 +155,7 @@ export default {
         {
           icon: "el-icon-date",
           index: "course",
-          title: "排课点名管理",
+          title: "排课信息管理",
           subs: [
             {
               index: "addarrange",
@@ -172,10 +172,25 @@ export default {
             {
               index: "managerollcall",
               title: "管理点名信息"
-            },
+            }
+            // ,{
+            //   index: "manageabsence",
+            //   title: "管理考勤信息"
+            // }
+          ]
+        },
+        {
+          icon: "el-icon-date",
+          index: "course2",
+          title: "考勤点名管理",
+          subs: [
             {
               index: "manageabsence",
               title: "管理考勤信息"
+            },
+            {
+              index: "addabsence",
+              title: "编辑考勤信息"
             }
           ]
         }
