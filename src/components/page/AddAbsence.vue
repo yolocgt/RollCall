@@ -8,12 +8,15 @@
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
-                <el-form-item label="学生" prop="id">
-                    <!-- <el-input v-model="form.id" autofocus ref="inputRef" @blur="isExists"></el-input> -->
-                    <el-input v-model.trim="form.id" autofocus ref="inputRef" ></el-input>
+                <el-form-item label="学生" prop="student">
+                    <el-input disabled v-model.trim="form.student" autofocus ref="inputRef" ></el-input>
                 </el-form-item>
-                <el-form-item label="缺勤原因" prop="name">
-                    <el-input v-model.trim="form.name"></el-input>
+                <el-form-item label="缺勤原因" prop="absenceReson">
+					<el-select v-model="form.absenceReson" placeholder="请选择" class="handle-select mr10">
+    	                <el-option key="1" label="迟到" value="迟到"></el-option>
+    	                <el-option key="2" label="请假" value="请假"></el-option>
+    	                <el-option key="3" label="旷课" value="旷课"></el-option>
+    	            </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">提交</el-button>
@@ -32,7 +35,7 @@
 </style>
 
 <script>
-import { ApiAbsence } from "../../service/apis";
+import { ApiAbsence, ApiStudent } from "../../service/apis";
 import crypto from "crypto-js";
 import login from "../../service/api_login";
 export default {
@@ -42,9 +45,8 @@ export default {
     return {
       id: "",
       form: {
-        id: "",
-        name: ""
-        // password:""
+        student: "",
+        absenceReson: ""
       },
       rules: {
         // id: [
@@ -77,8 +79,11 @@ export default {
       ApiAbsence.getDataById(this.id, res => {
         console.log("获取到点名记录");
         console.log(res);
-        // this.o_id = res.data.id;
-        // this.form = res.data;
+        this.form.absenceReson = res.data.absenceReson;
+        ApiStudent.getDataById(res.data.student, data => {
+          console.log(data);
+          this.form.student = data.data.name;
+        });
       });
     }
   },
@@ -107,32 +112,22 @@ export default {
           // delete this.form.password;
           // console.log(this.form);
           // 修改
-          if (this.id) {
-            console.log("修改");
-            ApiAbsence.update(this.id, this.form, res => {
-              if (res.status == "y") {
-                this.$message.success("修改成功~");
-              } else {
-                this.$message.error("修改失败！");
-              }
-            });
-          } else {
-            // 新增
-            ApiAbsence.save(this.form, res => {
-              if (res.status == "y") {
-                this.$message.success("添加成功~");
-              } else {
-                this.$message.error("添加失败！");
-              }
-              // 聚焦到第一个输入框
-              // this.$refs.inputRef.$el.children[0].focus();
-              // 清空表单输入框
-              // this.$refs[formName].resetFields();
-              // 跳转管理员管理路由
-            });
-          }
-          this.$router.push({ name: "manageadmin" });
+          delete this.form.student;
+          console.log(this.form);
+          ApiAbsence.update(this.id, this.form, res => {
+            if (res.status == "y") {
+              this.$message.success("添加成功~");
+            } else {
+              this.$message.error("添加失败！");
+            }
+            // 聚焦到第一个输入框
+            // this.$refs.inputRef.$el.children[0].focus();
+            // 清空表单输入框
+            // this.$refs[formName].resetFields();
+            // 跳转管理员管理路由
+          });
         }
+        this.$router.push({ name: "manageabsence" });
       });
     },
     // 重置表单
