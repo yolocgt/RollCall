@@ -18,11 +18,12 @@
             </el-table-column>
             <el-table-column prop="absenceReson" label="缺勤原因" >
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作" >
                 <template  slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <template v-if="scope.row.absenceReson=='旷课'">
                       <el-button size="small" type="success" @click="handleHandLeave(scope.$index, scope.row)">销假</el-button>
+                      <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                     <template v-else>
                       <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { ApiAbsence } from "../../service/apis";
+import { ApiAbsence, ApiRollcall } from "../../service/apis";
 export default {
   data() {
     return {
@@ -130,8 +131,7 @@ export default {
     },
     // 请假销假
     handleHandLeave(index, row) {
-      var obj = {};
-      obj.absenceReson = "请假";
+      var obj = { absenceReson: "请假" };
       ApiAbsence.update(row._id, obj, res => {
         console.log(res);
         if (res.status == "y") {
@@ -149,9 +149,24 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
+      console.log(this.temDelRow);
+
       ApiAbsence.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
+          if (
+            this.temDelRow.absenceReson == "请假" ||
+            this.temDelRow.absenceReson == "旷课"
+          ) {
+            ApiRollcall.getDataById(this.temDelRow.rollcall._id, res => {
+              console.log(res.data.fact);
+              var absenceNum = res.data.fact;
+              var obj = { fact: absenceNum - 1 };
+              ApiRollcall.update(this.temDelRow.rollcall._id, obj, data => {
+                console.log(data);
+              });
+            });
+          }
           this.$message.success("删除成功~");
         } else {
           this.$message.success("删除失败！");
@@ -179,7 +194,7 @@ export default {
   display: inline-block;
 }
 .smallTable {
-  width: 555px;
+  width: 588px;
 }
 .bigTable {
   width: 100%;

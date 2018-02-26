@@ -54,7 +54,8 @@
                 </el-form-item>
                
                 <el-form-item label="未到人数" prop="fact">
-                    <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number>
+                  <el-input readonly  v-model.number="form.fact" ></el-input>
+                    <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
                 </el-form-item>
                 
@@ -333,10 +334,11 @@ export default {
                 console.log("请假的++++++++++++++++");
                 var stu = JSON.parse(this.leave[i]);
                 console.log(stu);
-                var obj = {};
-                obj.rollcall = newRoll._id;
-                obj.student = stu._id;
-                obj.absenceReson = "请假";
+                var obj = {
+                  rollcall: newRoll._id,
+                  student: stu._id,
+                  absenceReson: "请假"
+                };
                 ApiAbsence.save(obj, res => {
                   console.log(res);
                 });
@@ -345,10 +347,11 @@ export default {
                 console.log("旷课的>>>>>>>>>>>>>>>");
                 var stu = JSON.parse(this.truancy[i]);
                 console.log(stu);
-                var obj = {};
-                obj.rollcall = newRoll._id;
-                obj.student = stu._id;
-                obj.absenceReson = "旷课";
+                var obj = {
+                  rollcall: newRoll._id,
+                  student: stu._id,
+                  absenceReson: "旷课"
+                };
                 ApiAbsence.save(obj, res => {
                   console.log(res);
                 });
@@ -357,10 +360,11 @@ export default {
                 console.log("迟到早退的的~~~~~~~");
                 var stu = JSON.parse(this.tardiness[i]);
                 console.log(stu);
-                var obj = {};
-                obj.rollcall = newRoll._id;
-                obj.student = stu._id;
-                obj.absenceReson = "迟到早退";
+                var obj = {
+                  rollcall: newRoll._id,
+                  student: stu._id,
+                  absenceReson: "迟到早退"
+                };
                 ApiAbsence.save(obj, res => {
                   console.log(res);
                 });

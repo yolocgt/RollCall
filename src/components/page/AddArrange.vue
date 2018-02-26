@@ -162,7 +162,7 @@ export default {
   },
   created: function() {
     console.log(this.$route);
-    
+
     // 判断当前学期
     if (1 < new Date().getMonth() && new Date().getMonth() < 8) {
       this.form.learnTerm = "第二学期";
@@ -200,8 +200,9 @@ export default {
 
     // var rYear=0;
     for (let i = year; i > year - 4; i--) {
-      var obj = {};
-      obj.val = i - 1 + "-" + i;
+      var obj = {
+        val: i - 1 + "-" + i
+      };
       this.learnYears.push(obj);
     }
 

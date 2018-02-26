@@ -13,7 +13,7 @@
                 </el-form-item>
                 <el-form-item label="缺勤原因" prop="absenceReson">
 					<el-select v-model="form.absenceReson" placeholder="请选择" class="handle-select mr10">
-    	                <el-option key="1" label="迟到" value="迟到"></el-option>
+    	                <el-option key="1" label="迟到早退" value="迟到早退"></el-option>
     	                <el-option key="2" label="请假" value="请假"></el-option>
     	                <el-option key="3" label="旷课" value="旷课"></el-option>
     	            </el-select>

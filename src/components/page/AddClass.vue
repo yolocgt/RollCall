@@ -140,14 +140,12 @@ export default {
     // 年级
     var year = new Date().getFullYear();
     for (let i = year; i > year - 6; i--) {
-      var obj = {};
-      obj.val = i;
+      var obj = { val: i };
       this.cyears.push(obj);
     }
     // 班级
     for (let i = 1; i < 7; i++) {
-      var obj = {};
-      obj.val = i.toString();
+      var obj = { val: i.toString() };
       this.cnos.push(obj);
     }
 
