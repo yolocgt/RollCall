@@ -29,7 +29,7 @@
           <el-cascader
             placeholder="试试搜索：2018"
             :options="learnYears"
-            @focus.native="select_cateChange"
+            @change="select_yearChange"
             expand-trigger="click"
              filterable
              change-on-select
@@ -134,8 +134,11 @@ export default {
     }
   },
   methods: {
-    select_cateChange(val) {
-      alert(val);
+    select_yearChange(val) {
+      console.log(val[1]);
+      ApiArrange.getDataByPage(this.cur_page,val[0],(res) => {
+        this.tableData=res.data.res
+      })
     },
 
     // 当前页码改变事件
