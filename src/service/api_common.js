@@ -57,7 +57,7 @@ export default class c_Api {
 			.then((res) => {
 				// console.log('回调函数。。');
 				// 获取的分页数据
-				console.log(res.data.data.res);
+				console.log(res.data.data);
 				callback(res.data);
 			}).catch((err) => {
 				console.log(err);

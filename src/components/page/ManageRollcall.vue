@@ -8,12 +8,12 @@
         </div>
         <el-table :data="data" :class="'rollcall'" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="arrange.learnYear" label="学年" > </el-table-column>
+            <el-table-column prop="arrange.learnYear" label="学年" min-width="90"> </el-table-column>
             <el-table-column prop="arrange.learnTerm" label="学期" > </el-table-column>
             <el-table-column prop="arrange.classInfo.className" label="班级" > </el-table-column>
             <el-table-column prop="arrange.course.courseName" label="课程" > </el-table-column>
             <el-table-column prop="arrange.teacher.name" label="教师" > </el-table-column>
-            <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="115"> </el-table-column>
+            <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="100"> </el-table-column>
             <el-table-column prop="arrange.section" label="节次" > </el-table-column>
             <el-table-column prop="actual" label="总数" > <el-tag type="danger">标签五</el-tag></el-table-column>
             <el-table-column label="缺勤" >
@@ -197,7 +197,7 @@ export default {
       if (date == undefined) {
         return "";
       }
-      return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
+      return this.$moment(date).format("YYYY-MM-DD HH:mm");
     }
   }
 };
