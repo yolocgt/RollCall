@@ -37,14 +37,24 @@ export default class c_Api {
 	}
 
 	// 所有数据
-	getData(callback) {
-		axios.get(`${global.ApiUrl}/all_${this.mName}`)
+	getData(obj,callback) {
+		axios.post(`${global.ApiUrl}/all_${this.mName}`,obj)
 			.then((res) => {
 				callback(res.data);
 			}).catch((err) => {
 				console.log(err);
 			})
 	};
+	// 模糊查询所有数据
+	// getDataByFuzzyquery(obj,callback) {
+	// 	axios.post(`${global.ApiUrl}/all_${this.mName}`,obj)
+	// 		.then((res) => {
+	// 			callback(res.data);
+	// 		}).catch((err) => {
+	// 			console.log(err);
+	// 		})
+	// };
+	
 	/**
 	 * @description 根据页码获取所有的管理员数据
 	 * @author CGT
@@ -53,6 +63,8 @@ export default class c_Api {
 	 * @param {function} callback 回调函数
 	 */
 	getDataByPage(obj, callback) {
+		console.log('那个筛选的obj：');
+		console.log(obj);
 		// var obj = { page, word, word2 };
 		// axios.get(`${global.ApiUrl}/${this.mName}s?word=${word}&page=${page}`)
 		axios.post(`${global.ApiUrl}/${this.mName}s`, obj)
