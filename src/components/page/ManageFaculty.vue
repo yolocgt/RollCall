@@ -55,11 +55,10 @@ export default {
       del_list: [],
       is_search: false,
 
-
       dialogVisible: false,
       temDelRow: {},
       dialogMsg: "",
-      
+
       cur_page: 1, //当前页码
       pageCount: 3, //总页数
       pageSize: 5 //页大小
@@ -78,13 +77,16 @@ export default {
       this.cur_page = val;
       this.getDataByPage();
     },
-     // 分页
+    // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiFaculty.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiFaculty.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     search() {
       this.is_search = true;

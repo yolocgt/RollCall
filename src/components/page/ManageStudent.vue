@@ -93,22 +93,6 @@ export default {
   },
   created() {
     this.is_search = true;
-    this.$axios
-      // .get("/users")
-      // .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/student")
-      // .then(data => {
-      //   console.log(data.data.data.users);
-      //   var users = data.data.data.users;
-      //   for (let i = 0; i < users.length; i++) {
-      //     const user = users[i];
-      //     ApiStudent.save(user, res => {
-      //       if (res.status == "y") {
-      //         this.$message.success("数据加载成功");
-      //         this.getDataByPage();
-      //       }
-      //     });
-      //   }
-      // });
 
     ApiFaculty.getData(res => {
       this.faculty = res.data;
@@ -124,10 +108,13 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiStudent.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiStudent.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     // 所有数据
     getData() {

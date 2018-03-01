@@ -71,10 +71,9 @@ a {
   content: "人";
 }
 /* 单元格居中 */
-.rollcall .cell{
+.rollcall .cell {
   text-align: center;
 }
-
 </style>
 
 <script>
@@ -113,11 +112,14 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiRollcall.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        console.log(this.tableData);
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiRollcall.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          console.log(this.tableData);
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     // 所有数据
     getData() {

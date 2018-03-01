@@ -109,7 +109,7 @@ export default {
         id = "";
       }
       console.log(id);
-      ApiAbsence.getDataByPage(this.cur_page, id, res => {
+      ApiAbsence.getDataByPage({ page: this.cur_page, word: id }, res => {
         this.tableData = res.data.res; //获取分页数据
         this.pageCount = res.data.pageCount; //获取总页数
       });

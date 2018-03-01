@@ -92,10 +92,13 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiClassInfo.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiClassInfo.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     search() {
       this.is_search = true;

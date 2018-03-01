@@ -13,7 +13,7 @@
                   <el-option key="2" label="姓名" value="姓名"></el-option>
               </el-select> -->
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
+            <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50"></el-table-column>
@@ -107,10 +107,13 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiAdmin.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiAdmin.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     // 所有数据
     getData() {
@@ -165,11 +168,10 @@ export default {
       this.dialogVisible2 = true;
       this.dialogMsg2 = `确认重置该管理员密码：${row.name}`;
       this.temDelRow = row;
-      
     },
-    doReset(){
+    doReset() {
       this.dialogVisible2 = false;
-      
+
       var id = this.temDelRow._id;
       this.temDelRow.password = "e10adc3949ba59abbe56e057f20f883e";
       ApiAdmin.update(id, this.temDelRow, res => {

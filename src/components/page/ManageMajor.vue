@@ -82,10 +82,13 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiMajor.getDataByPage(this.cur_page, this.select_word, res => {
-        this.tableData = res.data.res; //获取分页数据
-        this.pageCount = res.data.pageCount; //获取总页数
-      });
+      ApiMajor.getDataByPage(
+        { page: this.cur_page, word: this.select_word },
+        res => {
+          this.tableData = res.data.res; //获取分页数据
+          this.pageCount = res.data.pageCount; //获取总页数
+        }
+      );
     },
     // 所有数据
     getData() {

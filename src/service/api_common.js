@@ -52,8 +52,10 @@ export default class c_Api {
 	 * @param {any} word
 	 * @param {function} callback 回调函数
 	 */
-	getDataByPage(page, word, callback) {
-		axios.get(`${global.ApiUrl}/${this.mName}s?word=${word}&page=${page}`)
+	getDataByPage(obj, callback) {
+		// var obj = { page, word, word2 };
+		// axios.get(`${global.ApiUrl}/${this.mName}s?word=${word}&page=${page}`)
+		axios.post(`${global.ApiUrl}/${this.mName}s`, obj)
 			.then((res) => {
 				// console.log('回调函数。。');
 				// 获取的分页数据
@@ -73,11 +75,11 @@ export default class c_Api {
 			console.log(err);
 		})
 	}
-	
-	
+
+
 	// 查询学生数量
-	queryStuCount(classidObj,callback) {
-		axios.post(`${global.ApiUrl}/${this.mName}/count/`,classidObj).then((res) => {
+	queryStuCount(classidObj, callback) {
+		axios.post(`${global.ApiUrl}/${this.mName}/count/`, classidObj).then((res) => {
 			console.log(res);
 			callback(res);
 		}).catch((err) => {
