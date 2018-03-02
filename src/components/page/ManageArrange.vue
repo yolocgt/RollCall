@@ -35,7 +35,7 @@
               ></el-cascader>
             <!-- </div> -->
         
-            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+            <el-input v-model="select_word" placeholder="筛选关键词" @keyup.native.enter="search" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
             <!-- <el-button type="primary" icon="search" >搜索</el-button> -->
         
@@ -155,23 +155,30 @@ export default {
   methods: {
     search() {
       this.is_search = true;
-      ApiClassInfo.getData({ className: this.select_word },(res) => {
-        console.log('模糊查询的班级数据：');
+      ApiClassInfo.getData({ className: this.select_word }, res => {
+        console.log("模糊查询的班级数据：");
         console.log(res.data);
-        // var classids
-      });
-      ApiArrange.getDataByPage(
-        {
-          page: this.cur_page,
-          word: this.select_learnYear,
-          word2: this.select_learnTerm,
-          word3: this.select_word
-        },
-        res => {
-          this.tableData = res.data.res;
-          this.pageCount = res.data.pageCount;
+
+        this.cids=[];
+        for (const key of res.data) {
+          // console.log(typeof res.data[key]._id);
+          this.cids.push(key._id);
         }
-      );
+        console.log(this.cids);
+
+        ApiArrange.getDataByPage(
+          {
+            page: this.cur_page,
+            word: this.select_learnYear,
+            word2: this.select_learnTerm,
+            word3: this.cids
+          },
+          res => {
+            this.tableData = res.data.res;
+            this.pageCount = res.data.pageCount;
+          }
+        );
+      });
     },
     select_yearChange(val) {
       // console.log(val[1]);
