@@ -150,11 +150,11 @@ export default {
       });
     }
     // 学院下拉框数据
-    ApiFaculty.getData(res => {
+    ApiFaculty.getData({},res => {
       this.facultys = res.data;
     });
     // 班级下拉框数据
-    ApiClassInfo.getData(res => {
+    ApiClassInfo.getData({},res => {
       this.className = res.data;
     });
   },

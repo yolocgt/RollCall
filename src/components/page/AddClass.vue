@@ -126,15 +126,15 @@ export default {
   },
   created: function() {
     // 专业
-    ApiMajor.getData(res => {
+    ApiMajor.getData({},res => {
       this.majors = res.data;
     });
     // 院系
-    ApiFaculty.getData(res => {
+    ApiFaculty.getData({},res => {
       this.facultys = res.data;
     });
     // 辅导员
-    ApiCounselor.getData(res => {
+    ApiCounselor.getData({},res => {
       this.counselors = res.data;
     });
     // 年级

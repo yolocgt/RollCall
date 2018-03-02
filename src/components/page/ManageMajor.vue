@@ -92,7 +92,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiMajor.getData(res => {
+      ApiMajor.getData({},res => {
         this.allData = res.data.res; //获取所有数据
       });
     },

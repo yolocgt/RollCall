@@ -90,7 +90,7 @@ export default {
     };
   },
   created() {
-    ApiFaculty.getData(res => {
+    ApiFaculty.getData({},res => {
       this.faculty = res.data;
     });
     this.getDataByPage();
@@ -114,7 +114,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiCounselor.getData(res => {
+      ApiCounselor.getData({},res => {
         this.allData = res.data.res; //获取所有数据
       });
     },

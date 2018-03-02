@@ -23,7 +23,7 @@
 				    	<el-select v-model="form.learnYear"  class="handle-select mr10">
                  <el-option
 		                v-for="t in learnYears"
-		                :key="t.val"
+		                :key="t.val"  
 		                :label="t.val"
 		                :value="t.val">
 			            </el-option>
@@ -169,7 +169,7 @@ export default {
     } else this.form.learnTerm = "第一学期";
     // console.log(this.thisLearnYear);
     // 班级
-    ApiClassInfo.getData(res => {
+    ApiClassInfo.getData({},res => {
       // const cs = [];
       // console.log(res.data);
       // 筛选班级，除去已毕业的班级
@@ -188,11 +188,11 @@ export default {
       // console.log(this.classInfos);
     });
     // 课程
-    ApiCourse.getData(res => {
+    ApiCourse.getData({},res => {
       this.courses = res.data;
     });
     // 教师
-    ApiTeacher.getData(res => {
+    ApiTeacher.getData({},res => {
       this.teachers = res.data;
     });
     // 学年
