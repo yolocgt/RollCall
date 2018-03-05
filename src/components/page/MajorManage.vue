@@ -52,7 +52,7 @@ import { ApiMajor } from "../../service/apis";
 export default {
   data() {
     return {
-      url: "./static/vuetable.json",
+
       tableData: [],
       allData: [],
       multipleSelection: [],

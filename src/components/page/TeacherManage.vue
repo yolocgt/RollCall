@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       faculty: "",
-      url: "./static/vuetable.json",
+
       tableData: [],
       allData: [],
       multipleSelection: [],

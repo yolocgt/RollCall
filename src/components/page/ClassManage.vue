@@ -57,7 +57,7 @@ import { ApiClassInfo } from "../../service/apis";
 export default {
   data() {
     return {
-      url: "./static/vuetable.json",
+
       tableData: [],
       cur_page: 1,
       multipleSelection: [],

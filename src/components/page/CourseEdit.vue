@@ -21,11 +21,6 @@
     </div>
 </template>
 
-<style scoped>
-.el-input {
-  width: 220px;
-}
-</style>
 <script>
 import { ApiCourse } from "../../service/apis";
 export default {

@@ -30,12 +30,6 @@
     </div>
 </template>
 
-<style scoped>
-.el-input {
-  width: 220px;
-}
-</style>
-
 <script>
 import { ApiFaculty } from "../../service/apis";
 // import ApiCommon from "../../service/api_common";

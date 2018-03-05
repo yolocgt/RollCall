@@ -1,15 +1,16 @@
 <template>
-    <div class="table arrangeTable">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>排课信息管理</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="handle-box">
-            <!-- <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button> -->
-            <el-button type="primary" icon="delete" class="handle-del mr10">批量删除</el-button>
-            <!-- <el-select v-model="select_learnYear" placeholder="筛选学年" class="handle-select mr10">
+  <div class="table arrangeTable">
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
+        <el-breadcrumb-item>排课信息管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="handle-box">
+      <!-- <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button> -->
+      <el-button type="primary" icon="delete" class="handle-del mr10">批量删除</el-button>
+      <!-- <el-select v-model="select_learnYear" placeholder="筛选学年" class="handle-select mr10">
                 <el-option
                   v-for="f in learnYears"
                   :key="f._id"
@@ -21,79 +22,65 @@
                 <el-option key="2" label="第二学期" value="第二学期"></el-option>
             </el-select> -->
 
-            <!-- <div class="block">
+      <!-- <div class="block">
               <span class="demonstration">可选择任意一级菜单的选项</span> -->
-              <el-cascader
-                placeholder="试试搜索：2018"
-                :options="learnYears"
-                @change="select_yearChange"
-                expand-trigger="click"
-                 filterable
-                 change-on-select
-                 clearable
-                 v-model="casYears"
-              ></el-cascader>
-            <!-- </div> -->
+      <el-cascader placeholder="试试搜索：2018" :options="learnYears" @change="select_yearChange" expand-trigger="click" filterable change-on-select clearable v-model="casYears"></el-cascader>
+      <!-- </div> -->
 
-            <el-input v-model="select_word" placeholder="筛选关键词" @keyup.native.enter="search" class="handle-input mr10"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
-            <!-- <el-button type="primary" icon="search" >搜索</el-button> -->
+      <el-input v-model="select_word" placeholder="筛选关键词" @keyup.native.enter="search" class="handle-input mr10"></el-input>
+      <el-button type="primary" icon="search" @click="search">搜索</el-button>
+      <!-- <el-button type="primary" icon="search" >搜索</el-button> -->
 
-        </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <!-- <template v-if="!select_learnYear"> -->
-              <el-table-column prop="learnYear" label="学年" sortable min-width="90"> </el-table-column>
-            <!-- </template> -->
-            <!-- <template v-if="!select_learnTerm"> -->
-              <el-table-column prop="learnTerm" label="学期" sortable width="95"> </el-table-column>
-            <!-- </template> -->
-            <el-table-column prop="classInfo.className" label="班级" sortable >
-            </el-table-column>
-            <el-table-column prop="teacher.name" label="教师" >
-            </el-table-column>
-            <el-table-column prop="course.courseName" label="课程" >
-            </el-table-column>
-            <el-table-column prop="section" label="周次/星期/课节" width="133">
-            </el-table-column>
-            <el-table-column prop="classroom" label="教室" width="66">
-            </el-table-column>
-            <el-table-column label="点名" width="150">
-                <template  slot-scope="scope">
-                    <el-button size="small" type="success">
-                      <router-link :to="{path:'/rollcallEdit',query: {id: scope.row._id}}">点名</router-link>
-                    </el-button>
-                    <el-button size="small" type="info">
-                      查看<i class="el-icon-arrow-right">
-                    </i></el-button>
-
-                </template>
-            </el-table-column>
-            <el-table-column label="操作" width="140">
-                <template  slot-scope="scope">
-                    <el-button size="small"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="pagination">
-            <el-pagination
-                     @current-change ="handlePageChange"
-                    layout="prev, pager, next"
-                    :page-count="pageCount||1" :page-size="pageSize">
-            </el-pagination>
-        </div>
-         <!-- 确认删除对话框 -->
-		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
-      	<span>{{dialogMsg}}</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button @click="dialogVisible=false">取 消</el-button>
-    	    <el-button type="primary" @click="doDel">确 定</el-button>
-    	  </span>
-    </el-dialog>
     </div>
+    <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"></el-table-column>
+      <!-- <template v-if="!select_learnYear"> -->
+      <el-table-column prop="learnYear" label="学年" sortable min-width="90"> </el-table-column>
+      <!-- </template> -->
+      <!-- <template v-if="!select_learnTerm"> -->
+      <el-table-column prop="learnTerm" label="学期" sortable width="95"> </el-table-column>
+      <!-- </template> -->
+      <el-table-column prop="classInfo.className" label="班级" sortable>
+      </el-table-column>
+      <el-table-column prop="teacher.name" label="教师">
+      </el-table-column>
+      <el-table-column prop="course.courseName" label="课程">
+      </el-table-column>
+      <el-table-column prop="section" label="周次/星期/课节" width="133">
+      </el-table-column>
+      <el-table-column prop="classroom" label="教室" width="66">
+      </el-table-column>
+      <el-table-column label="点名" width="150">
+        <template slot-scope="scope">
+          <el-button size="small" type="success">
+            <router-link :to="{path:'/rollcallEdit',query: {id: scope.row._id}}">点名</router-link>
+          </el-button>
+          <el-button size="small" type="info"> 查看
+            <i class="el-icon-arrow-right"> </i>
+          </el-button>
+
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="140">
+        <template slot-scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagination">
+      <el-pagination @current-change="handlePageChange" layout="prev, pager, next" :page-count="pageCount||1" :page-size="pageSize">
+      </el-pagination>
+    </div>
+    <!-- 确认删除对话框 -->
+    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+      <span>{{dialogMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible=false">取 消</el-button>
+        <el-button type="primary" @click="doDel">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 <style >
 .el-button--success span a {
@@ -115,7 +102,7 @@ export default {
       learnYears: [],
       select_learnYear: "",
       select_learnTerm: "",
-      url: "./static/vuetable.json",
+
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
@@ -159,7 +146,7 @@ export default {
         console.log("模糊查询的班级数据：");
         console.log(res.data);
 
-        this.cids=[];
+        this.cids = [];
         for (const key of res.data) {
           // console.log(typeof res.data[key]._id);
           this.cids.push(key._id);

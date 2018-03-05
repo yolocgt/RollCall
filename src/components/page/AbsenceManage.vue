@@ -1,52 +1,49 @@
 <template>
-    <div class="table" :class="isShowDatail?'bigTable':'smallTable'">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 排课点名管理</el-breadcrumb-item>
-                <el-breadcrumb-item>考勤信息管理</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-			<template v-if="isShowDatail">
-            <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="150">
-            </el-table-column>
-            <el-table-column  prop="rollcall.rollcallTime" :formatter="dateFormat" label="点名时间" sortable width="150">
-            </el-table-column>
-			</template>
-            <el-table-column prop="student.name" label="学生" width="120">
-            </el-table-column>
-            <el-table-column prop="absenceReson" label="缺勤原因" >
-            </el-table-column>
-            <el-table-column label="操作" >
-                <template  slot-scope="scope">
-                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <template v-if="scope.row.absenceReson=='旷课'">
-                      <el-button size="small" type="success" @click="handleHandLeave(scope.$index, scope.row)">销假</el-button>
-                      <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                    </template>
-                    <template v-else>
-                      <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                    </template>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="pagination">
-            <el-pagination
-                     @current-change ="handlePageChange"
-                    layout="prev, pager, next"
-                    :page-count="pageCount||1" :page-size="pageSize">
-            </el-pagination>
-        </div>
-         <!-- 确认删除对话框 -->
-		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
-      	<span>{{dialogMsg}}</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button @click="dialogVisible=false">取 消</el-button>
-    	    <el-button type="primary" @click="doDel">确 定</el-button>
-    	  </span>
-    </el-dialog>
+  <div class="table" :class="isShowDatail?'bigTable':'smallTable'">
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 排课点名管理</el-breadcrumb-item>
+        <el-breadcrumb-item>考勤信息管理</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+
+    <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"></el-table-column>
+      <template v-if="isShowDatail">
+        <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="150">
+        </el-table-column>
+        <el-table-column prop="rollcall.rollcallTime" :formatter="dateFormat" label="点名时间" sortable width="150">
+        </el-table-column>
+      </template>
+      <el-table-column prop="student.name" label="学生" width="120"> </el-table-column>
+      <el-table-column prop="absenceReson" label="缺勤原因"> </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <template v-if="scope.row.absenceReson=='旷课'">
+            <el-button size="small" type="success" @click="handleHandLeave(scope.$index, scope.row)">销假</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+          <template v-else>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagination">
+      <el-pagination @current-change="handlePageChange" layout="prev, pager, next" :page-count="pageCount||1" :page-size="pageSize">
+      </el-pagination>
+    </div>
+    <!-- 确认删除对话框 -->
+    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+      <span>{{dialogMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible=false">取 消</el-button>
+        <el-button type="primary" @click="doDel">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -55,7 +52,7 @@ export default {
   data() {
     return {
       isShowDatail: true,
-      url: "./static/vuetable.json",
+
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
@@ -87,7 +84,7 @@ export default {
   },
   methods: {
     //时间格式化
-    dateFormat: function(row, column) {
+    dateFormat: function (row, column) {
       // console.log(">>>>>");
       //   console.log(column);
       //   console.log(row);

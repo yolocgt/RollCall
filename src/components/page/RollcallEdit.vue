@@ -146,7 +146,6 @@
 </template>
 
 <style scoped>
-.el-input,
 .el-input-number {
   width: 220px;
 }
