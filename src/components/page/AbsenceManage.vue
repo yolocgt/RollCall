@@ -144,7 +144,7 @@ export default {
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addabsence", query: { id: row._id } });
+      this.$router.push({ name: "absenceEdit", query: { id: row._id } });
     },
     // 删除
     doDel() {

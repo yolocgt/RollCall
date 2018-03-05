@@ -3,14 +3,14 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加教师信息</el-breadcrumb-item>
+                <el-breadcrumb-item>添加学生信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
-        
+
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model.trim="form.name" ref="inputRef"></el-input>
+                    <el-input v-model="form.name" ref="inputRef"></el-input>
                 </el-form-item>
 				       <el-form-item label="性别" prop="sex">
     				      <el-select v-model="form.sex" placeholder="请选择" class="handle-select mr10">
@@ -18,20 +18,40 @@
     	                <el-option key="2" label="女" value="女"></el-option>
     	            </el-select>
                 </el-form-item>
-                <el-form-item label="教师号" prop="id">
+                <el-form-item label="学号" prop="id">
                     <el-input v-model.number="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                     <el-input v-model="form.phone"></el-input>
                 </el-form-item>
-				 <el-form-item label="院系名称" prop="faculty">
+                <el-form-item label="家庭住址" prop="address">
+                    <el-input v-model="form.address"></el-input>
+                </el-form-item>
+				 <!-- <el-form-item label="院系名称" prop="faculty">
     				      <el-select v-model="form.faculty" placeholder="选择院系" class="handle-select mr10">
-    	                <el-option 
-                        v-for="f in facultys" 
-                        :key="f._id" 
-                        :label="f.facultyName" 
+    	                <el-option
+                        v-for="f in faculties"
+                        :key="f._id"
+                        :label="f.facultyName"
                         :value="f._id"></el-option>
     	            </el-select>
+                </el-form-item> -->
+				 <el-form-item label="班级名称" prop="classInfo">
+    				      <el-select v-model="form.classInfo" placeholder="选择班级" class="handle-select mr10">
+    	                <el-option
+                        v-for="c in classInfos"
+                        :key="c._id"
+                        :label="c.className"
+                        :value="c._id"></el-option>
+    	            </el-select>
+                </el-form-item>
+
+                <el-form-item label="出生年月" prop="birth">
+                    <el-date-picker
+                    v-model="form.birth"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
                 </el-form-item>
                 <!-- <el-form-item label="用户头像" prop="avatar">
                     <el-upload
@@ -44,8 +64,8 @@
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item> -->
-                
-                
+
+
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -87,7 +107,7 @@
 </style>
 
 <script>
-import { ApiFaculty, ApiClassInfo, ApiTeacher } from "../../service/apis";
+import { ApiClassInfo, ApiStudent } from "../../service/apis";
 import login from "../../service/api_login";
 
 export default {
@@ -95,60 +115,62 @@ export default {
     // 验证是否存在
     var isExist = (rule, value, callback) => {
       if (this.form.id != "" && this.form.id != this.o_id) {
-        login.exists(this.form.id, "teacher", res => {
+        login.exists(this.form.id, "student", res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
-            callback(new Error("该教师号已存在，请重新输入"));
+            callback(new Error("该学号已存在，请重新输入"));
           } else callback();
         });
       } else callback();
     };
     return {
       imageUrl: "",
-      facultys: "",
-      className: "",
+      faculties: "",
+      classInfos: "",
       status: "添加",
       form: {
         name: "",
         sex: "",
         id: "",
+        address: "",
         phone: "",
-        faculty: ""
+        // faculty: "",
+        classInfo: "",
+        birth: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
+        name: [{ required: true, message: "请输入学生姓名" }],
+        sex: [{ required: true, message: "请选择性别" }],
         id: [
-          {
-            required: true,
-            type: "number",
-            message: "请输入教师号",
-            trigger: "blur"
-          },
+          { required: true, type: "number", message: "请输入学号" },
           {
             validator: isExist,
             trigger: "blur"
           }
         ],
-        phone: [{ required: true, message: "请输入电话", trigger: "blur" }]
+        phone: [{ required: true, message: "请输入电话" }]
       }
     };
   },
   created: function() {
-    console.log(this.$route.params);
-    this.id = this.$route.params.id;
+    console.log(this.$route.query);
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
-      ApiTeacher.getDataById(this.id, res => {
+      ApiStudent.getDataById(this.id, res => {
         console.log(res);
         this.o_id = res.data.id;
         this.form = res.data;
       });
     }
     // 学院下拉框数据
-    ApiFaculty.getData({},res => {
-      this.facultys = res.data;
+    // ApiFaculty.getData({},res => {
+    //   this.faculties = res.data;
+    // });
+    // 班级下拉框数据
+    ApiClassInfo.getData({},res => {
+      this.classInfos = res.data;
     });
   },
   methods: {
@@ -158,7 +180,7 @@ export default {
           // 修改
           if (this.id) {
             console.log("修改");
-            ApiTeacher.update(this.id, this.form, res => {
+            ApiStudent.update(this.id, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
               } else {
@@ -167,7 +189,7 @@ export default {
             });
           } else {
             // 新增
-            ApiTeacher.save(this.form, res => {
+            ApiStudent.save(this.form, res => {
               if (res.status == "y") {
                 this.$message.success("添加成功~");
               } else {
@@ -180,7 +202,7 @@ export default {
               // 跳转管理员管理路由
             });
           }
-          this.$router.push({ name: "manageteacher" });
+          this.$router.push({ name: "studentManage" });
         }
       });
     },

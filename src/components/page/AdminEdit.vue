@@ -173,7 +173,7 @@ export default {
               // 跳转管理员管理路由
             });
           }
-          this.$router.push({ name: "manageadmin" });
+          this.$router.push({ name: "adminManage" });
         }
       });
     },

@@ -3,16 +3,16 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
+                <el-breadcrumb-item>管理学生信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <!-- <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
               <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
-                  <el-option 
-                        v-for="f in faculty" 
-                        :key="f._id" 
-                        :label="f.facultyName" 
+                  <el-option
+                        v-for="f in faculty"
+                        :key="f._id"
+                        :label="f.facultyName"
                         :value="f._id"></el-option>
               </el-select>
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
@@ -22,12 +22,13 @@
             <el-table-column type="selection" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
             <el-table-column prop="sex" label="性别" sortable > </el-table-column>
-            <el-table-column prop="id" label="工号" sortable > </el-table-column>
+            <el-table-column prop="id" label="学号" sortable > </el-table-column>
             <el-table-column prop="phone" label="电话"> </el-table-column>
-            <el-table-column prop="faculty.facultyName" label="所属院系" > </el-table-column>
+            <el-table-column prop="address" label="住址" > </el-table-column>
+            <el-table-column prop="birth" :formatter="dateFormat" label="生日" > </el-table-column>
             <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
-            <!-- 
-            <el-table-column prop="className.major.majorName" label="班级" > </el-table-column> -->
+            <el-table-column prop="classInfo.faculty.facultyName" label="学院" > </el-table-column>
+            <el-table-column prop="classInfo.className" label="班级" > </el-table-column>
             <el-table-column label="操作" width="150">
                 <template  slot-scope="scope">
                     <el-button size="small"
@@ -55,7 +56,7 @@
     	    <el-button type="primary" @click="doDel">确 定</el-button>
     	  </span>
     </el-dialog>
-    
+
     </div>
 </template>
 <style>
@@ -65,8 +66,9 @@
 </style>
 
 <script>
-import { ApiCounselor, ApiFaculty } from "../../service/apis";
-
+// import {moment} from 'vue-moment';
+import { ApiStudent, ApiFaculty } from "../../service/apis";
+// import moment from 'moment'
 export default {
   data() {
     return {
@@ -90,6 +92,8 @@ export default {
     };
   },
   created() {
+    this.is_search = true;
+
     ApiFaculty.getData({},res => {
       this.faculty = res.data;
     });
@@ -104,7 +108,7 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiCounselor.getDataByPage(
+      ApiStudent.getDataByPage(
         { page: this.cur_page, word: this.select_word },
         res => {
           this.tableData = res.data.res; //获取分页数据
@@ -114,7 +118,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiCounselor.getData({},res => {
+      ApiStudent.getData({},res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -133,7 +137,7 @@ export default {
           var users = data.data.data.users;
           for (let i = 0; i < users.length; i++) {
             const user = users[i];
-            ApiCounselor.save(user, res => {
+            ApiStudent.save(user, res => {
               if (res.status == "y") {
                 this.$message.success("数据加载成功");
                 this.getDataByPage();
@@ -142,27 +146,31 @@ export default {
           }
         });
     },
-    formatter(row, column) {
-      return row.address;
+
+    //时间格式化
+    dateFormat: function(row, column) {
+      var date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return this.$moment(date).format("YYYY-MM-DD");
     },
-    filterTag(value, row) {
-      return row.tag === value;
-    },
+
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addcounselor", params: { id: row._id } });
+      this.$router.push({ name: "studentEdit", query: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除辅导员：${row.name}`;
+      this.dialogMsg = `确认删除学生：${row.name}`;
       this.temDelRow = row;
     },
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiCounselor.deleteById(this.temDelRow._id, res => {
+      ApiStudent.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
@@ -173,7 +181,7 @@ export default {
         // this.$router.go(0);
         // this.$root.reload();
         // this.$router.push({
-        //   name: "manageheadteacher",
+        //   name: "managestudent",
         //   query: { random: Math.random() }
         // });
         this.getDataByPage();
@@ -194,7 +202,7 @@ export default {
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].name + ",";
             var id = this.multipleSelection[i]._id;
-            ApiCounselor.deleteById(id, res => {
+            ApiStudent.deleteById(id, res => {
               if (res.status == "y") {
                 delStatus = true;
                 console.log(delStatus);

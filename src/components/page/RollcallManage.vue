@@ -21,7 +21,7 @@
         <template slot-scope="scope">
           <template v-if="scope.row.fact==0"> \ </template>
           <template v-else>
-            <router-link class="c_danger" :to="{path:'/manageabsence',query:{aid:scope.row._id}}">
+            <router-link class="c_danger" :to="{path:'/absenceManage',query:{aid:scope.row._id}}">
               <el-tag type="danger">{{scope.row.fact}}人</el-tag>
             </router-link>
           </template>
@@ -134,7 +134,7 @@ export default {
     },
     handleEdit(index, row) {
       console.log(row._id);
-      this.$router.push({ name: "addrollcall", query: { id: row._id } });
+      this.$router.push({ name: "rollcallEdit", query: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {

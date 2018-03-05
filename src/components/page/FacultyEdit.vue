@@ -124,7 +124,7 @@ export default {
               }
             });
           }
-          this.$router.push({ name: "managefaculty" });
+          this.$router.push({ name: "facultyManage" });
         }
       });
     },

@@ -41,11 +41,11 @@ export default {
               title: "关于系统"
             },
             {
-              index: "addadmin",
+              index: "adminEdit",
               title: "编辑管理员"
             },
             {
-              index: "manageadmin",
+              index: "adminManage",
               title: "管理员管理"
             }
             // ,{
@@ -60,11 +60,11 @@ export default {
           title: "院系信息管理",
           subs: [
             {
-              index: "addfaculty",
+              index: "facultyEdit",
               title: "添加院系信息"
             },
             {
-              index: "managefaculty",
+              index: "facultyManage",
               title: "管理院系信息"
             }
           ]
@@ -75,19 +75,19 @@ export default {
           title: "用户信息管理",
           subs: [
             {
-              index: "addcounselor",
+              index: "counselorEdit",
               title: "添加辅导员信息"
             },
             {
-              index: "managecounselor",
+              index: "counselorManage",
               title: "管理辅导员信息"
             },
             {
-              index: "addteacher",
+              index: "teacherEdit",
               title: "添加任课教师"
             },
             {
-              index: "manageteacher",
+              index: "teacherManage",
               title: "管理任课教师"
             }
           ]
@@ -98,11 +98,11 @@ export default {
           title: "课程信息管理",
           subs: [
             {
-              index: "addcourse",
+              index: "courseEdit",
               title: "编辑课程信息"
             },
             {
-              index: "managecourse",
+              index: "courseManage",
               title: "管理课程信息"
             }
           ]
@@ -113,11 +113,11 @@ export default {
           title: "专业信息管理",
           subs: [
             {
-              index: "addmajor",
+              index: "majorEdit",
               title: "编辑专业信息"
             },
             {
-              index: "managemajor",
+              index: "majorManage",
               title: "管理专业信息"
             }
           ]
@@ -128,11 +128,11 @@ export default {
           title: "班级信息管理",
           subs: [
             {
-              index: "addclass",
+              index: "classEdit",
               title: "添加班级信息"
             },
             {
-              index: "manageclass",
+              index: "classManage",
               title: "管理班级信息"
             }
           ]
@@ -143,11 +143,11 @@ export default {
           title: "学生信息管理",
           subs: [
             {
-              index: "addstudent",
+              index: "studentEdit",
               title: "添加学生信息"
             },
             {
-              index: "managestudent",
+              index: "studentManage",
               title: "管理学生信息"
             }
           ]
@@ -158,23 +158,23 @@ export default {
           title: "排课信息管理",
           subs: [
             {
-              index: "addarrange",
+              index: "arrangeEdit",
               title: "编辑排课信息"
             },
             {
-              index: "managearrange",
+              index: "arrangeManage",
               title: "管理排课信息"
             },
             // {
-            //   index: "addrollcall",
+            //   index: "rollcallEdit",
             //   title: "添加点名信息"
             // },
             {
-              index: "managerollcall",
+              index: "rollcallManage",
               title: "管理点名信息"
             }
             // ,{
-            //   index: "manageabsence",
+            //   index: "absenceManage",
             //   title: "管理考勤信息"
             // }
           ]
@@ -185,16 +185,16 @@ export default {
           title: "考勤点名管理",
           subs: [
             {
-              index: "manageabsence",
+              index: "absenceManage",
               title: "管理考勤信息"
               // , subs:
               // [{
-              //   index: "addabsence",
+              //   index: "absenceEdit",
               //   title: "编辑考勤信息"
               // }]
             }
             // , {
-            //   index: "addabsence",
+            //   index: "absenceEdit",
             //   title: "编辑考勤信息"
             // }
           ]
@@ -257,11 +257,11 @@ export default {
         title: "系统管理",
         subs: [
           {
-            index: "addadmin",
+            index: "adminEdit",
             title: "编辑管理员"
           },
           {
-            index: "manageadmin",
+            index: "adminManage",
             title: "管理员管理"
           },
           {
@@ -279,19 +279,19 @@ export default {
           title: "课程信息管理",
           subs: [
             {
-              index: "addcourse",
+              index: "courseEdit",
               title: "编辑课程信息"
             },
             {
-              index: "managecourse",
+              index: "courseManage",
               title: "管理课程信息"
             },
             {
-              index: "addarrange",
+              index: "arrangeEdit",
               title: "编辑排课信息"
             },
             {
-              index: "managearrange",
+              index: "arrangeManage",
               title: "管理排课信息"
             }
           ]
@@ -302,11 +302,11 @@ export default {
           title: "学生信息管理",
           subs: [
             {
-              index: "addstudent",
+              index: "studentEdit",
               title: "添加学生信息"
             },
             {
-              index: "managestudent",
+              index: "studentManage",
               title: "管理学生信息"
             }
           ]
@@ -317,11 +317,11 @@ export default {
           title: "点名信息管理",
           subs: [
             {
-              index: "addrollcall",
+              index: "rollcallEdit",
               title: "添加点名信息"
             },
             {
-              index: "managerollcall",
+              index: "rollcallManage",
               title: "管理点名信息"
             }
           ]
@@ -335,11 +335,11 @@ export default {
         title: "课程信息管理",
         subs: [
           {
-            index: "addcourse",
+            index: "courseEdit",
             title: "编辑课程信息"
           },
           {
-            index: "managecourse",
+            index: "courseManage",
             title: "管理课程信息"
           }
         ]
@@ -348,7 +348,7 @@ export default {
   },
   computed: {
     onRoutes() {
-      return this.$route.path.replace("/", ""); //addamdin
+      return this.$route.path.replace("/", ""); //amdEditin
     }
   },
   methods: {}

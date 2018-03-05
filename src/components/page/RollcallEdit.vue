@@ -8,15 +8,15 @@
         </div>
         <div class="form-box">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
-              
-              
+
+
                 <!-- <el-form-item label="班级" prop="classInfo">
                   <el-input v-model.number="form.classInfo" ></el-input>
                 </el-form-item>
                 <el-form-item label="课程" prop="course">
                   <el-input v-model.number="form.course" ></el-input>
                 </el-form-item> -->
-              
+
                 <el-form-item label="班级" prop="o_classInfo">
         					<el-select v-model="o_classInfo"   class="handle-select mr10" loading-text="加载中" no-match-text>
         						<el-option
@@ -26,8 +26,8 @@
   			            </el-option>
   		            </el-select>
                 </el-form-item>
-                
-                
+
+
                 <el-form-item label="课程" prop="o_course">
         					<el-select v-model="o_course"  class="handle-select mr10">
 		                <el-option
@@ -37,7 +37,7 @@
 			              </el-option>
 		             </el-select>
                 </el-form-item>
-                
+
                <el-form-item label="点名时间" prop="rollcallTime">
                   <div class="block">
                     <el-date-picker
@@ -47,18 +47,18 @@
                     </el-date-picker>
                   </div>
                 </el-form-item>
-                
-                
+
+
                <el-form-item label="应到人数" prop="actual">
                   <el-input readonly  v-model.number="form.actual" ></el-input>
                 </el-form-item>
-               
+
                 <el-form-item label="未到人数" prop="fact">
                   <el-input readonly  v-model.number="form.fact" ></el-input>
                     <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
                     <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
                 </el-form-item>
-                
+
                 <el-form-item label="考勤记录" prop="actual">
                    <!-- <el-form-item label="迟到早退" prop="actual"> -->
                   <el-select v-model="tardiness" multiple placeholder="迟到同学"  @change="absenceChange">
@@ -93,10 +93,10 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                
+
                 <!-- <el-form-item label="缺勤同学" prop="absence"> -->
                     <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
-                    
+
                     <!-- <el-transfer
                       v-model="value3"
                       filterable
@@ -114,7 +114,7 @@
                       <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
                       <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
                     </el-transfer> -->
-                    
+
                       <!-- :render-content="renderFunc" -->
                      <!-- <el-transfer
                       v-model="value3"
@@ -129,12 +129,12 @@
                       }"
                       @change="handleChange"
                       :data="data">
-                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button> 
+                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
                       <el-button class="transfer-footer" slot="right-footer" size="small" @click="roll">确定</el-button>
                     </el-transfer> -->
-                    
+
               <!--   </el-form-item> -->
-                
+
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -372,7 +372,7 @@ export default {
             });
           });
           // }
-          // this.$router.push({ name: "managerollcall" });
+          // this.$router.push({ name: "rollcallManage" });
         }
       });
     },

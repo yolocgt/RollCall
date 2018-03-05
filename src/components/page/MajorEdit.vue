@@ -59,8 +59,8 @@ export default {
   },
 
   created: function() {
-    console.log(this.$route.params);
-    this.id = this.$route.params.id;
+    console.log(this.$route.query);
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
@@ -105,7 +105,7 @@ export default {
             });
           }
           //   跳转管理员管理路由
-          this.$router.push({ name: "managemajor" });
+          this.$router.push({ name: "majorManage" });
         }
       });
     },

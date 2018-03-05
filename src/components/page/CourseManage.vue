@@ -37,7 +37,7 @@
     	    <el-button type="primary" @click="doDel">确 定</el-button>
     	  </span>
     </el-dialog>
-    
+
     </div>
 </template>
 <style>
@@ -103,7 +103,7 @@ export default {
     },
     handleEdit(index, row) {
       console.log(row._id);
-      this.$router.push({ name: "addcourse", params: { id: row._id } });
+      this.$router.push({ name: "courseEdit", query: { id: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {

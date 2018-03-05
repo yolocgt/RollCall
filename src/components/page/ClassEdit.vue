@@ -18,7 +18,7 @@
   			            </el-option>
   		            </el-select>
                 </el-form-item>
-                
+
                 <el-form-item label="专业" prop="major">
         					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
         						<el-option
@@ -29,7 +29,7 @@
     			            </el-option>
     		            </el-select>
                 </el-form-item>
-                
+
                 <el-form-item label="班级" prop="cno">
   				      	<el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
   		                <el-option
@@ -40,7 +40,7 @@
   			            </el-option>
   		            </el-select>
                 </el-form-item>
-                
+
                 <el-form-item label="院系" prop="faculty">
         					<el-select v-model="form.faculty"  class="handle-select mr10" loading-text="加载中" no-match-text>
         						<el-option
@@ -51,7 +51,7 @@
     			            </el-option>
     		            </el-select>
                 </el-form-item>
-                
+
                 <el-form-item label="辅导员" prop="counselor">
         					<el-select v-model="form.counselor"  class="handle-select mr10" loading-text="加载中" no-match-text>
         						<el-option
@@ -62,7 +62,7 @@
     			            </el-option>
     		            </el-select>
                 </el-form-item>
-                
+
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -149,7 +149,7 @@ export default {
       this.cnos.push(obj);
     }
 
-    this.id = this.$route.params.id;
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
@@ -214,7 +214,7 @@ export default {
               } else this.$message.error("添加失败！");
             });
           }
-          this.$router.push({ name: "manageclass" });
+          this.$router.push({ name: "classManage" });
         }
       });
     },

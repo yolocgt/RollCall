@@ -6,26 +6,26 @@
         <el-breadcrumb-item>管理系统账号 <i class="el-icon-upload" @click="loadData"></i></el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    
+
     <div class="handle-box">
       <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
       <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage" clearable></el-input>
       <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
     </div>
-    
+
     <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column prop="id" label="账号" sortable width="150"> </el-table-column>
       <el-table-column prop="name" label="姓名"> </el-table-column>
       <el-table-column label="操作" width="240">
         <template  slot-scope="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> 
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button> 
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
           <el-button size="small" type="success" @click="handleResetPsw(scope.$index, scope.row,scope.row._id)">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <!-- 分页按钮 -->
     <div class="pagination">
       <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
@@ -36,7 +36,7 @@
         :page-count="pageCount||1" :page-size="pageSize" >
       </el-pagination>
     </div>
-    
+
     <!-- 确认删除对话框 -->
     <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
     	<span>{{dialogMsg}}</span>
@@ -45,7 +45,7 @@
   	    <el-button type="primary" @click="doDel">确 定</el-button>
   	  </span>
     </el-dialog>
-  
+
     <!-- 确认重置对话框 -->
     <el-dialog title="请确认重置信息" :visible.sync="dialogVisible2" width="30%">
     	<span>{{dialogMsg2}}</span>
@@ -148,7 +148,7 @@ export default {
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addadmin", query: { aid: row._id } });
+      this.$router.push({ name: "adminEdit", query: { aid: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {

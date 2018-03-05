@@ -10,17 +10,17 @@
             <!-- <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button> -->
             <el-button type="primary" icon="delete" class="handle-del mr10">批量删除</el-button>
             <!-- <el-select v-model="select_learnYear" placeholder="筛选学年" class="handle-select mr10">
-                <el-option 
-                  v-for="f in learnYears" 
-                  :key="f._id" 
-                  :label="f._id" 
+                <el-option
+                  v-for="f in learnYears"
+                  :key="f._id"
+                  :label="f._id"
                   :value="f._id"></el-option>
             </el-select>
 			      <el-select v-model="select_learnTerm" placeholder="请选择" class="handle-select mr10">
                 <el-option key="1" label="第一学期" value="第一学期"></el-option>
                 <el-option key="2" label="第二学期" value="第二学期"></el-option>
             </el-select> -->
-            
+
             <!-- <div class="block">
               <span class="demonstration">可选择任意一级菜单的选项</span> -->
               <el-cascader
@@ -34,11 +34,11 @@
                  v-model="casYears"
               ></el-cascader>
             <!-- </div> -->
-        
+
             <el-input v-model="select_word" placeholder="筛选关键词" @keyup.native.enter="search" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
             <!-- <el-button type="primary" icon="search" >搜索</el-button> -->
-        
+
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
@@ -61,12 +61,12 @@
             <el-table-column label="点名" width="150">
                 <template  slot-scope="scope">
                     <el-button size="small" type="success">
-                      <router-link :to="{path:'/addrollcall',query: {id: scope.row._id}}">点名</router-link>
+                      <router-link :to="{path:'/rollcallEdit',query: {id: scope.row._id}}">点名</router-link>
                     </el-button>
                     <el-button size="small" type="info">
                       查看<i class="el-icon-arrow-right">
                     </i></el-button>
-                    
+
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="140">
@@ -251,7 +251,7 @@ export default {
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addarrange", params: { id: row._id } });
+      this.$router.push({ name: "arrangeEdit", query: { id: row._id } });
     },
     // 删除
     doDel() {

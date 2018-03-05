@@ -127,7 +127,7 @@ export default {
             // 跳转管理员管理路由
           });
         }
-        this.$router.push({ name: "manageabsence" });
+        this.$router.push({ name: "absenceManage" });
       });
     },
     // 重置表单

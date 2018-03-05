@@ -1,20 +1,31 @@
 <template>
-    <div class="table" style="width:699px">
+      <div class="table" style="width: 736px">
+
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-                <el-breadcrumb-item>院系信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>班级信息管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
+        <!-- <div class="handle-box">
+            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+            <el-select v-model="select_cate" placeholder="筛选啥" class="handle-select mr10">
+                <el-option key="1" label="广东省" value="广东省"></el-option>
+                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+            </el-select>
+            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+            <el-button type="primary" icon="search" @click="search">搜索</el-button>
+        </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="facultyName" label="院系名称" sortable width="150">
+            <!-- <el-table-column prop="cyear" label="年级" sortable width="150">
             </el-table-column>
-            <el-table-column prop="director" label="系主任" width="120">
-            </el-table-column>
-            <el-table-column prop="phone" label="联系电话" >
-            </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column prop="major.majorName" label="专业" width="120">
+            </el-table-column> -->
+            <el-table-column prop="faculty.facultyName" label="院系" > </el-table-column>
+            <el-table-column prop="className" label="班级" > </el-table-column>
+            <el-table-column prop="counselor.name" label="辅导员" > </el-table-column>
+            <el-table-column label="操作" >
                 <template  slot-scope="scope">
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -24,7 +35,7 @@
             </el-table-column>
         </el-table>
         <div class="pagination">
-            <el-pagination 
+            <el-pagination
                      @current-change ="handlePageChange"
                     layout="prev, pager, next"
                     :page-count="pageCount||1" :page-size="pageSize">
@@ -42,7 +53,7 @@
 </template>
 
 <script>
-import { ApiFaculty } from "../../service/apis";
+import { ApiClassInfo } from "../../service/apis";
 export default {
   data() {
     return {
@@ -73,6 +84,7 @@ export default {
     }
   },
   methods: {
+    // 当前页码改变事件
     handlePageChange(val) {
       this.cur_page = val;
       this.getDataByPage();
@@ -80,7 +92,7 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
-      ApiFaculty.getDataByPage(
+      ApiClassInfo.getDataByPage(
         { page: this.cur_page, word: this.select_word },
         res => {
           this.tableData = res.data.res; //获取分页数据
@@ -91,28 +103,26 @@ export default {
     search() {
       this.is_search = true;
     },
-    formatter(row, column) {
-      return row.address;
-    },
-    filterTag(value, row) {
-      return row.tag === value;
-    },
     // 确认删除提示框
     handleDelete(index, row) {
       this.dialogVisible = true;
-      this.dialogMsg = `确认删除学院：${row.facultyName}`;
+      this.dialogMsg = `确认删除：${row.cyear +
+        "级" +
+        row.major.majorName +
+        row.cno +
+        "班"}`;
       this.temDelRow = row;
     },
     // 编辑
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addfaculty", query: { id: row._id } });
+      this.$router.push({ name: "classEdit", query: { id: row._id } });
     },
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiFaculty.deleteById(this.temDelRow._id, res => {
+      ApiClassInfo.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");

@@ -62,8 +62,8 @@ export default {
   },
 
   created: function() {
-    console.log(this.$route.params);
-    this.id = this.$route.params.id;
+    console.log(this.$route.query);
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
@@ -103,7 +103,7 @@ export default {
               }
             });
           }
-          this.$router.push({ name: "managecourse" });
+          this.$router.push({ name: "courseManage" });
         }
       });
     },
