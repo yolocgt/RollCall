@@ -1,68 +1,62 @@
 <template>
-    <div class="table" style="width:640px">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理系统账号 <i class="el-icon-upload" @click="loadData"></i></el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-              <!-- <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
-                  <el-option key="1" label="账号" value="账号"></el-option>
-                  <el-option key="2" label="姓名" value="姓名"></el-option>
-              </el-select> -->
-            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
-        </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="50"></el-table-column>
-            <el-table-column prop="id" label="账号" sortable width="150">
-            </el-table-column>
-            <!-- <el-table-column prop="password" label="密码" width="120">
-            </el-table-column> -->
-            <el-table-column prop="name" label="姓名" >
-            </el-table-column>
-            <el-table-column label="操作" width="240">
-                <template  slot-scope="scope">
-                    <el-button size="small"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
-                    <el-button size="small" type="success"
-                            @click="handleResetPsw(scope.$index, scope.row,scope.row._id)">重置密码</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="pagination">
-          <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
-              page-size	每页显示条目个数 -->
-            <el-pagination
-                    @current-change ="handlePageChange"
-                    layout="prev, pager, next"
-                    :page-count="pageCount||1" :page-size="pageSize"
-                    >
-            </el-pagination>
-        </div>
-        <!-- 确认删除对话框 -->
-		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
-      	<span>{{dialogMsg}}</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button @click="dialogVisible=false">取 消</el-button>
-    	    <el-button type="primary" @click="doDel">确 定</el-button>
-    	  </span>
-    </el-dialog>
-    
-    <el-dialog title="请确认重置信息" :visible.sync="dialogVisible2" width="30%">
-      	<span>{{dialogMsg2}}</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button @click="dialogVisible2=false">取 消</el-button>
-    	    <el-button type="primary" @click="doReset">确 定</el-button>
-    	  </span>
-    </el-dialog>
-    
+  <div class="table" style="width:640px">
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
+        <el-breadcrumb-item>管理系统账号 <i class="el-icon-upload" @click="loadData"></i></el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    
+    <div class="handle-box">
+      <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+      <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage" clearable></el-input>
+      <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
+    </div>
+    
+    <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="50"></el-table-column>
+      <el-table-column prop="id" label="账号" sortable width="150"> </el-table-column>
+      <el-table-column prop="name" label="姓名"> </el-table-column>
+      <el-table-column label="操作" width="240">
+        <template  slot-scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> 
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button> 
+          <el-button size="small" type="success" @click="handleResetPsw(scope.$index, scope.row,scope.row._id)">重置密码</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    
+    <!-- 分页按钮 -->
+    <div class="pagination">
+      <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
+          page-size	每页显示条目个数 -->
+      <el-pagination
+        @current-change ="handlePageChange"
+        layout="prev, pager, next"
+        :page-count="pageCount||1" :page-size="pageSize" >
+      </el-pagination>
+    </div>
+    
+    <!-- 确认删除对话框 -->
+    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+    	<span>{{dialogMsg}}</span>
+  	  <span slot="footer" class="dialog-footer">
+  	    <el-button @click="dialogVisible=false">取 消</el-button>
+  	    <el-button type="primary" @click="doDel">确 定</el-button>
+  	  </span>
+    </el-dialog>
+  
+    <!-- 确认重置对话框 -->
+    <el-dialog title="请确认重置信息" :visible.sync="dialogVisible2" width="30%">
+    	<span>{{dialogMsg2}}</span>
+  	  <span slot="footer" class="dialog-footer">
+  	    <el-button @click="dialogVisible2=false">取 消</el-button>
+  	    <el-button type="primary" @click="doReset">确 定</el-button>
+  	  </span>
+    </el-dialog>
+  </div>
 </template>
+
 <style>
 .el-dialog {
   width: 30%;
@@ -79,7 +73,6 @@ export default {
       tableData: [],
       allData: [],
       multipleSelection: [],
-      // select_cate: "",
       select_word: "", //搜索内容
       del_list: [],
       is_search: false,
@@ -117,7 +110,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiAdmin.getData({},res => {
+      ApiAdmin.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -155,7 +148,7 @@ export default {
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addadmin", query: { id: row._id } });
+      this.$router.push({ name: "addadmin", query: { aid: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {

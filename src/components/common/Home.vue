@@ -30,7 +30,7 @@ export default {
   computed: {
     seen() {
       this.isLogin = this.$cookie.get("username") != null ? true : false;
-      console.log(this.isLogin);
+      // console.log(this.isLogin);
       return this.isLogin;
     }
   },

@@ -1,34 +1,29 @@
 <template>
-    <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>{{status}}系统账号</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="form-box">
-            <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
-                <el-form-item label="账号" prop="id">
-                    <!-- <el-input v-model="form.id" autofocus ref="inputRef" @blur="isExists"></el-input> -->
-                    <el-input v-model.trim="form.id" autofocus ref="inputRef" ></el-input>
-                </el-form-item>
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model.trim="form.name"></el-input>
-                </el-form-item>
-                <!-- <el-form-item label="密码" prop="password">
-                    <el-input type="password" v-model="form.password"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="rePsw">
-                    <el-input type="password" v-model="form.rePsw"></el-input>
-                </el-form-item> -->
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
-                    <el-button @click="resetSubmit('form')">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-
+  <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 系统管理</el-breadcrumb-item>
+        <el-breadcrumb-item>{{status}}系统账号</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+
+    <div class="form-box">
+      <el-form :model="form" :rules="rules" ref="form" label-width="80px" @keydown.13.native="onSubmit('form')">
+        <el-form-item label="账号" prop="id">
+          <!-- <el-input v-model="form.id" autofocus ref="inputRef" @blur="isExists"></el-input> -->
+          <el-input v-model.trim="form.id" autofocus ref="inputRef"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model.trim="form.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
+          <el-button @click="resetSubmit('form')">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -42,7 +37,7 @@ import { ApiAdmin } from "../../service/apis";
 import crypto from "crypto-js";
 import login from "../../service/api_login";
 export default {
-  data: function() {
+  data: function () {
     // 验证输入密码
     var validatePsw = (rule, value, callback) => {
       if (value === "") {
@@ -60,9 +55,7 @@ export default {
         callback(new Error("请再次输入密码"));
       } else if (value !== this.form.password) {
         callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
+      } else callback();
     };
     // 验证是否存在
     var isExist = (rule, value, callback) => {
@@ -82,7 +75,6 @@ export default {
       form: {
         id: "",
         name: ""
-        // password:""
       },
       rules: {
         id: [
@@ -117,7 +109,7 @@ export default {
     };
   },
 
-  created: function() {
+  created: function () {
     // window.onkeydown = function(event) {
     //   console.log(event);
     //   if (event.keyCode == "13") {
@@ -125,18 +117,18 @@ export default {
     //   }
     // };
     console.log(this.$route);
-    this.id = this.$route.query.id;
-    console.log(this.id);
-    if (this.id) {
+    this.aid = this.$route.query.aid;
+    console.log(this.aid);
+    if (this.aid) {
       this.status = "修改";
-      ApiAdmin.getDataById(this.id, res => {
+      ApiAdmin.getDataById(this.aid, res => {
         console.log(res);
         this.o_id = res.data.id;
         this.form = res.data;
       });
     }
   },
-  mounted: function() {
+  mounted: function () {
     // 聚焦到第一个输入框
     this.$refs.inputRef.$el.children[0].focus();
   },
@@ -156,14 +148,10 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // md5加密密码
-          // this.form.password = crypto.MD5(this.form.password).toString();
-          // delete this.form.password;
-          // console.log(this.form);
           // 修改
-          if (this.id) {
+          if (this.aid) {
             console.log("修改");
-            ApiAdmin.update(this.id, this.form, res => {
+            ApiAdmin.update(this.aid, this.form, res => {
               if (res.status == "y") {
                 this.$message.success("修改成功~");
               } else {

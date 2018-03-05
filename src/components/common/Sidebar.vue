@@ -187,29 +187,34 @@ export default {
             {
               index: "manageabsence",
               title: "管理考勤信息"
+              // , subs:
+              // [{
+              //   index: "addabsence",
+              //   title: "编辑考勤信息"
+              // }]
+            }
+            // , {
+            //   index: "addabsence",
+            //   title: "编辑考勤信息"
+            // }
+          ]
+        },
+
+        {
+          icon: "el-icon-menu",
+          index: "7",
+          title: "表格",
+          subs: [
+            {
+              index: "basetable",
+              title: "基础表格"
             },
             {
-              index: "addabsence",
-              title: "编辑考勤信息"
+              index: "vuetable",
+              title: "Vue表格组件"
             }
           ]
-        }
-
-        // {
-        //   icon: "el-icon-menu",
-        //   index: "7",
-        //   title: "表格",
-        //   subs: [
-        //     {
-        //       index: "basetable",
-        //       title: "基础表格"
-        //     },
-        //     {
-        //       index: "vuetable",
-        //       title: "Vue表格组件"
-        //     }
-        //   ]
-        // },
+        },
         // {
         //   icon: "el-icon-date",
         //   index: "4",
@@ -363,7 +368,7 @@ export default {
 }
 /* 实现隐藏滚动条同时又可以滚动 */
 /*  如果要兼容 PC 其他浏览器（IE、Firefox 等），国外一位才人 John Kurlak 也研究出了一种办法。
-    在容器外面再嵌套一层 overflow:hidden 内部内容再限制尺寸和外部嵌套层一样，就变相隐藏了。 
+    在容器外面再嵌套一层 overflow:hidden 内部内容再限制尺寸和外部嵌套层一样，就变相隐藏了。
     参考 https://www.cnblogs.com/alice626/p/6206760.html  */
 .sidebar::-webkit-scrollbar {
   display: none;
