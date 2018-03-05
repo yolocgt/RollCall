@@ -24,7 +24,7 @@
             </el-table-column>
         </el-table>
         <div class="pagination">
-            <el-pagination
+            <el-pagination 
                      @current-change ="handlePageChange"
                     layout="prev, pager, next"
                     :page-count="pageCount||1" :page-size="pageSize">
@@ -107,7 +107,7 @@ export default {
     handleEdit(index, row) {
       // this.$message("编辑第" + (index + 1) + "行");
       console.log(row._id);
-      this.$router.push({ name: "addfaculty", params: { id: row._id } });
+      this.$router.push({ name: "addfaculty", query: { id: row._id } });
     },
     // 删除
     doDel() {

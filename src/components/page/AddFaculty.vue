@@ -14,12 +14,12 @@
                 <el-form-item label="系主任" prop="director">
                     <el-input v-model="form.director"></el-input>
                 </el-form-item>
-                
+
                 <!-- <el-form-item label="联系电话" prop="phone" :rules="[ { required: true, message: '请输入电话'}, { type: 'number', message: '电话必须为数字值'} ]" > -->
                 <el-form-item label="联系电话" prop="phone" >
                   <el-input type="phone" v-model="form.phone" auto-complete="off"></el-input>
                 </el-form-item>
-                
+
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
                     <el-button @click="resetSubmit('form')">取消</el-button>
@@ -85,8 +85,8 @@ export default {
     };
   },
   created: function() {
-    console.log(this.$route.params);
-    this.id = this.$route.params.id;
+    console.log(this.$route.query);
+    this.id = this.$route.query.id;
     console.log(this.id);
     if (this.id) {
       this.status = "修改";
