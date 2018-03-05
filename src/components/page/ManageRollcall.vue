@@ -1,56 +1,56 @@
 <template>
-    <div class="table">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <el-table :data="data" :class="'rollcall'" border  ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="arrange.learnYear" label="学年" min-width="90"> </el-table-column>
-            <el-table-column prop="arrange.learnTerm" label="学期" > </el-table-column>
-            <el-table-column prop="arrange.classInfo.className" label="班级" > </el-table-column>
-            <el-table-column prop="arrange.course.courseName" label="课程" > </el-table-column>
-            <el-table-column prop="arrange.teacher.name" label="教师" > </el-table-column>
-            <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="100"> </el-table-column>
-            <el-table-column prop="arrange.section" label="节次" > </el-table-column>
-            <el-table-column prop="actual" label="总数" > <el-tag type="danger">标签五</el-tag></el-table-column>
-            <el-table-column label="缺勤" >
-               <template slot-scope="scope">
-                 <!-- <router-link :to="{path:'/manageabsence',query:{id:scope.row._id}}"><el-tag type="danger">{{scope.row.fact}}</el-tag></router-link> -->
-                 <router-link :class="scope.row.fact!=0?'c_danger':''" :to="{path:'/manageabsence',query:{id:scope.row._id}}">{{scope.row.fact==0?"\\":scope.row.fact}}</router-link>
-               </template>
-             </el-table-column>
-            <el-table-column label="操作" width="180">
-                <template  slot-scope="scope">
-                    <el-button size="small"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger"
-                            @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="pagination">
-          <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
-              page-size	每页显示条目个数 -->
-            <el-pagination
-                    @current-change ="handlePageChange"
-                    layout="prev, pager, next"
-                    :page-count="pageCount||1" :page-size="pageSize"
-                    >
-            </el-pagination>
-        </div>
-        <!-- 确认删除对话框 -->
-		<el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
-      	<span>{{dialogMsg}}</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button @click="dialogVisible=false">取 消</el-button>
-    	    <el-button type="primary" @click="doDel">确 定</el-button>
-    	  </span>
-    </el-dialog>
-    
+  <div class="table">
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
+        <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <el-table :data="data" :class="'rollcall'" border ref="multipleTable" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="arrange.learnYear" label="学年" min-width="90"> </el-table-column>
+      <el-table-column prop="arrange.learnTerm" label="学期"> </el-table-column>
+      <el-table-column prop="arrange.classInfo.className" label="班级"> </el-table-column>
+      <el-table-column prop="arrange.course.courseName" label="课程"> </el-table-column>
+      <el-table-column prop="arrange.teacher.name" label="教师"> </el-table-column>
+      <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="100"> </el-table-column>
+      <el-table-column prop="arrange.section" label="节次"> </el-table-column>
+      <el-table-column prop="actual" label="总数"> </el-table-column>
+      <el-table-column label="缺勤">
+        <template slot-scope="scope">
+          <template v-if="scope.row.fact==0"> \ </template>
+          <template v-else>
+            <router-link class="c_danger" :to="{path:'/manageabsence',query:{aid:scope.row._id}}">
+              <el-tag type="danger">{{scope.row.fact}}人</el-tag>
+            </router-link>
+          </template>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagination">
+      <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
+              page-size	每页显示条目个数 -->
+      <el-pagination @current-change="handlePageChange" layout="prev, pager, next" :page-count="pageCount||1" :page-size="pageSize">
+      </el-pagination>
+    </div>
+    <!-- 确认删除对话框 -->
+    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+      <span>{{dialogMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible=false">取 消</el-button>
+        <el-button type="primary" @click="doDel">确 定</el-button>
+      </span>
+    </el-dialog>
+
+  </div>
 </template>
 <style >
 .el-dialog {
@@ -67,9 +67,9 @@ a {
   cursor: pointer;
   text-decoration: underline;
 }
-.c_danger::after {
+/* .c_danger::after {
   content: "人";
-}
+} */
 /* 单元格居中 */
 .rollcall .cell {
   text-align: center;
@@ -123,7 +123,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiRollcall.getData({},res => {
+      ApiRollcall.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -163,7 +163,7 @@ export default {
       this.del_list = this.del_list.concat(this.multipleSelection);
       var delStatus = false;
 
-      let promise = new Promise(function(resolve, reject) {
+      let promise = new Promise(function (resolve, reject) {
         console.log("Promise");
         resolve();
       });
@@ -194,7 +194,7 @@ export default {
       this.multipleSelection = val;
     },
     //时间格式化
-    dateFormat: function(row, column) {
+    dateFormat: function (row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";
