@@ -77,7 +77,7 @@ a {
 </style>
 
 <script>
-import { ApiRollcall } from "../../service/apis";
+import { ApiRollcall, ApiAbsence } from "../../service/apis";
 
 export default {
   data() {
@@ -140,15 +140,24 @@ export default {
     handleDelete(index, row) {
       this.dialogVisible = true;
       this.dialogMsg = `确认删除该次点名?`;
+      if (row.fact > 0) {
+        this.dialogMsg = `确认删除该次点名和对应的缺勤信息吗?`;
+      }
       this.temDelRow = row;
+      console.log(row);
     },
     // 删除
     doDel() {
       this.dialogVisible = false;
+      // 删除点名信息
       ApiRollcall.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
+          // 删除点名对应的考勤信息?
+          ApiAbsence.deleteMany(this.temDelRow._id, (res) => {
+            console.log(res);
+          })
           this.getDataByPage();
         } else {
           this.$message.success("删除失败！");
@@ -199,7 +208,7 @@ export default {
       if (date == undefined) {
         return "";
       }
-      return this.$moment(date).format("YYYY-MM-DD HH:mm");
+      return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
     }
   }
 };
