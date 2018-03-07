@@ -1,103 +1,76 @@
 <template>
-    <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>编辑点名信息</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="form-box">
-            <el-form :model="form" :rules="rules" ref="form" label-width="80px">
+  <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
+        <el-breadcrumb-item>编辑点名信息</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="form-box">
+      <el-form :model="form" :rules="rules" ref="form" label-width="80px">
 
-
-                <!-- <el-form-item label="班级" prop="classInfo">
+        <!-- <el-form-item label="班级" prop="classInfo">
                   <el-input v-model.number="form.classInfo" ></el-input>
                 </el-form-item>
                 <el-form-item label="课程" prop="course">
                   <el-input v-model.number="form.course" ></el-input>
                 </el-form-item> -->
 
-                <el-form-item label="班级" prop="o_classInfo">
-        					<el-select v-model="o_classInfo"   class="handle-select mr10" loading-text="加载中" no-match-text>
-        						<el-option
-  			                :key="classInfo._id"
-  			                :label="classInfo.className"
-  			                :value="classInfo._id">
-  			            </el-option>
-  		            </el-select>
-                </el-form-item>
+        <el-form-item label="班级" prop="o_classInfo">
+          <el-select v-model="o_classInfo" class="handle-select mr10" loading-text="加载中" no-match-text>
+            <el-option :key="classInfo._id" :label="classInfo.className" :value="classInfo._id">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
+        <el-form-item label="课程" prop="o_course">
+          <el-select v-model="o_course" class="handle-select mr10">
+            <el-option :key="course._id" :label="course.courseName" :value="course._id">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-                <el-form-item label="课程" prop="o_course">
-        					<el-select v-model="o_course"  class="handle-select mr10">
-		                <el-option
-			                :key="course._id"
-			                :label="course.courseName"
-			                :value="course._id">
-			              </el-option>
-		             </el-select>
-                </el-form-item>
+        <el-form-item label="点名时间" prop="rollcallTime">
+          <div class="block">
+            <el-date-picker v-model="form.rollcallTime" type="datetime" placeholder="选择日期时间">
+            </el-date-picker>
+          </div>
+        </el-form-item>
 
-               <el-form-item label="点名时间" prop="rollcallTime">
-                  <div class="block">
-                    <el-date-picker
-                      v-model="form.rollcallTime"
-                      type="datetime"
-                      placeholder="选择日期时间">
-                    </el-date-picker>
-                  </div>
-                </el-form-item>
+        <el-form-item label="应到人数" prop="actual">
+          <el-input readonly v-model.number="form.actual"></el-input>
+        </el-form-item>
 
+        <el-form-item label="未到人数" prop="fact">
+          <el-input readonly v-model.number="form.fact"></el-input>
+          <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
+          <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
+        </el-form-item>
 
-               <el-form-item label="应到人数" prop="actual">
-                  <el-input readonly  v-model.number="form.actual" ></el-input>
-                </el-form-item>
+        <el-form-item label="考勤记录" prop="actual">
+          <!-- <el-form-item label="迟到早退" prop="actual"> -->
+          <el-select v-model="tardiness" multiple placeholder="迟到同学" @change="absenceChange">
+            <el-option v-for="item in students" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- </el-form-item> -->
+          <el-select v-model="leave" multiple placeholder="请假同学" @change="absenceChange">
+            <el-option v-for="item in students" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- </el-form-item> -->
+          <!-- <el-form-item label="旷课" prop="actual"> -->
+          <el-select v-model="truancy" multiple placeholder="旷课同学" @change="absenceChange">
+            <el-option v-for="item in students" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-                <el-form-item label="未到人数" prop="fact">
-                  <el-input readonly  v-model.number="form.fact" ></el-input>
-                    <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
-                    <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
-                </el-form-item>
+        <!-- <el-form-item label="缺勤同学" prop="absence"> -->
+        <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
 
-                <el-form-item label="考勤记录" prop="actual">
-                   <!-- <el-form-item label="迟到早退" prop="actual"> -->
-                  <el-select v-model="tardiness" multiple placeholder="迟到同学"  @change="absenceChange">
-                    <el-option
-                      v-for="item in students"
-                      :key="item.value"
-                      :label="item.label"
-                      :disabled="item.disabled"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                <!-- </el-form-item> -->
-                  <el-select v-model="leave" multiple placeholder="请假同学" @change="absenceChange">
-                    <el-option
-                      v-for="item in students"
-                      :key="item.value"
-                      :label="item.label"
-                      :disabled="item.disabled"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                <!-- </el-form-item> -->
-                <!-- <el-form-item label="旷课" prop="actual"> -->
-                  <el-select v-model="truancy" multiple placeholder="旷课同学"  @change="absenceChange">
-                    <el-option
-                      v-for="item in students"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                      :disabled="item.disabled"
-                      >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-
-                <!-- <el-form-item label="缺勤同学" prop="absence"> -->
-                    <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
-
-                    <!-- <el-transfer
+        <!-- <el-transfer
                       v-model="value3"
                       filterable
                       :left-default-checked="[2, 3]"
@@ -115,8 +88,8 @@
                       <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
                     </el-transfer> -->
 
-                      <!-- :render-content="renderFunc" -->
-                     <!-- <el-transfer
+        <!-- :render-content="renderFunc" -->
+        <!-- <el-transfer
                       v-model="value3"
                       filterable
                       :left-default-checked="[2, 3]"
@@ -133,16 +106,16 @@
                       <el-button class="transfer-footer" slot="right-footer" size="small" @click="roll">确定</el-button>
                     </el-transfer> -->
 
-              <!--   </el-form-item> -->
+        <!--   </el-form-item> -->
 
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
-                    <el-button @click="resetSubmit('form')">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
+          <el-button @click="resetSubmit('form')">取消</el-button>
+        </el-form-item>
+      </el-form>
     </div>
+
+  </div>
 </template>
 
 <style scoped>
@@ -168,7 +141,7 @@ import {
   ApiAbsence
 } from "../../service/apis";
 export default {
-  data: function() {
+  data: function () {
     return {
       data: [],
       value3: [],
@@ -221,7 +194,7 @@ export default {
     //   return leave.length
     // }
   },
-  created: function() {
+  created: function () {
     const data = [];
     var stus = {};
 
@@ -259,7 +232,7 @@ export default {
         console.log(data);
         this.data = data;
         this.students = data;
-        console.clear();
+        // console.clear();
         console.log(this.students);
       });
     });
@@ -276,7 +249,7 @@ export default {
       });
     }
   },
-  mounted: function() {},
+  mounted: function () { },
   methods: {
     roll() {
       // alert('roll')
@@ -323,7 +296,7 @@ export default {
             if (res.status == "y") {
               this.$message.success("添加成功~");
             } else this.$message.error("添加失败！");
-            ApiRollcall.getData(data => {
+            ApiRollcall.getData({}, data => {
               // 本次新增的一条点名记录
               var newRoll = data.data.reverse()[0];
               console.log("本次新增的一条点名记录：");

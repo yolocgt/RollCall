@@ -29,6 +29,8 @@
                 <br>
                 <el-checkbox disabled checked>ES6 Babel</el-checkbox>
                 <br>
+                <el-checkbox disabled checked>Promise对象</el-checkbox>
+                <br>
                 <el-checkbox disabled checked>Cookie</el-checkbox>
                 <br>
                 <el-checkbox disabled checked>登录/注销</el-checkbox>

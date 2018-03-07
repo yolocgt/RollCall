@@ -50,7 +50,7 @@
       </el-table-column>
       <el-table-column prop="classroom" label="教室" width="66">
       </el-table-column>
-      <el-table-column label="点名" width="150">
+      <el-table-column label="点名" width="155">
         <template slot-scope="scope">
           <el-button size="small" type="success">
             <router-link :to="{path:'/rollcallEdit',query: {id: scope.row._id}}">点名</router-link>

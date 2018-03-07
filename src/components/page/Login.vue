@@ -1,39 +1,35 @@
 <template>
-    <div class="login-wrap">
-        <div class="ms-title">学生点名管理系统</div>
-        <div class="ms-login">
-            <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0px" class="demo-ruleForm">
-                <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
-                </el-form-item>
-                <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="loginForm.password" @keyup.enter.native="submitForm('loginForm')"></el-input>
-                </el-form-item>
-                <el-form-item prop="role">
-                  <el-select v-model="loginForm.role" placeholder="请选择角色" @change="roleChange()">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                  
-                <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
-                </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 如登录失败请尝试切换用户角色</p>
-            </el-form>
+  <div class="login-wrap">
+    <div class="ms-title">学生点名管理系统</div>
+    <div class="ms-login">
+      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0px" class="demo-ruleForm">
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" placeholder="密码" v-model="loginForm.password" @keyup.enter.native="submitForm('loginForm')"></el-input>
+        </el-form-item>
+        <el-form-item prop="role">
+          <el-select v-model="loginForm.role" placeholder="请选择角色" @change="roleChange()">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <div class="login-btn">
+          <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
         </div>
+        <p style="font-size:12px;line-height:30px;color:#999;">Tips : 如登录失败请尝试切换用户角色</p>
+      </el-form>
     </div>
+  </div>
 </template>
 
 <script>
 import ApiLogin from "../../service/api_login";
 import crypto from "crypto-js";
 export default {
-  data: function() {
+  data: function () {
     return {
       isLogin: false,
       role: "",
@@ -73,7 +69,7 @@ export default {
       ]
     };
   },
-  created: function() {
+  created: function () {
     this.isLogin = this.$cookie.get("username") != null ? true : false;
     console.log(this.isLogin);
     // 已登录
@@ -123,8 +119,11 @@ export default {
 </script>
 
 <style scoped>
+.ms-login .el-input {
+  width: 100%;
+}
 .el-select {
-  width: 100% !important;
+  width: 100%;
 }
 .login-wrap {
   position: relative;

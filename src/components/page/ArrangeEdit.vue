@@ -7,7 +7,7 @@
         <el-breadcrumb-item>编辑排课信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="form-box">
+    <div class="form-box fbArrange">
       <el-form :model="form" :rules="rules" ref="form" label-width="80px">
         <el-form-item label="所属班级" prop="classInfo">
           <el-select v-model="form.classInfo" @visible-change="classChange" class="handle-select mr10" loading-text="加载中" no-match-text>
@@ -64,8 +64,17 @@
   </div>
 </template>
 
+<style>
+.fbArrange .el-input {
+  width: 242px;
+}
+</style>
+
 <style scoped>
 .el-select {
+  width: 242px;
+}
+.el-select /deep/ .el-input {
   width: 242px;
 }
 .el-autocomplete {
