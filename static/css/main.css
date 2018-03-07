@@ -158,6 +158,6 @@ a {
 
 /* 输入框宽度 */
 
-.el-input {
+div.el-input {
   width: 220px;
 }
