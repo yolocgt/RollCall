@@ -8,7 +8,7 @@
       </el-breadcrumb>
     </div>
     <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
+      <!-- <el-table-column type="selection" width="55"></el-table-column> -->
       <el-table-column prop="facultyName" label="院系名称" sortable width="150">
       </el-table-column>
       <el-table-column prop="director" label="系主任" width="120">
