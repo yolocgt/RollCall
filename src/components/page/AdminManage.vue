@@ -180,6 +180,7 @@ export default {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
+          this.getDataByPage();
         } else {
           this.$message.success("删除失败！");
         }
@@ -190,7 +191,6 @@ export default {
         //   name: "manageadmin",
         //   query: { random: Math.random() }
         // });
-        this.getDataByPage();
       });
     },
     delAll() {

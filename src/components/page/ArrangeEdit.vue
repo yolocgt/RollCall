@@ -111,9 +111,9 @@ export default {
       status: "添加",
       form: {
         learnYear:
-          (new Date().getFullYear() - 1).toString() +
+          (new Date().getFullYear()) +
           "-" +
-          new Date().getFullYear().toString(),
+          (new Date().getFullYear() + 1),
         learnTerm: "",
         classInfo: "",
         teacher: "",
@@ -146,12 +146,15 @@ export default {
     };
   },
   computed: {
-    thisLearnYear: function () {
-      return (
-        (new Date().getFullYear() - 1).toString() +
-        "-" +
-        new Date().getFullYear().toString()
-      );
+    // thisLearnYear: function () {
+    //   return (
+    //     (new Date().getFullYear() - 1).toString() +
+    //     "-" +
+    //     new Date().getFullYear().toString()
+    //   );
+    // }
+    y() {//明年
+      return new Date().getFullYear()+1;
     }
   },
   created: function () {
@@ -159,8 +162,8 @@ export default {
 
     // 判断当前学期
     if (1 < new Date().getMonth() && new Date().getMonth() < 8) {
-      this.form.learnTerm = "第二学期";
-    } else this.form.learnTerm = "第一学期";
+      this.form.learnTerm = "第一学期";
+    } else this.form.learnTerm = "第二学期";
     // console.log(this.thisLearnYear);
     // 班级
     ApiClassInfo.getData({}, res => {
@@ -190,10 +193,7 @@ export default {
       this.teachers = res.data;
     });
     // 学年
-    var year = new Date().getFullYear();
-
-    // var rYear=0;
-    for (let i = year; i > year - 4; i--) {
+    for (let i = this.y; i > this.y - 4; i--) {
       var obj = {
         val: i - 1 + "-" + i
       };
@@ -220,35 +220,33 @@ export default {
     classChange(value) {
       // this.form.learnYear = "";
       console.clear();
-      console.log(this.$route.query.id);
+      if (!this.form.classInfo) return;
 
+      console.log(this.$route.query.id);
       this.learnYears = [];
+
+      // 获取班级中的学年
+      var obj = this.classInfos.find(item => {
+        return item._id == this.form.classInfo;
+      });
+      for (let i = this.y; i > obj.cyear; i--) {
+        var cyears = {};
+        cyears.val = i - 1 + "-" + i;
+        this.learnYears.push(cyears);
+      }
       // 修改
       if (this.$route.query.id) {
-        // 获取班级中的学年
-        var obj = this.classInfos.find(item => {
-          return item._id == this.form.classInfo;
-        });
-        for (let i = 2018; i > obj.cyear; i--) {
-          var cyears = {};
-          cyears.val = i - 1 + "-" + i;
-          this.learnYears.push(cyears);
-        }
         // 重置学期为该班级的第一个学期，否则会出现17级可选择2014-2015学年的bug
         // this.form.learnYear = this.learnYears[this.learnYears.length - 1].val;
         this.form.learnYear = this.learnYears[0].val;
-      } else if (this.form.classInfo) {
-        var obj = this.classInfos.find(item => {
-          return item._id == this.form.classInfo;
-        });
-
-        for (let i = 2018; i > obj.cyear; i--) {
-          var cyears = {};
-          cyears.val = i - 1 + "-" + i;
-          this.learnYears.push(cyears);
-        }
       }
+      // console.log(obj.cyear);
+      // console.log(new Date().getFullYear());
+      // if (obj.cyear == new Date().getFullYear()) {
+      //   this.learnYears.push({ val: '2018-2019' });
+      // }
     },
+
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
