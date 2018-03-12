@@ -169,7 +169,8 @@ export default {
     //   this.faculties = res.data;
     // });
     // 班级下拉框数据
-    ApiClassInfo.getData({},res => {
+    ApiClassInfo.getData({}, res => {
+      // console.log(res);
       this.classInfos = res.data;
     });
   },
@@ -177,6 +178,11 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if (!this.form.classInfo) {
+            delete this.form.classInfo;
+          }
+          console.log(this.form);
+          // return;
           // 修改
           if (this.id) {
             console.log("修改");
@@ -190,6 +196,7 @@ export default {
           } else {
             // 新增
             ApiStudent.save(this.form, res => {
+              console.log(res);
               if (res.status == "y") {
                 this.$message.success("添加成功~");
               } else {
