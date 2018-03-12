@@ -109,7 +109,7 @@ export default {
         sex: "",
         id: "",
         phone: "",
-        faculty: ""
+        faculty: null
       },
       rules: {
         name: [{ required: true, message: "请输入教师姓名", trigger: "blur" }],

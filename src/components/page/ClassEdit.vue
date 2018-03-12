@@ -1,84 +1,65 @@
 <template>
-    <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加班级信息</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="form-box">
-            <el-form :model="form" :rules="rules" ref="form" label-width="80px">
-                <el-form-item label="年级" prop="cyear">
-  					      <el-select v-model.number="form.cyear"  class="handle-select mr10" @change="isClassNameExist">
-  		                <el-option
-  			                v-for="t in cyears"
-  			                :key="t.val"
-  			                :label="t.val"
-  			                :value="t.val">
-  			            </el-option>
-  		            </el-select>
-                </el-form-item>
-
-                <el-form-item label="专业" prop="major">
-        					<el-select v-model="form.major"  class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
-        						<el-option
-    			                v-for="t in majors"
-    			                :key="t._id"
-    			                :label="t.majorName"
-    			                :value="t._id">
-    			            </el-option>
-    		            </el-select>
-                </el-form-item>
-
-                <el-form-item label="班级" prop="cno">
-  				      	<el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
-  		                <el-option
-  			                v-for="t in cnos"
-  			                :key="t.val"
-  			                :label="t.val"
-  			                :value="t.val">
-  			            </el-option>
-  		            </el-select>
-                </el-form-item>
-
-                <el-form-item label="院系" prop="faculty">
-        					<el-select v-model="form.faculty"  class="handle-select mr10" loading-text="加载中" no-match-text>
-        						<el-option
-    			                v-for="t in facultys"
-    			                :key="t._id"
-    			                :label="t.facultyName"
-    			                :value="t._id">
-    			            </el-option>
-    		            </el-select>
-                </el-form-item>
-
-                <el-form-item label="辅导员" prop="counselor">
-        					<el-select v-model="form.counselor"  class="handle-select mr10" loading-text="加载中" no-match-text>
-        						<el-option
-    			                v-for="t in counselors"
-    			                :key="t._id"
-    			                :label="t.name"
-    			                :value="t._id">
-    			            </el-option>
-    		            </el-select>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
-                    <el-button @click="resetSubmit('form')">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-
-  <!-- 确认删除对话框 -->
-		<el-dialog title="班级名重复" :visible.sync="dialogVisible" width="30%">
-      	<span>该班级已存在，请重新操作</span>
-    	  <span slot="footer" class="dialog-footer">
-    	    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-    	    <el-button type="primary" @click="clearSelected">重置</el-button>
-    	  </span>
-    </el-dialog>
+  <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
+        <el-breadcrumb-item>添加班级信息</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <div class="form-box">
+      <el-form :model="form" :rules="rules" ref="form" label-width="80px">
+        <el-form-item label="年级" prop="cyear">
+          <el-select v-model.number="form.cyear" class="handle-select mr10" @change="isClassNameExist">
+            <el-option v-for="t in cyears" :key="t.val" :label="t.val" :value="t.val">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="专业" prop="major">
+          <el-select v-model="form.major" class="handle-select mr10" loading-text="加载中" no-match-text @change="isClassNameExist">
+            <el-option v-for="t in majors" :key="t._id" :label="t.majorName" :value="t._id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="班级" prop="cno">
+          <el-select v-model.number="form.cno" class="handle-select mr10" @change="isClassNameExist">
+            <el-option v-for="t in cnos" :key="t.val" :label="t.val" :value="t.val">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="院系" prop="faculty">
+          <el-select v-model="form.faculty" class="handle-select mr10" @change="getCounselors" loading-text="加载中" no-match-text>
+            <el-option v-for="t in facultys" :key="t._id" :label="t.facultyName" :value="t._id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="辅导员" prop="counselor">
+          <el-select v-model="form.counselor" class="handle-select mr10" loading-text="加载中" no-match-text>
+            <el-option v-for="t in counselors" :key="t._id" :label="t.name" :value="t._id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
+          <el-button @click="resetSubmit('form')">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <!-- 确认删除对话框 -->
+    <el-dialog title="班级名重复" :visible.sync="dialogVisible" width="30%">
+      <span>该班级已存在，请重新操作</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="clearSelected">重置</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 
@@ -90,7 +71,7 @@ import {
   ApiCounselor
 } from "../../service/apis";
 export default {
-  data: function() {
+  data: function () {
     return {
       isExist: false,
       dialogVisible: false,
@@ -119,19 +100,16 @@ export default {
       }
     };
   },
-  created: function() {
+  created: function () {
     // 专业
-    ApiMajor.getData({},res => {
+    ApiMajor.getData({}, res => {
       this.majors = res.data;
     });
     // 院系
-    ApiFaculty.getData({},res => {
+    ApiFaculty.getData({}, res => {
       this.facultys = res.data;
     });
-    // 辅导员
-    ApiCounselor.getData({},res => {
-      this.counselors = res.data;
-    });
+
     // 年级
     var year = new Date().getFullYear();
     for (let i = year; i > year - 6; i--) {
@@ -157,14 +135,14 @@ export default {
   },
   computed: {
     // 生成班级名
-    className: function() {
+    className: function () {
+      console.log('生成班级名');
       if (
         this.form.major != "" &&
         this.form.cyear != "" &&
-        this.form.cno != ""
+        this.form.cno != "" && this.majors.length > 0
       ) {
-        let major = {};
-        major = this.majors.find(item => {
+        var major = this.majors.find(item => {
           return item._id == this.form.major;
         });
         return this.form.cyear + "级" + major.majorName + this.form.cno + "班";
@@ -172,11 +150,28 @@ export default {
     }
   },
   methods: {
+    getCounselors() {
+      // 辅导员
+      console.log('执行 getCounselors（）');
+      ApiCounselor.getData({ faculty: this.form.faculty }, res => {
+        console.log(res.data);
+        this.counselors = res.data;
+      });
+      this.getCounselors = _ => {
+        console.log('重写自己函数');
+        ApiCounselor.getData({ faculty: this.form.faculty }, res => {
+          console.log(res.data);
+          this.counselors = res.data;
+        });
+        this.form.counselor = null;
+      }
+    },
     clearSelected() {
       this.dialogVisible = false;
       this.resetSubmit("form");
     },
     isClassNameExist() {
+      console.log('>>>>>>>');
       console.log(this.className);
       if (this.className && this.className != this.o_className) {
         ApiClassInfo.isExist(this.className, res => {

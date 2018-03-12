@@ -120,7 +120,7 @@ export default {
         sex: "",
         id: "",
         phone: "",
-        faculty: ""
+        faculty: null
       },
       rules: {
         name: [{ required: true, message: "请输入姓名" }],
@@ -158,6 +158,9 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if (!this.form.faculty) {
+            // delete this.form.faculty;
+          }
           // 修改
           if (this.id) {
             console.log("修改");

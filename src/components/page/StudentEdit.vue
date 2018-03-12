@@ -117,7 +117,7 @@ export default {
       if (this.form.id != "" && this.form.id != this.o_id) {
         login.exists(this.form.id, "student", res => {
           console.log(res);
-          if (res.data && res.data.length > 0) {
+          if (res.data && res.data.count > 0) {
             callback(new Error("该学号已存在，请重新输入"));
           } else callback();
         });
@@ -135,7 +135,7 @@ export default {
         address: "",
         phone: "",
         // faculty: "",
-        classInfo: "",
+        classInfo: null,
         birth: ""
       },
       rules: {
