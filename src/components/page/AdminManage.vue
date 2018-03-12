@@ -11,7 +11,7 @@
     </div>
 
     <div class="handle-box">
-      <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+      <el-button type="primary" icon="delete" class="handle-del mr10" @click="handleDeleteAll">批量删除</el-button>
       <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage" clearable></el-input>
       <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
     </div>
@@ -38,11 +38,20 @@
     </div>
 
     <!-- 确认删除对话框 -->
-    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="请确认删除信息" :visible.sync="dialogVisible1" width="30%">
       <span>{{dialogMsg}}</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible=false">取 消</el-button>
+        <el-button @click="dialogVisible1=false">取 消</el-button>
         <el-button type="primary" @click="doDel">确 定</el-button>
+      </span>
+    </el-dialog>
+    
+    <!-- 确认删除对话框2 -->
+    <el-dialog title="请确认批量删除信息" :visible.sync="dialogVisible3" width="30%">
+      <span>确认批量删除选中管理员？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible3=false">取 消</el-button>
+        <el-button type="primary" @click="delAll">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -69,7 +78,6 @@ import { ApiAdmin } from "../../service/apis";
 export default {
   data() {
     return {
-
       tableData: [],
       allData: [],
       multipleSelection: [],
@@ -77,7 +85,8 @@ export default {
       del_list: [],
       is_search: false,
 
-      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible3: false,
       dialogVisible2: false,
       temDelRow: {},
       dialogMsg: "",
@@ -138,7 +147,7 @@ export default {
           }
         });
     },
-    search2() { },
+    search2() {},
     formatter(row, column) {
       return row.address;
     },
@@ -152,8 +161,13 @@ export default {
     },
     // 确认删除提示框
     handleDelete(index, row) {
-      this.dialogVisible = true;
+      this.dialogVisible1 = true;
       this.dialogMsg = `确认删除管理员：${row.name}`;
+      this.temDelRow = row;
+    },
+    // 确认删除提示框
+    handleDeleteAll(index, row) {
+      this.dialogVisible3 = true;
       this.temDelRow = row;
     },
     // 重置密码
@@ -175,7 +189,7 @@ export default {
     },
     // 删除
     doDel() {
-      this.dialogVisible = false;
+      this.dialogVisible1 = false;
       ApiAdmin.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
@@ -194,12 +208,14 @@ export default {
       });
     },
     delAll() {
+      this.dialogVisible3 = false;
+
       length = this.multipleSelection.length;
       let str = "";
       this.del_list = this.del_list.concat(this.multipleSelection);
       var delStatus = false;
 
-      let promise = new Promise(function (resolve, reject) {
+      let promise = new Promise(function(resolve, reject) {
         console.log("Promise");
         resolve();
       });

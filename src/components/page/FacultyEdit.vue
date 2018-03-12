@@ -2,8 +2,8 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-                <el-breadcrumb-item>添加院系信息</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 院系信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>{{status}}院系信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
@@ -112,9 +112,9 @@ export default {
             // 新增
             ApiFaculty.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("院系添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("院系添加失败！");
               }
             });
           }

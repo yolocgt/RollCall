@@ -157,9 +157,9 @@ export default {
             // 新增
             ApiAdmin.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("管理员添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("管理员添加失败！");
               }
               // 聚焦到第一个输入框
               // this.$refs.inputRef.$el.children[0].focus();

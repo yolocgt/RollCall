@@ -61,7 +61,7 @@ export default {
           subs: [
             {
               index: "facultyEdit",
-              title: "添加院系信息"
+              title: "编辑院系信息"
             },
             {
               index: "facultyManage",
