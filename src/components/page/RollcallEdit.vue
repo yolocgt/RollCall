@@ -18,14 +18,14 @@
                 </el-form-item> -->
 
         <el-form-item label="班级" prop="o_classInfo">
-          <el-select v-model="o_classInfo" class="handle-select mr10" loading-text="加载中" no-match-text>
+          <el-select v-model="o_classInfo" disabled class="handle-select mr10" loading-text="加载中" no-match-text>
             <el-option :key="classInfo._id" :label="classInfo.className" :value="classInfo._id">
             </el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item label="课程" prop="o_course">
-          <el-select v-model="o_course" class="handle-select mr10">
+          <el-select v-model="o_course" disabled class="handle-select mr10">
             <el-option :key="course._id" :label="course.courseName" :value="course._id">
             </el-option>
           </el-select>
@@ -249,8 +249,8 @@ export default {
       ApiRollcall.getDataById(this.rid, res => {
         console.log(res.data);
         this.form = res.data;
-        // this.o_classInfo = 2;
-        // this.o_course = 3;
+        this.o_classInfo = res.data.arrange.classInfo.className;
+        this.o_course = res.data.arrange.course.courseName;
       });
     }
   },
