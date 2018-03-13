@@ -47,12 +47,11 @@
 </style>
 
 <script>
-import { ApiCourse } from "../../service/apis";
+import { ApiCourse, ApiArrange } from "../../service/apis";
 
 export default {
   data() {
     return {
-
       tableData: [],
       allData: [],
       multipleSelection: [],
@@ -92,7 +91,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiCourse.getData({},res => {
+      ApiCourse.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -114,14 +113,21 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiCourse.deleteById(this.temDelRow._id, res => {
+      ApiArrange.getData({ course: this.temDelRow._id }, res => {
         console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
+        if (res.data.length > 0) {
+          this.$message.error(`删除失败，该课程正在【排课表】中使用。`);
         } else {
-          this.$message.success("删除失败！");
+          ApiCourse.deleteById(this.temDelRow._id, res => {
+            console.log(res);
+            if (res.status == "y") {
+              this.$message.success("删除成功~");
+            } else {
+              this.$message.success("删除失败！");
+            }
+            this.getDataByPage();
+          });
         }
-        this.getDataByPage();
       });
     },
     handleSelectionChange(val) {

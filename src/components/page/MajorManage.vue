@@ -47,12 +47,11 @@
 </style>
 
 <script>
-import { ApiMajor } from "../../service/apis";
+import { ApiMajor, ApiClassInfo } from "../../service/apis";
 
 export default {
   data() {
     return {
-
       tableData: [],
       allData: [],
       multipleSelection: [],
@@ -92,7 +91,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiMajor.getData({},res => {
+      ApiMajor.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -114,14 +113,21 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiMajor.deleteById(this.temDelRow._id, res => {
+      ApiClassInfo.getData({ major: this.temDelRow._id }, res => {
         console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
+        if (res.data.length > 0) {
+          this.$message.error(`删除失败，该专业正在【班级表】中使用。`);
         } else {
-          this.$message.success("删除失败！");
+          ApiMajor.deleteById(this.temDelRow._id, res => {
+            console.log(res);
+            if (res.status == "y") {
+              this.$message.success("删除成功~");
+            } else {
+              this.$message.success("删除失败！");
+            }
+            this.getDataByPage();
+          });
         }
-        this.getDataByPage();
       });
     },
     handleSelectionChange(val) {

@@ -82,7 +82,6 @@ import { ApiRollcall, ApiAbsence } from "../../service/apis";
 export default {
   data() {
     return {
-
       tableData: [],
       allData: [],
       multipleSelection: [],
@@ -149,15 +148,26 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
+
+      // ApiAbsence.getData({ rollcall: this.temDelRow._id }, res => {
+      //   console.log(res);
+      //   if (res.data.length > 0) {
+      //     this.$message.error(`删除失败，该点名记录正在【考勤表】中使用。`);
+      //   } else {
+      //     return;
+      //   }
+      // });
+
       // 删除点名信息
       ApiRollcall.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
           this.$message.success("删除成功~");
           // 删除点名对应的考勤信息?
-          ApiAbsence.deleteMany(this.temDelRow._id, (res) => {
+          ApiAbsence.deleteMany(this.temDelRow._id, res => {
             console.log(res);
-          })
+            
+          });
           this.getDataByPage();
         } else {
           this.$message.success("删除失败！");
@@ -170,7 +180,7 @@ export default {
       this.multipleSelection = val;
     },
     //时间格式化
-    dateFormat: function (row, column) {
+    dateFormat: function(row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";

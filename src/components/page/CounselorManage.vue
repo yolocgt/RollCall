@@ -53,7 +53,7 @@
 </style>
 
 <script>
-import { ApiCounselor, ApiFaculty } from "../../service/apis";
+import { ApiCounselor, ApiFaculty, ApiClassInfo } from "../../service/apis";
 
 export default {
   data() {
@@ -78,7 +78,7 @@ export default {
     };
   },
   created() {
-    ApiFaculty.getData({},res => {
+    ApiFaculty.getData({}, res => {
       this.faculty = res.data;
     });
     this.getDataByPage();
@@ -102,7 +102,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiCounselor.getData({},res => {
+      ApiCounselor.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -150,21 +150,29 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiCounselor.deleteById(this.temDelRow._id, res => {
+      ApiClassInfo.getData({ counselor: this.temDelRow._id }, res => {
+        console.log("关联的班级表；");
         console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
+        if (res.data.length > 0) {
+          this.$message.error(`删除失败，该辅导员正在【班级表】中使用。`);
         } else {
-          this.$message.success("删除失败！");
+          ApiCounselor.deleteById(this.temDelRow._id, res => {
+            console.log(res);
+            if (res.status == "y") {
+              this.$message.success("删除成功~");
+            } else {
+              this.$message.success("删除失败！");
+            }
+            //刷新页面
+            // this.$router.go(0);
+            // this.$root.reload();
+            // this.$router.push({
+            //   name: "manageheadteacher",
+            //   query: { random: Math.random() }
+            // });
+            this.getDataByPage();
+          });
         }
-        //刷新页面
-        // this.$router.go(0);
-        // this.$root.reload();
-        // this.$router.push({
-        //   name: "manageheadteacher",
-        //   query: { random: Math.random() }
-        // });
-        this.getDataByPage();
       });
     },
     handleSelectionChange(val) {

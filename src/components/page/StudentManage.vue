@@ -18,7 +18,7 @@
             <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div> -->
-        <el-table :data="data" stripe style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" stripe style="width: 100%" ref="multipleTable" >
             <el-table-column type="selection" ></el-table-column>
             <el-table-column type="index" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
@@ -68,7 +68,7 @@
 
 <script>
 // import {moment} from 'vue-moment';
-import { ApiStudent, ApiFaculty } from "../../service/apis";
+import { ApiStudent, ApiFaculty,ApiAbsence } from "../../service/apis";
 // import moment from 'moment'
 export default {
   data() {
@@ -95,7 +95,7 @@ export default {
   created() {
     this.is_search = true;
 
-    ApiFaculty.getData({},res => {
+    ApiFaculty.getData({}, res => {
       this.faculty = res.data;
     });
     this.getDataByPage();
@@ -119,7 +119,7 @@ export default {
     },
     // 所有数据
     getData() {
-      ApiStudent.getData({},res => {
+      ApiStudent.getData({}, res => {
         this.allData = res.data.res; //获取所有数据
       });
     },
@@ -171,25 +171,24 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiStudent.deleteById(this.temDelRow._id, res => {
+      ApiAbsence.getData({ student: this.temDelRow._id }, res => {
         console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
+        if (res.data.length > 0) {
+          this.$message.error(`删除失败，该学生正在【考勤表】中使用。`);
         } else {
-          this.$message.success("删除失败！");
+          ApiStudent.deleteById(this.temDelRow._id, res => {
+            console.log(res);
+            if (res.status == "y") {
+              this.$message.success("删除成功~");
+            } else {
+              this.$message.success("删除失败！");
+            }
+            this.getDataByPage();
+          });
         }
-        //刷新页面
-        // this.$router.go(0);
-        // this.$root.reload();
-        // this.$router.push({
-        //   name: "managestudent",
-        //   query: { random: Math.random() }
-        // });
-        this.getDataByPage();
       });
     },
-    delAll() {
-    }
+    delAll() {}
   }
 };
 </script>

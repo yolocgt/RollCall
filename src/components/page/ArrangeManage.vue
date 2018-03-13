@@ -94,7 +94,7 @@
 </style>
 
 <script>
-import { ApiArrange, ApiClassInfo } from "../../service/apis";
+import { ApiArrange, ApiClassInfo, ApiRollcall } from "../../service/apis";
 export default {
   data() {
     return {
@@ -244,15 +244,22 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiArrange.deleteById(this.temDelRow._id, res => {
+      ApiRollcall.getData({ arrange: this.temDelRow._id }, res => {
         console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
+        if (res.data.length > 0) {
+          this.$message.error(`删除失败，该排课信息正在【点名记录表】中使用。`);
         } else {
-          this.$message.success("删除失败！");
+          ApiArrange.deleteById(this.temDelRow._id, res => {
+            console.log(res);
+            if (res.status == "y") {
+              this.$message.success("删除成功~");
+            } else {
+              this.$message.success("删除失败！");
+            }
+            //刷新页面
+            this.getDataByPage();
+          });
         }
-        //刷新页面
-        this.getDataByPage();
       });
     },
     handleSelectionChange(val) {

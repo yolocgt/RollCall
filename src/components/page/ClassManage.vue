@@ -44,11 +44,10 @@
 </template>
 
 <script>
-import { ApiClassInfo } from "../../service/apis";
+import { ApiClassInfo, ApiStudent, ApiArrange } from "../../service/apis";
 export default {
   data() {
     return {
-
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
@@ -113,16 +112,50 @@ export default {
     // 删除
     doDel() {
       this.dialogVisible = false;
-      ApiClassInfo.deleteById(this.temDelRow._id, res => {
-        console.log(res);
-        if (res.status == "y") {
-          this.$message.success("删除成功~");
-        } else {
-          this.$message.success("删除失败！");
-        }
-        //刷新页面
-        this.getDataByPage();
-      });
+      var cid = this.temDelRow._id;
+      var isUsed = false;
+      var tables = "";
+      // 关联的学生表
+      function f1(resolve) {
+        ApiStudent.getData({ classInfo: cid }, res => {
+          console.log(res);
+          if (res.data.count > 0) {
+            isUsed = true;
+            tables += "学生";
+            resolve();
+          }
+        });
+      }
+      function f2(resolve) {
+        ApiArrange.getData({ classInfo: cid }, res => {
+          console.log(res);
+          if (res.data.length > 0) {
+            isUsed = true;
+            tables += " 排课";
+            resolve();
+          }
+        });
+      }
+      new Promise(f1)
+        .then(params => {
+          return new Promise(f2);
+        })
+        .then(params => {
+          if (isUsed) {
+            this.$message.error(`删除失败，该班级正在【${tables}表】中使用。`);
+          } else {
+            ApiClassInfo.deleteById(cid, res => {
+              console.log(res);
+              if (res.status == "y") {
+                this.$message.success("删除成功~");
+              } else {
+                this.$message.success("删除失败！");
+              }
+              //刷新页面
+              this.getDataByPage();
+            });
+          }
+        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
