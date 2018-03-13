@@ -214,34 +214,26 @@ export default {
       let str = "";
       this.del_list = this.del_list.concat(this.multipleSelection);
       var delStatus = false;
-
-      let promise = new Promise(function(resolve, reject) {
-        console.log("Promise");
-        resolve();
+    
+      var _this=this;
+      // 批量删除操作
+      function fn1(resolve) {
+        for (let i = 0; i < length; i++) {
+          str += _this.multipleSelection[i].name + ",";
+          var id = _this.multipleSelection[i]._id;
+          ApiAdmin.deleteById(id, res => {
+            if (res.status == "y") {
+              console.log(res);
+              resolve();
+            }
+          });
+        }
+      }
+      new Promise(fn1).then(function(val) {
+        _this.getDataByPage();
+        _this.multipleSelection = [];
+        _this.$message.success("批量删除成功~");
       });
-      promise
-        .then(() => {
-          for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].name + ",";
-            var id = this.multipleSelection[i]._id;
-            ApiAdmin.deleteById(id, res => {
-              if (res.status == "y") {
-                delStatus = true;
-                console.log(delStatus);
-              }
-            });
-          }
-          this.getDataByPage();
-        })
-        .then(() => {
-          console.log("处理后：" + delStatus);
-          // this.$message.error("删除了" + str);
-          // if (delStatus) {
-          // this.$message.success("删除成功~");
-          // }
-          this.multipleSelection = [];
-          this.getDataByPage();
-        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
