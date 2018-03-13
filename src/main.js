@@ -18,6 +18,7 @@ import moment from 'moment';
 Vue.prototype.$axios = axios;
 Vue.prototype.$moment = moment;
 global.ApiUrl = 'http://localhost:1219/api/v1';
+global.ApiMock = "https://www.easy-mock.com/mock/5a5f683e0432ec5372566b8";
 
 new Vue({
     router,

@@ -8,8 +8,7 @@
       </el-breadcrumb>
     </div>
     <div class="handle-box">
-      <!-- <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button> -->
-      <el-button type="primary" icon="delete" class="handle-del mr10">批量删除</el-button>
+      <el-button type="success" icon="document" class="handle-del mr10">学年学期</el-button>
       <!-- <el-select v-model="select_learnYear" placeholder="筛选学年" class="handle-select mr10">
                 <el-option
                   v-for="f in learnYears"
@@ -24,16 +23,14 @@
 
       <!-- <div class="block">
               <span class="demonstration">可选择任意一级菜单的选项</span> -->
-      <el-cascader placeholder="试试搜索：2018" :options="learnYears" @change="select_yearChange" expand-trigger="click" filterable change-on-select clearable v-model="casYears"></el-cascader>
+      <el-cascader width="100" placeholder="试试搜索：2018" :options="learnYears" @change="select_yearChange" expand-trigger="click" filterable change-on-select clearable v-model="casYears"></el-cascader>
       <!-- </div> -->
 
       <el-input v-model="select_word" placeholder="筛选关键词" @keyup.native.enter="search" class="handle-input mr10"></el-input>
       <el-button type="primary" icon="search" @click="search">搜索</el-button>
-      <!-- <el-button type="primary" icon="search" >搜索</el-button> -->
 
     </div>
     <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
       <!-- <template v-if="!select_learnYear"> -->
       <el-table-column prop="learnYear" label="学年" sortable min-width="90"> </el-table-column>
       <!-- </template> -->

@@ -6,19 +6,7 @@
                 <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <!-- <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-              <el-select v-model="select_cate" placeholder="筛选" class="handle-select mr10">
-                  <el-option
-                        v-for="f in faculty"
-                        :key="f._id"
-                        :label="f.facultyName"
-                        :value="f._id"></el-option>
-              </el-select>
-            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div> -->
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data"  stripe style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" ></el-table-column>
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
             <el-table-column prop="sex" label="性别" sortable > </el-table-column>
@@ -178,39 +166,6 @@ export default {
         // });
         this.getDataByPage();
       });
-    },
-    delAll() {
-      length = this.multipleSelection.length;
-      let str = "";
-      this.del_list = this.del_list.concat(this.multipleSelection);
-      var delStatus = false;
-
-      let promise = new Promise(function(resolve, reject) {
-        console.log("Promise");
-        resolve();
-      });
-      promise
-        .then(() => {
-          for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].name + ",";
-            var id = this.multipleSelection[i]._id;
-            ApiCounselor.deleteById(id, res => {
-              if (res.status == "y") {
-                delStatus = true;
-                console.log(delStatus);
-              }
-            });
-          }
-        })
-        .then(() => {
-          console.log("处理后：" + delStatus);
-          this.$message.error("删除了" + str);
-          // if (delStatus) {
-          // this.$message.success("删除成功~");
-          // }
-          this.multipleSelection = [];
-          this.getDataByPage();
-        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

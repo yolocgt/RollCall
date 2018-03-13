@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>管理课程</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data" border ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="courseName" label="课程名称" sortable width="200">
             </el-table-column>
@@ -123,39 +123,6 @@ export default {
         }
         this.getDataByPage();
       });
-    },
-    delAll() {
-      length = this.multipleSelection.length;
-      let str = "";
-      this.del_list = this.del_list.concat(this.multipleSelection);
-      var delStatus = false;
-
-      let promise = new Promise(function(resolve, reject) {
-        console.log("Promise");
-        resolve();
-      });
-      promise
-        .then(() => {
-          for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].name + ",";
-            var id = this.multipleSelection[i]._id;
-            ApiCourse.deleteById(id, res => {
-              if (res.status == "y") {
-                delStatus = true;
-                console.log(delStatus);
-              }
-            });
-          }
-        })
-        .then(() => {
-          console.log("处理后：" + delStatus);
-          this.$message.error("删除了" + str);
-          // if (delStatus) {
-          // this.$message.success("删除成功~");
-          // }
-          this.multipleSelection = [];
-          this.getDataByPage();
-        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
