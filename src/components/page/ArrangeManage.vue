@@ -53,9 +53,10 @@
       <el-table-column label="点名" width="155">
         <template slot-scope="scope">
           <el-button size="small" type="success">
-            <router-link :to="{path:'/rollcallEdit',query: {id: scope.row._id}}">点名</router-link>
+            <router-link :to="{path:'/rollcallEdit',query: {aid: scope.row._id}}">点名</router-link>
           </el-button>
-          <el-button size="small" type="info"> 查看
+          <el-button size="small" type="info">
+            <router-link :to="{path:'/rollcallManage'}">查看</router-link>
             <i class="el-icon-arrow-right"> </i>
           </el-button>
 
@@ -84,6 +85,9 @@
 </template>
 <style >
 .el-button--success span a {
+  color: white;
+}
+.el-button--info span a {
   color: white;
 }
 .arrangeTable .el-table,

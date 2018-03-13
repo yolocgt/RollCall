@@ -76,7 +76,7 @@ export default {
           subs: [
             {
               index: "counselorEdit",
-              title: "添加辅导员信息"
+              title: "编辑辅导员信息"
             },
             {
               index: "counselorManage",
@@ -84,7 +84,7 @@ export default {
             },
             {
               index: "teacherEdit",
-              title: "添加任课教师"
+              title: "编辑任课教师"
             },
             {
               index: "teacherManage",
@@ -129,7 +129,7 @@ export default {
           subs: [
             {
               index: "classEdit",
-              title: "添加班级信息"
+              title: "编辑班级信息"
             },
             {
               index: "classManage",
@@ -144,7 +144,7 @@ export default {
           subs: [
             {
               index: "studentEdit",
-              title: "添加学生信息"
+              title: "编辑学生信息"
             },
             {
               index: "studentManage",
@@ -167,7 +167,7 @@ export default {
             },
             // {
             //   index: "rollcallEdit",
-            //   title: "添加点名信息"
+            //   title: "编辑点名信息"
             // },
             {
               index: "rollcallManage",
@@ -303,7 +303,7 @@ export default {
           subs: [
             {
               index: "studentEdit",
-              title: "添加学生信息"
+              title: "编辑学生信息"
             },
             {
               index: "studentManage",
@@ -318,7 +318,7 @@ export default {
           subs: [
             {
               index: "rollcallEdit",
-              title: "添加点名信息"
+              title: "编辑点名信息"
             },
             {
               index: "rollcallManage",

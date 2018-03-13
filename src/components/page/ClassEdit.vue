@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
           <i class="el-icon-date"></i> 院系班级管理</el-breadcrumb-item>
-        <el-breadcrumb-item>添加班级信息</el-breadcrumb-item>
+        <el-breadcrumb-item>{{status}}班级信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="form-box">

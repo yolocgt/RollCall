@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
           <i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
-        <el-breadcrumb-item>编辑排课信息</el-breadcrumb-item>
+        <el-breadcrumb-item>{{status}}排课信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="form-box fbArrange">
@@ -54,7 +54,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit('form')">提交</el-button>
+          <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
           <el-button @click="resetSubmit('form')">取消</el-button>
         </el-form-item>
 
