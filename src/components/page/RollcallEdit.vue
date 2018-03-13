@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
           <i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
-        <el-breadcrumb-item>编辑点名信息</el-breadcrumb-item>
+        <el-breadcrumb-item>{{status}}点名信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="form-box">
@@ -143,6 +143,8 @@ import {
 export default {
   data: function () {
     return {
+      rid: null,
+      aid: null,
       data: [],
       value3: [],
       // renderFunc(h, option) {
@@ -198,52 +200,55 @@ export default {
     const data = [];
     var stus = {};
 
-    // 排课表数据操作
+    // 排课表数据操作  点名
     console.log(this.$route.query);
-    var aid = this.$route.query.id; //排课记录_id
-    ApiArrange.getDataById(aid, res => {
-      console.log(aid);
-      console.log("查找到排课数据记录：");
-      console.log(res.data);
-      var arrange = res.data;
-      this.form.arrange = aid;
-      this.classInfo = arrange.classInfo;
-      this.course = arrange.course;
-      this.o_course = arrange.course._id;
-      this.o_classInfo = arrange.classInfo._id;
-
-      ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
-        console.log(res.data.data);
-        // this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
-        this.form.actual = res.data.data.count; //应到学生总数
-
-        stus = res.data.data.res;
-        console.log("学生");
-        console.log(stus);
-
-        for (const i in stus) {
-          data.push({
-            value: JSON.stringify(stus[i]),
-            // id: stus[i]._id,
-            label: stus[i].name,
-            disabled: stus[i].disabled
-          });
-        }
-        console.log(data);
-        this.data = data;
-        this.students = data;
-        // console.clear();
-        console.log(this.students);
-      });
-    });
-
-    this.id = this.$route.query.id;
-    console.log(this.id);
-    if (this.id) {
-      this.status = "修改";
-      ApiRollcall.getDataById(this.id, res => {
+    var aid = this.$route.query.aid; //排课记录_id
+    if (aid) {
+      ApiArrange.getDataById(aid, res => {
+        console.log(aid);
+        console.log("查找到排课数据记录：");
         console.log(res.data);
-        // this.form = res.data;
+        var arrange = res.data;
+        this.form.arrange = aid;
+        this.classInfo = arrange.classInfo;
+        this.course = arrange.course;
+        this.o_course = arrange.course._id;
+        this.o_classInfo = arrange.classInfo._id;
+
+        ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
+          console.log(res.data.data);
+          // this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
+          this.form.actual = res.data.data.count; //应到学生总数
+
+          stus = res.data.data.res;
+          console.log("学生");
+          console.log(stus);
+
+          for (const i in stus) {
+            data.push({
+              value: JSON.stringify(stus[i]),
+              // id: stus[i]._id,
+              label: stus[i].name,
+              disabled: stus[i].disabled
+            });
+          }
+          console.log(data);
+          this.data = data;
+          this.students = data;
+          // console.clear();
+          console.log(this.students);
+        });
+      });
+    }
+
+    // 修改点名信息
+    this.rid = this.$route.query.rid;
+    console.log(this.rid);
+    if (this.rid) {
+      this.status = "修改";
+      ApiRollcall.getDataById(this.rid, res => {
+        console.log(res.data);
+        this.form = res.data;
         // this.o_classInfo = 2;
         // this.o_course = 3;
       });

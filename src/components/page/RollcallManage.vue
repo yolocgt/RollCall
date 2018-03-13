@@ -134,7 +134,7 @@ export default {
     },
     handleEdit(index, row) {
       console.log(row._id);
-      this.$router.push({ name: "rollcallEdit", query: { id: row._id } });
+      this.$router.push({ name: "rollcallEdit", query: { rid: row._id } });
     },
     // 确认删除提示框
     handleDelete(index, row) {
