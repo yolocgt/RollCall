@@ -45,7 +45,7 @@
         <el-button type="primary" @click="doDel">确 定</el-button>
       </span>
     </el-dialog>
-    
+
     <!-- 确认删除对话框2 -->
     <el-dialog title="请确认批量删除信息" :visible.sync="dialogVisible3" width="30%">
       <span>确认批量删除选中管理员？</span>
@@ -130,24 +130,28 @@ export default {
     },
     loadData() {
       this.is_search = true;
-      this.$axios
-        // .get("/users")
-        .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => {
-          console.log(data.data.data.users);
-          var users = data.data.data.users;
-          for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-            ApiAdmin.save(user, res => {
-              if (res.status == "y") {
-                this.$message.success("数据加载成功");
-                this.getDataByPage();
-              }
-            });
-          }
-        });
+      new Promise((resolve) => {
+        this.$axios
+          // .get("/users")
+          .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
+          .then(data => {
+            console.log(data.data.data.users);
+            var users = data.data.data.users;
+            for (let i = 0; i < users.length; i++) {
+              const user = users[i];
+              ApiAdmin.save(user, res => {
+                if (res.status == "y") {
+                  resolve(1)
+                }
+              });
+            }
+          });
+      }).then(() => {
+        this.$message.success("数据加载成功");
+        this.getDataByPage();
+      })
     },
-    search2() {},
+    search2() { },
     formatter(row, column) {
       return row.address;
     },
@@ -214,8 +218,8 @@ export default {
       let str = "";
       this.del_list = this.del_list.concat(this.multipleSelection);
       var delStatus = false;
-    
-      var _this=this;
+
+      var _this = this;
       // 批量删除操作
       function fn1(resolve) {
         for (let i = 0; i < length; i++) {
@@ -229,7 +233,7 @@ export default {
           });
         }
       }
-      new Promise(fn1).then(function(val) {
+      new Promise(fn1).then(function (val) {
         _this.getDataByPage();
         _this.multipleSelection = [];
         _this.$message.success("批量删除成功~");
