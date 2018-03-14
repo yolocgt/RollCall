@@ -12,7 +12,7 @@
       <template v-if="isShowDatail">
         <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="150">
         </el-table-column>
-        <el-table-column prop="rollcall.rollcallTime" :formatter="dateFormat" label="点名时间" sortable width="150">
+        <el-table-column prop="rollcall.rollcallTime" :formatter="dateFormat" label="点名时间" sortable width="170">
         </el-table-column>
       </template>
       <el-table-column prop="student.name" label="学生" width="120"> </el-table-column>
@@ -95,21 +95,6 @@ export default {
     }
   },
   methods: {
-    //时间格式化
-    dateFormat: function (row, column) {
-      // console.log(">>>>>");
-      //   console.log(column);
-      //   console.log(row);
-      var date = row.rollcall.rollcallTime;
-      if (date == undefined) {
-        return "";
-      }
-      return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
-    },
-    handlePageChange(val) {
-      this.cur_page = val;
-      this.getDataByPage();
-    },
     // 分页
     getDataByPage() {
       console.log("开始分页");
@@ -184,9 +169,21 @@ export default {
         this.getDataByPage();
       });
     },
+    //时间格式化
+    dateFormat: function (row, column) {
+      var date = row.rollcall.rollcallTime;
+      if (date == undefined) {
+        return "";
+      }
+      return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
+    },
+    handlePageChange(val) {
+      this.cur_page = val;
+      this.getDataByPage();
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
+    },
   }
 };
 </script>

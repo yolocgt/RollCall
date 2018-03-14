@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理课程</el-breadcrumb-item>
+                <el-breadcrumb-item>管理课程信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">

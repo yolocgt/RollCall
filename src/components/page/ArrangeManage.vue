@@ -3,8 +3,8 @@
     <div class="crumbs">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
-        <el-breadcrumb-item>排课信息管理</el-breadcrumb-item>
+          <i class="el-icon-date"></i> 排课点名管理</el-breadcrumb-item>
+        <el-breadcrumb-item>管理排课信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="handle-box">

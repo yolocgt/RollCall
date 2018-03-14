@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-date"></i> 学生信息管理</el-breadcrumb-item>
                 <el-breadcrumb-item>{{status}}学生信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>

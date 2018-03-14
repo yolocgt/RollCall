@@ -67,47 +67,6 @@
           </el-select>
         </el-form-item>
 
-        <!-- <el-form-item label="缺勤同学" prop="absence"> -->
-        <!-- <el-transfer v-model="value1" :data="data"></el-transfer> -->
-
-        <!-- <el-transfer
-                      v-model="value3"
-                      filterable
-                      :left-default-checked="[2, 3]"
-                      :right-default-checked="[1]"
-                      :render-content="renderFunc"
-                      :titles="['Source', 'Target']"
-                      :button-texts="['到左边', '到右边']"
-                      :format="{
-                        noChecked: '${total}',
-                        hasChecked: '${checked}/${total}'
-                      }"
-                       @change="handleChange"
-                      :data="data">
-                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-                      <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
-                    </el-transfer> -->
-
-        <!-- :render-content="renderFunc" -->
-        <!-- <el-transfer
-                      v-model="value3"
-                      filterable
-                      :left-default-checked="[2, 3]"
-                      :right-default-checked="[1]"
-                      :titles="['学生总数', '缺勤同学']"
-                      :button-texts="['出席', '缺勤']"
-                      :format="{
-                        noChecked: '${total}',
-                        hasChecked: '${checked}/${total}'
-                      }"
-                      @change="handleChange"
-                      :data="data">
-                      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-                      <el-button class="transfer-footer" slot="right-footer" size="small" @click="roll">确定</el-button>
-                    </el-transfer> -->
-
-        <!--   </el-form-item> -->
-
         <el-form-item>
           <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
           <el-button @click="resetSubmit('form')">取消</el-button>
@@ -141,27 +100,13 @@ import {
   ApiAbsence
 } from "../../service/apis";
 export default {
-  data: function () {
+  data: function() {
     return {
       rid: null,
       aid: null,
       data: [],
       value3: [],
-      // renderFunc(h, option) {
-      //   return <span> {" "} {option.key} - {option.label}{" "} </span>;
-      // },
-      // renderFunc(h, option) {
-      //   // return <span> {" "} {option.key} - {option.label}{" "} </span>;
-      //   const span = h(span, {}, option.key + "-" + option.label);
-      //   return span;
-      // },
-      // renderFunc (h, option) {
-      //     const span = h(span, {}, option.name + '-' + option.mail)
-      //     return span
-      // }
-      // return h('span', {}, [`${option.name}-${option.mail}`])
       students: [],
-      // value5: [],
       truancy: [],
       tardiness: [],
       leave: [],
@@ -196,7 +141,7 @@ export default {
     //   return leave.length
     // }
   },
-  created: function () {
+  created: function() {
     const data = [];
     var stus = {};
 
@@ -254,7 +199,7 @@ export default {
       });
     }
   },
-  mounted: function () { },
+  mounted: function() {},
   methods: {
     roll() {
       // alert('roll')
@@ -349,7 +294,7 @@ export default {
             });
           });
           // }
-          // this.$router.push({ name: "rollcallManage" });
+          this.$router.push({ name: "rollcallManage" });
         }
       });
     },

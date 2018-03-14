@@ -3,7 +3,7 @@
     <div class="crumbs">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <i class="el-icon-date"></i> 点名信息管理</el-breadcrumb-item>
+          <i class="el-icon-date"></i> 排课点名管理</el-breadcrumb-item>
         <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -13,14 +13,14 @@
       <el-table-column prop="arrange.classInfo.className" label="班级"> </el-table-column>
       <el-table-column prop="arrange.course.courseName" label="课程"> </el-table-column>
       <el-table-column prop="arrange.teacher.name" label="教师"> </el-table-column>
-      <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" min-width="100"> </el-table-column>
+      <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" width="112"> </el-table-column>
       <el-table-column prop="arrange.section" label="节次"> </el-table-column>
       <el-table-column prop="actual" label="总数"> </el-table-column>
       <el-table-column label="缺勤">
         <template slot-scope="scope">
           <template v-if="scope.row.fact==0"> \ </template>
           <template v-else>
-            <router-link class="c_danger" :to="{path:'/absenceManage',query:{aid:scope.row._id}}">
+            <router-link class="c_danger" :to="{path:'/absenceManage',query:{id:scope.row._id}}">
               <el-tag type="danger">{{scope.row.fact}}人</el-tag>
             </router-link>
           </template>
