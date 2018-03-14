@@ -167,9 +167,9 @@ export default {
         ApiFaculty.deleteById(_this.temDelRow._id, res => {
           console.log(res);
           if (res.status == "y") {
-            _this.$message.success("删除成功~");
+            _this.$message.success("院系删除成功~");
           } else {
-            _this.$message.success("删除失败！");
+            _this.$message.success("院系删除失败！");
           }
           //刷新页面
           _this.getDataByPage();

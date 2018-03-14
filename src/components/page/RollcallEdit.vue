@@ -244,8 +244,8 @@ export default {
           // console.log(this.form);
           ApiRollcall.save(this.form, res => {
             if (res.status == "y") {
-              this.$message.success("添加成功~");
-            } else this.$message.error("添加失败！");
+              this.$message.success("点名成功~");
+            } else this.$message.error("点名失败！");
             ApiRollcall.getData({}, data => {
               // 本次新增的一条点名记录
               var newRoll = data.data.reverse()[0];

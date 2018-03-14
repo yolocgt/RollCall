@@ -120,9 +120,9 @@ export default {
           ApiCourse.deleteById(this.temDelRow._id, res => {
             console.log(res);
             if (res.status == "y") {
-              this.$message.success("删除成功~");
+              this.$message.success("课程删除成功~");
             } else {
-              this.$message.success("删除失败！");
+              this.$message.success("课程删除失败！");
             }
             this.getDataByPage();
           });

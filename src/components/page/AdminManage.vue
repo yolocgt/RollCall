@@ -141,7 +141,7 @@ export default {
               const user = users[i];
               ApiAdmin.save(user, res => {
                 if (res.status == "y") {
-                  resolve(1)
+                  resolve()
                 }
               });
             }
@@ -197,10 +197,10 @@ export default {
       ApiAdmin.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
-          this.$message.success("删除成功~");
+          this.$message.success("管理员删除成功~");
           this.getDataByPage();
         } else {
-          this.$message.success("删除失败！");
+          this.$message.success("管理员删除失败！");
         }
         //刷新页面
         // this.$router.go(0);

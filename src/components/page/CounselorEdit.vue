@@ -36,26 +36,6 @@
                         :value="f._id"></el-option>
     	            </el-select>
                 </el-form-item>
-                <!--
-				 <el-form-item label="管理班级" prop="className">
-    				      <el-select v-model="form.className" placeholder="选择班级" class="handle-select mr10">
-    	                <el-option
-                        v-for="c in className" :key="c._id" :label="c.cyear+'级'+c.major.majorName+c.cno+'班'" :value="c._id"></el-option>
-    	            </el-select>
-                </el-form-item> -->
-
-                <!-- <el-form-item label="用户头像" prop="avatar">
-                    <el-upload
-                      class="avatar-uploader"
-                      action="https://jsonplaceholder.typicode.com/posts/"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeAvatarUpload">
-                      <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item> -->
-
 
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">{{status}}</el-button>
@@ -66,32 +46,6 @@
 
     </div>
 </template>
-
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
 
 <script>
 import { ApiFaculty, ApiClassInfo, ApiCounselor } from "../../service/apis";
@@ -123,13 +77,25 @@ export default {
         faculty: null
       },
       rules: {
-        name: [{ required: true, message: "请输入姓名" }],
+        name: [
+          { required: true, message: "请输入姓名" },
+          {
+            pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/,
+            message: "请输入正确的名字"
+          }
+        ],
         sex: [{ required: true, message: "请选择性别" }],
         id: [
           { required: true, type: "number", message: "请输入工号" },
           { validator: isExist }
         ],
-        phone: [{ required: true, message: "请输入电话" }]
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          {
+            pattern: /^[1][3578][0-9]{9}$/,
+            message: "请输入正确的手机号"
+          }
+        ]
       }
     };
   },
@@ -146,11 +112,11 @@ export default {
       });
     }
     // 学院下拉框数据
-    ApiFaculty.getData({},res => {
+    ApiFaculty.getData({}, res => {
       this.facultys = res.data;
     });
     // 班级下拉框数据
-    ApiClassInfo.getData({},res => {
+    ApiClassInfo.getData({}, res => {
       this.className = res.data;
     });
   },
@@ -166,24 +132,19 @@ export default {
             console.log("修改");
             ApiCounselor.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("辅导员修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("辅导员修改失败！");
               }
             });
           } else {
             // 新增
             ApiCounselor.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("辅导员添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("辅导员添加失败！");
               }
-              // 聚焦到第一个输入框
-              // this.$refs.inputRef.$el.children[0].focus();
-              // 清空表单输入框
-              // this.$refs[formName].resetFields();
-              // 跳转管理员管理路由
             });
           }
           this.$router.push({ name: "counselorManage" });
@@ -193,21 +154,6 @@ export default {
     resetSubmit(formName) {
       this.$refs[formName].resetFields();
       this.$refs.inputRef.$el.children[0].focus();
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
     }
   }
 };

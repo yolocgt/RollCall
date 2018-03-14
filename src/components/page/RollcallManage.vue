@@ -161,7 +161,7 @@ export default {
       ApiRollcall.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
-          this.$message.success("删除成功~");
+          this.$message.success("点名记录删除成功~");
           // 删除点名对应的考勤信息?
           ApiAbsence.deleteMany(this.temDelRow._id, res => {
             console.log(res);
@@ -169,7 +169,7 @@ export default {
           });
           this.getDataByPage();
         } else {
-          this.$message.success("删除失败！");
+          this.$message.success("点名记录删除失败！");
           this.getDataByPage();
         }
         this.getDataByPage();

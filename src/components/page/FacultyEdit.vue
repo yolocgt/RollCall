@@ -64,14 +64,14 @@ export default {
         director: [
           { required: true, message: "请输入主任名字", trigger: "blur" },
           {
-            pattern: /^[\u4E00-\u9FA5]+$/,
+            pattern: /^[\u4E00-\u9FA5a-zA-Z]+$/,
             message: "请输入正确的姓名"
           }
         ],
         phone: [
           { required: true, message: "请输入电话", trigger: "blur" },
           {
-            pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
+            pattern: /^[1][3578][0-9]{9}$/,
             message: "请输入正确的手机号"
           }
         ]
@@ -103,9 +103,9 @@ export default {
             console.log("修改");
             ApiFaculty.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("院系修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("院系修改失败！");
               }
             });
           } else {

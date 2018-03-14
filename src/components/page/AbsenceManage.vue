@@ -161,9 +161,9 @@ export default {
               });
             });
           }
-          this.$message.success("删除成功~");
+          this.$message.success("考勤记录删除成功~");
         } else {
-          this.$message.success("删除失败！");
+          this.$message.success("考勤记录删除失败！");
         }
         //刷新页面
         this.getDataByPage();

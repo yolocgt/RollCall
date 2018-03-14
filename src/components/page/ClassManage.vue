@@ -146,9 +146,9 @@ export default {
             ApiClassInfo.deleteById(cid, res => {
               console.log(res);
               if (res.status == "y") {
-                this.$message.success("删除成功~");
+                this.$message.success("班级删除成功~");
               } else {
-                this.$message.success("删除失败！");
+                this.$message.success("班级删除失败！");
               }
               //刷新页面
               this.getDataByPage();

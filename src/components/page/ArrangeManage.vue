@@ -252,9 +252,9 @@ export default {
           ApiArrange.deleteById(this.temDelRow._id, res => {
             console.log(res);
             if (res.status == "y") {
-              this.$message.success("删除成功~");
+              this.$message.success("排课记录删除成功~");
             } else {
-              this.$message.success("删除失败！");
+              this.$message.success("排课记录删除失败！");
             }
             //刷新页面
             this.getDataByPage();

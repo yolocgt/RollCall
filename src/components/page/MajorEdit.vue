@@ -50,6 +50,10 @@ export default {
         majorName: [
           { required: true, message: "请输入专业名称", trigger: "blur" },
           {
+            pattern: /^[\u4e00-\u9fa5]+$/,
+            message: "请输入正确的专业名称"
+          },
+          {
             validator: isExist,
             trigger: "blur"
           }
@@ -85,18 +89,18 @@ export default {
             console.log("修改");
             ApiMajor.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("专业修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("专业修改失败！");
               }
             });
           } else {
             // 新增
             ApiMajor.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("专业添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("专业添加失败！");
               }
               // 聚焦到第一个输入框
               // this.$refs.inputRef.$el.children[0].focus();

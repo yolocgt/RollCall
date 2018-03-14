@@ -192,9 +192,9 @@ export default {
           ApiStudent.deleteById(this.temDelRow._id, res => {
             console.log(res);
             if (res.status == "y") {
-              this.$message.success("删除成功~");
+              this.$message.success("学生删除成功~");
             } else {
-              this.$message.success("删除失败！");
+              this.$message.success("学生删除失败！");
             }
             this.getDataByPage();
           });
@@ -281,10 +281,9 @@ export default {
             var users = data.data.data.users;
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
-              user.phone = user.phone.replace("|", "3");
               ApiStudent.save(user, res => {
                 if (res.status == "y") {
-                  resolve(1);
+                  resolve();
                 }
               });
             }

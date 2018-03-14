@@ -83,18 +83,18 @@ export default {
             console.log("修改");
             ApiCourse.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("课程修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("课程修改失败！");
               }
             });
           } else {
             // 新增
             ApiCourse.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("课程添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("课程添加失败！");
               }
             });
           }

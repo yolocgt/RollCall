@@ -95,9 +95,9 @@ export default {
           console.log(this.form);
           ApiAbsence.update(this.id, this.form, res => {
             if (res.status == "y") {
-              this.$message.success("添加成功~");
+              this.$message.success("考勤记录修改成功~");
             } else {
-              this.$message.error("添加失败！");
+              this.$message.error("考勤记录修改失败！");
             }
           });
         }

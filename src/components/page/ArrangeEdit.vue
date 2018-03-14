@@ -256,9 +256,9 @@ export default {
             this.form.section = this.week + this.form.section;
             ApiArrange.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("修改排课记录成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("修改排课记录失败！");
               }
             });
           } else {
@@ -267,9 +267,9 @@ export default {
             console.log(this.form);
             ApiArrange.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("排课成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("排课失败！");
               }
             });
           }

@@ -151,9 +151,9 @@ export default {
           ApiTeacher.deleteById(this.temDelRow._id, res => {
             console.log(res);
             if (res.status == "y") {
-              this.$message.success("删除成功~");
+              this.$message.success("教师删除成功~");
             } else {
-              this.$message.success("删除失败！");
+              this.$message.success("教师删除失败！");
             }
             this.getDataByPage();
           });
@@ -174,10 +174,10 @@ export default {
             var users = data.data.data.users;
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
-              user.phone = user.phone.replace("|", "3");
+              // user.phone = user.phone.replace("|", "3");
               ApiTeacher.save(user, res => {
                 if (res.status == "y") {
-                  resolve(1);
+                  resolve();
                 }
               });
             }

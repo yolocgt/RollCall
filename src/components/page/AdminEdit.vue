@@ -148,9 +148,9 @@ export default {
             console.log("修改");
             ApiAdmin.update(this.aid, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("管理员修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("管理员修改失败！");
               }
             });
           } else {

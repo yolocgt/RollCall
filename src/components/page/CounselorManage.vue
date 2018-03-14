@@ -160,9 +160,9 @@ export default {
           ApiCounselor.deleteById(this.temDelRow._id, res => {
             console.log(res);
             if (res.status == "y") {
-              this.$message.success("删除成功~");
+              this.$message.success("辅导员删除成功~");
             } else {
-              this.$message.success("删除失败！");
+              this.$message.success("辅导员删除失败！");
             }
             //刷新页面
             // this.$router.go(0);
@@ -190,10 +190,9 @@ export default {
             var users = data.data.data.users;
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
-              user.phone = user.phone.replace("|", "3");
               ApiCounselor.save(user, res => {
                 if (res.status == "y") {
-                  resolve(1);
+                  resolve();
                 }
               });
             }

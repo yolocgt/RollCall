@@ -192,16 +192,16 @@ export default {
             console.log("修改");
             ApiClassInfo.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
-              } else this.$message.error("修改失败！");
+                this.$message.success("班级修改成功~");
+              } else this.$message.error("班级修改失败！");
             });
           } else {
             // 新增
             console.log("添加");
             ApiClassInfo.save(this.form, res => {
               if (res.status == "y") {
-                this.$message.success("添加成功~");
-              } else this.$message.error("添加失败！");
+                this.$message.success("班级添加成功~");
+              } else this.$message.error("班级添加失败！");
             });
           }
           this.$router.push({ name: "classManage" });

@@ -76,36 +76,6 @@
     </div>
 </template>
 
-<style scoped>
-.el-input {
-  width: 220px;
-}
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
-
 <script>
 import { ApiClassInfo, ApiStudent } from "../../service/apis";
 import login from "../../service/api_login";
@@ -139,7 +109,13 @@ export default {
         birth: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入学生姓名" }],
+        name: [
+          { required: true, message: "请输入学生姓名" },
+          {
+            pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/,
+            message: "请输入正确的名字"
+          }
+        ],
         sex: [{ required: true, message: "请选择性别" }],
         id: [
           { required: true, type: "number", message: "请输入学号" },
@@ -148,7 +124,13 @@ export default {
             trigger: "blur"
           }
         ],
-        phone: [{ required: true, message: "请输入电话" }]
+        phone: [
+          { required: true, message: "请输入手机号" },
+          {
+            pattern: /^[1][3578][0-9]{9}$/,
+            message: "请输入正确的手机号"
+          }
+        ]
       }
     };
   },
@@ -188,9 +170,9 @@ export default {
             console.log("修改");
             ApiStudent.update(this.id, this.form, res => {
               if (res.status == "y") {
-                this.$message.success("修改成功~");
+                this.$message.success("学生修改成功~");
               } else {
-                this.$message.error("修改失败！");
+                this.$message.error("学生修改失败！");
               }
             });
           } else {
@@ -198,15 +180,10 @@ export default {
             ApiStudent.save(this.form, res => {
               console.log(res);
               if (res.status == "y") {
-                this.$message.success("添加成功~");
+                this.$message.success("学生添加成功~");
               } else {
-                this.$message.error("添加失败！");
+                this.$message.error("学生添加失败！");
               }
-              // 聚焦到第一个输入框
-              // this.$refs.inputRef.$el.children[0].focus();
-              // 清空表单输入框
-              // this.$refs[formName].resetFields();
-              // 跳转管理员管理路由
             });
           }
           this.$router.push({ name: "studentManage" });
@@ -235,3 +212,33 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.el-input {
+  width: 220px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
