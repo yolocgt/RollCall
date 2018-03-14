@@ -10,29 +10,26 @@
       </el-breadcrumb>
     </div>
     <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-              <el-select v-model="select_cate" placeholder="筛选" class="handle-select ">
-                  <el-option
-                        v-for="f in faculty"
-                        :key="f._id"
-                        :label="f.facultyName"
-                        :value="f._id"></el-option>
-              </el-select>
-            <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
-    <el-table :data="data" stripe border  style="width: 100%" ref="multipleTable">
-      <el-table-column type="selection"></el-table-column>
-      <el-table-column type="index"></el-table-column>
-      <el-table-column prop="name" label="姓名" sortable> </el-table-column>
-      <el-table-column prop="sex" label="性别" sortable> </el-table-column>
+      <el-button type="primary" icon="delete" class="handle-del mr10" @click="handleDeleteAll">批量删除</el-button>
+      <el-select v-model="select_cate" placeholder="筛选" class="handle-select" @change="facultyChange" clearable>
+        <el-option v-for="f in faculty" :key="f._id" :label="f.facultyName" :value="f._id"></el-option>
+      </el-select>
+      <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
+      <!-- <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" ></el-input> -->
+      <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
+    </div>
+    <el-table :data="data" stripe border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+      <el-table-column fixed type="selection"></el-table-column>
+      <el-table-column fixed type="index"></el-table-column>
+      <el-table-column fixed prop="name" label="姓名" sortable> </el-table-column>
+      <el-table-column prop="sex" label="性别" width="64"> </el-table-column>
       <el-table-column prop="id" label="学号" sortable> </el-table-column>
       <el-table-column prop="phone" label="电话"> </el-table-column>
-      <el-table-column prop="address" label="住址"> </el-table-column>
+      <el-table-column prop="address" label="住址" width="138"> </el-table-column>
       <el-table-column prop="birth" :formatter="dateFormat" label="生日"> </el-table-column>
       <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
       <el-table-column prop="classInfo.faculty.facultyName" label="学院"> </el-table-column>
-      <el-table-column prop="classInfo.className" label="班级"> </el-table-column>
+      <el-table-column prop="classInfo.className" label="班级" width="138"> </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -55,6 +52,15 @@
       </span>
     </el-dialog>
 
+    <!-- 确认批量删除对话框2 -->
+    <el-dialog title="请确认批量删除信息" :visible.sync="dialogVisible3" width="30%">
+      <span>确认批量删除选中学生？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible3=false">取 消</el-button>
+        <el-button type="primary" @click="delAll">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 <style>
@@ -65,7 +71,7 @@
 
 <script>
 // import {moment} from 'vue-moment';
-import { ApiStudent, ApiFaculty, ApiAbsence } from "../../service/apis";
+import { ApiStudent, ApiFaculty, ApiAbsence, ApiClassInfo } from "../../service/apis";
 // import moment from 'moment'
 export default {
   data() {
@@ -80,6 +86,7 @@ export default {
       del_list: [],
 
       dialogVisible: false,
+      dialogVisible3: false,
       temDelRow: {},
       dialogMsg: "",
 
@@ -105,9 +112,11 @@ export default {
     // 分页
     getDataByPage() {
       console.log("开始分页");
+      console.log(this.select_cate);
       ApiStudent.getDataByPage(
-        { page: this.cur_page, word: this.select_word },
+        { page: this.cur_page, word: this.select_word, cids: this.cids },
         res => {
+          console.log(res);
           this.tableData = res.data.res; //获取分页数据
           this.pageCount = res.data.pageCount; //获取总页数
         }
@@ -164,6 +173,11 @@ export default {
       this.dialogMsg = `确认删除学生：${row.name}`;
       this.temDelRow = row;
     },
+    // 确认批量删除提示框
+    handleDeleteAll(index, row) {
+      this.dialogVisible3 = true;
+      this.temDelRow = row;
+    },
     // 删除
     doDel() {
       this.dialogVisible = false;
@@ -206,7 +220,65 @@ export default {
         this.getDataByPage();
       })
     },
-    delAll() { }
+    facultyChange() {
+      console.log(this.select_cate);
+      // 首先查找属于该学院的班级。再查找属于这些班级中的学生
+      ApiClassInfo.getData({ faculty: this.select_cate }, (res) => {
+        console.log(res.data);
+        this.cids = [];
+        for (let i = 0; i < res.data.length; i++) {
+          this.cids.push(res.data[i]._id);
+        }
+        console.log(this.cids);
+        ApiStudent.getDataByPage(
+          { page: this.cur_page, cids: this.cids },
+          res => {
+            console.log(res);
+            this.tableData = res.data.res; //获取分页数据
+            this.pageCount = res.data.pageCount; //获取总页数
+          }
+        );
+      })
+    },
+    delAll() {
+      this.dialogVisible3 = false;
+
+      length = this.multipleSelection.length;
+      let str = "";
+      this.del_list = this.del_list.concat(this.multipleSelection);
+      var delStatus = false;
+
+      var _this = this;
+      // 批量删除操作
+      function fn1(resolve) {
+        for (let i = 0; i < length; i++) {
+          // str += _this.multipleSelection[i].name + ",";
+          var id = _this.multipleSelection[i]._id;
+          var name = _this.multipleSelection[i].name;
+
+          ApiAbsence.getData({ student: id }, res => {
+            console.log(res);
+            if (res.data.length > 0) {
+              str += (name + " ");
+              // this.$message.error(`删除失败，该学生正在【考勤表】中使用。`);
+            } else {
+              ApiStudent.deleteById(id, res => {
+                console.log(res);
+                resolve(1);
+              });
+            }
+          });
+        }
+      }
+      new Promise(fn1).then(function (val) {
+        _this.getDataByPage();
+        _this.multipleSelection = [];
+        _this.$message.error("【" + str + "】删除失败，该学生正在【考勤表】中使用。");
+      });
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    }
   }
 };
 </script>
