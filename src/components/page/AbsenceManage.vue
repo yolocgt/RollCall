@@ -16,7 +16,20 @@
         </el-table-column>
       </template>
       <el-table-column prop="student.name" label="学生" width="120"> </el-table-column>
-      <el-table-column prop="absenceReson" label="缺勤原因"> </el-table-column>
+      <el-table-column prop="absenceReson" label="缺勤原因">
+        <template slot-scope="scope">
+          <template v-if="scope.row.absenceReson=='旷课'">
+            <el-tag type="danger">{{scope.row.absenceReson}}</el-tag>
+          </template>
+          <template v-else-if="scope.row.absenceReson=='迟到早退'">
+            <el-tag type="warning">{{scope.row.absenceReson}}</el-tag>
+          </template>
+          <template v-else>
+            <!-- <el-tag type="info">{{scope.row.absenceReson}}</el-tag> -->
+            {{scope.row.absenceReson}}
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>

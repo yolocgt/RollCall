@@ -7,14 +7,14 @@
                 <el-breadcrumb-item>班级信息管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border style="width: 100%"  ref="multipleTable" @selection-change="handleSelectionChange">
             <!-- <el-table-column prop="cyear" label="年级" sortable width="150">
             </el-table-column>
             <el-table-column prop="major.majorName" label="专业" width="120">
             </el-table-column> -->
-            <el-table-column prop="faculty.facultyName" label="院系" > </el-table-column>
-            <el-table-column prop="className" label="班级" > </el-table-column>
-            <el-table-column prop="counselor.name" label="辅导员" > </el-table-column>
+            <el-table-column prop="faculty.facultyName" label="院系" sortable > </el-table-column>
+            <el-table-column prop="className" label="班级"  width="240" sortable> </el-table-column>
+            <el-table-column prop="counselor.name" label="辅导员" sortable> </el-table-column>
             <el-table-column label="操作" >
                 <template  slot-scope="scope">
                     <el-button size="small"
