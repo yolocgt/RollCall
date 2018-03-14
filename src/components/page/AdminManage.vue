@@ -133,7 +133,7 @@ export default {
       new Promise((resolve) => {
         this.$axios
           // .get("/users")
-          .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
+          .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/admin")
           .then(data => {
             console.log(data.data.data.users);
             var users = data.data.data.users;

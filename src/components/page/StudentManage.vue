@@ -3,7 +3,7 @@
     <div class="crumbs">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
+          <i class="el-icon-date"></i> 学生信息管理</el-breadcrumb-item>
         <el-breadcrumb-item>管理学生信息
           <i class="el-icon-upload" @click="loadData"></i>
         </el-breadcrumb-item>
@@ -18,19 +18,19 @@
       <!-- <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" ></el-input> -->
       <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
     </div>
-    <el-table :data="data" stripe border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+    <el-table :data="data"  stripe border height="390" style="width: 100%"  ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column fixed type="selection"></el-table-column>
-      <el-table-column fixed type="index"></el-table-column>
-      <el-table-column fixed prop="name" label="姓名" sortable> </el-table-column>
-      <el-table-column prop="sex" label="性别" width="64"> </el-table-column>
-      <el-table-column prop="id" label="学号" sortable> </el-table-column>
-      <el-table-column prop="phone" label="电话"> </el-table-column>
+      <el-table-column fixed type="index"  width="60"></el-table-column>
+      <el-table-column fixed prop="name" label="姓名"  width="80"> </el-table-column>
+      <el-table-column prop="sex" label="性别" width="65"> </el-table-column>
+      <el-table-column prop="id" label="学号"  width="150"> </el-table-column>
+      <el-table-column prop="phone" label="电话" width="130"> </el-table-column>
       <el-table-column prop="address" label="住址" width="138"> </el-table-column>
-      <el-table-column prop="birth" :formatter="dateFormat" label="生日"> </el-table-column>
+      <el-table-column prop="birth" :formatter="dateFormat" label="生日" width="130"> </el-table-column>
       <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
-      <el-table-column prop="classInfo.faculty.facultyName" label="学院"> </el-table-column>
+      <el-table-column prop="classInfo.faculty.facultyName" label="学院" width="105"> </el-table-column>
       <el-table-column prop="classInfo.className" label="班级" width="138"> </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row,scope.row._id)">删除</el-button>
@@ -40,7 +40,7 @@
     <div class="pagination">
       <!--page-count 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；
               page-size	每页显示条目个数 -->
-      <el-pagination @current-change="handlePageChange" layout="prev, pager, next" :page-count="pageCount||1" :page-size="pageSize">
+      <el-pagination @current-change="handlePageChange" layout="prev, pager, next" :page-count="pageCount||1">
       </el-pagination>
     </div>
     <!-- 确认删除对话框 -->
@@ -71,7 +71,12 @@
 
 <script>
 // import {moment} from 'vue-moment';
-import { ApiStudent, ApiFaculty, ApiAbsence, ApiClassInfo } from "../../service/apis";
+import {
+  ApiStudent,
+  ApiFaculty,
+  ApiAbsence,
+  ApiClassInfo
+} from "../../service/apis";
 // import moment from 'moment'
 export default {
   data() {
@@ -89,10 +94,8 @@ export default {
       dialogVisible3: false,
       temDelRow: {},
       dialogMsg: "",
-
       cur_page: 1, //当前页码
-      pageCount: 3, //总页数
-      pageSize: 5 //页大小
+      pageCount: 1 //总页数
     };
   },
   created() {
@@ -154,7 +157,7 @@ export default {
     },
 
     //时间格式化
-    dateFormat: function (row, column) {
+    dateFormat: function(row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";
@@ -198,32 +201,10 @@ export default {
         }
       });
     },
-    loadData() {
-      new Promise((resolve) => {
-        this.$axios
-          .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/student")
-          .then(data => {
-            console.log(data.data.data.users);
-            var users = data.data.data.users;
-            for (let i = 0; i < users.length; i++) {
-              const user = users[i];
-              user.phone = user.phone.replace('|', '3');
-              ApiStudent.save(user, res => {
-                if (res.status == "y") {
-                  resolve(1);
-                }
-              });
-            }
-          });
-      }).then(() => {
-        this.$message.success("数据加载成功");
-        this.getDataByPage();
-      })
-    },
     facultyChange() {
       console.log(this.select_cate);
       // 首先查找属于该学院的班级。再查找属于这些班级中的学生
-      ApiClassInfo.getData({ faculty: this.select_cate }, (res) => {
+      ApiClassInfo.getData({ faculty: this.select_cate }, res => {
         console.log(res.data);
         this.cids = [];
         for (let i = 0; i < res.data.length; i++) {
@@ -238,47 +219,81 @@ export default {
             this.pageCount = res.data.pageCount; //获取总页数
           }
         );
-      })
+      });
     },
     delAll() {
       this.dialogVisible3 = false;
-
       length = this.multipleSelection.length;
-      let str = "";
+      var str = "";
+      var isUsed = false;
       this.del_list = this.del_list.concat(this.multipleSelection);
-      var delStatus = false;
-
       var _this = this;
       // 批量删除操作
-      function fn1(resolve) {
+      function fn1(resolve, reject) {
         for (let i = 0; i < length; i++) {
-          // str += _this.multipleSelection[i].name + ",";
-          var id = _this.multipleSelection[i]._id;
-          var name = _this.multipleSelection[i].name;
+          let id = _this.multipleSelection[i]._id;
+          let name = _this.multipleSelection[i].name;
 
           ApiAbsence.getData({ student: id }, res => {
-            console.log(res);
+            // console.log(res);
             if (res.data.length > 0) {
-              str += (name + " ");
+              str += name + " ";
+              isUsed = true;
               // this.$message.error(`删除失败，该学生正在【考勤表】中使用。`);
             } else {
               ApiStudent.deleteById(id, res => {
-                console.log(res);
-                resolve(1);
+                if (res.status == "y") {
+                  console.log(res);
+                  resolve();
+                } else reject();
               });
             }
           });
         }
       }
-      new Promise(fn1).then(function (val) {
-        _this.getDataByPage();
-        _this.multipleSelection = [];
-        _this.$message.error("【" + str + "】删除失败，该学生正在【考勤表】中使用。");
-      });
+      new Promise(fn1)
+        .then(function(val) {
+          _this.getDataByPage();
+          _this.multipleSelection = [];
+          if (isUsed) {
+            _this.$message.error(
+              "【" + str + "】删除失败，该学生正在【考勤表】中使用。"
+            );
+          } else {
+            _this.$message.success("批量删除学生成功~");
+          }
+        })
+        .catch(() => {
+          _this.$message.success("批量删除学生失败！");
+        });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
+    },
+    loadData() {
+      new Promise(resolve => {
+        this.$axios
+          .get(
+            "https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/student"
+          )
+          .then(data => {
+            console.log(data.data.data.users);
+            var users = data.data.data.users;
+            for (let i = 0; i < users.length; i++) {
+              const user = users[i];
+              user.phone = user.phone.replace("|", "3");
+              ApiStudent.save(user, res => {
+                if (res.status == "y") {
+                  resolve(1);
+                }
+              });
+            }
+          });
+      }).then(() => {
+        this.$message.success("数据加载成功~");
+        this.getDataByPage();
+      });
+    },
   }
 };
 </script>

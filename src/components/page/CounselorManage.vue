@@ -3,7 +3,9 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 用户信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
+                <el-breadcrumb-item>管理辅导员信息
+                  <i class="el-icon-upload" @click="loadData"></i>
+                </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <el-table :data="data"  stripe border  style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
@@ -176,7 +178,31 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
+    },
+    loadData() {
+      new Promise(resolve => {
+        this.$axios
+          .get(
+            "https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/counselor"
+          )
+          .then(data => {
+            console.log(data.data.data.users);
+            var users = data.data.data.users;
+            for (let i = 0; i < users.length; i++) {
+              const user = users[i];
+              user.phone = user.phone.replace("|", "3");
+              ApiCounselor.save(user, res => {
+                if (res.status == "y") {
+                  resolve(1);
+                }
+              });
+            }
+          });
+      }).then(() => {
+        this.$message.success("数据加载成功~");
+        this.getDataByPage();
+      });
+    },
   }
 };
 </script>
