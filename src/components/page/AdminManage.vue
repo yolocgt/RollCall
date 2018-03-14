@@ -46,7 +46,7 @@
       </span>
     </el-dialog>
 
-    <!-- 确认删除对话框2 -->
+    <!-- 确认批量删除对话框2 -->
     <el-dialog title="请确认批量删除信息" :visible.sync="dialogVisible3" width="30%">
       <span>确认批量删除选中管理员？</span>
       <span slot="footer" class="dialog-footer">
@@ -169,7 +169,7 @@ export default {
       this.dialogMsg = `确认删除管理员：${row.name}`;
       this.temDelRow = row;
     },
-    // 确认删除提示框
+    // 确认批量删除提示框
     handleDeleteAll(index, row) {
       this.dialogVisible3 = true;
       this.temDelRow = row;
