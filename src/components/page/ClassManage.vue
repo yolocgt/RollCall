@@ -1,5 +1,5 @@
 <template>
-      <div class="table" style="width: 736px">
+      <div class="table" style="width: 681px">
 
         <div class="crumbs">
             <el-breadcrumb separator="/">
@@ -8,7 +8,6 @@
             </el-breadcrumb>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
             <!-- <el-table-column prop="cyear" label="年级" sortable width="150">
             </el-table-column>
             <el-table-column prop="major.majorName" label="专业" width="120">

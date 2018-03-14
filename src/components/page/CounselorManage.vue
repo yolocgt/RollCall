@@ -6,8 +6,7 @@
                 <el-breadcrumb-item>管理辅导员信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data"  stripe style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" ></el-table-column>
+        <el-table :data="data"  stripe border  style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column prop="name" label="姓名" sortable > </el-table-column>
             <el-table-column prop="sex" label="性别" sortable > </el-table-column>
             <el-table-column prop="id" label="工号" sortable > </el-table-column>

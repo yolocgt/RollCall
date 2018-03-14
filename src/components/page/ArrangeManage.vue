@@ -30,7 +30,7 @@
       <el-button type="primary" icon="search" @click="search">搜索</el-button>
 
     </div>
-    <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+    <el-table :data="data" stripe border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
       <!-- <template v-if="!select_learnYear"> -->
       <el-table-column prop="learnYear" label="学年" sortable min-width="90"> </el-table-column>
       <!-- </template> -->

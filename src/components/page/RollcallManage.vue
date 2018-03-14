@@ -7,8 +7,7 @@
         <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-table :data="data" :class="'rollcall'" border ref="multipleTable" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
+    <el-table :data="data" stripe :class="'rollcall'" border ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column prop="arrange.learnYear" label="学年" min-width="90"> </el-table-column>
       <el-table-column prop="arrange.learnTerm" label="学期"> </el-table-column>
       <el-table-column prop="arrange.classInfo.className" label="班级"> </el-table-column>
@@ -166,7 +165,7 @@ export default {
           // 删除点名对应的考勤信息?
           ApiAbsence.deleteMany(this.temDelRow._id, res => {
             console.log(res);
-            
+
           });
           this.getDataByPage();
         } else {

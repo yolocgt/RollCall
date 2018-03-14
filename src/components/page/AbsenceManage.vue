@@ -9,7 +9,6 @@
     </div>
 
     <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
       <template v-if="isShowDatail">
         <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="150">
         </el-table-column>

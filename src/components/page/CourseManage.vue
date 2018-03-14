@@ -1,5 +1,5 @@
 <template>
-    <div class="table" style="width: 436px">
+    <div class="table" style="width: 401px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 课程信息管理</el-breadcrumb-item>
@@ -7,8 +7,7 @@
             </el-breadcrumb>
         </div>
         <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="courseName" label="课程名称" sortable width="200">
+            <el-table-column prop="courseName" label="课程名称" sortable width="220">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">

@@ -1,14 +1,13 @@
 <template>
-    <div class="table" style="width: 436px">
+    <div class="table" style="width: 401px">
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 专业信息管理</el-breadcrumb-item>
                 <el-breadcrumb-item>管理专业</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-table :data="data" border style="width: 500" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="majorName" label="专业名称" sortable width="200">
+        <el-table :data="data" border  ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table-column prop="majorName" label="专业名称" sortable width="220">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template  slot-scope="scope">
