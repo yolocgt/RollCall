@@ -139,7 +139,7 @@ export default {
       this.dialogVisible = true;
       this.dialogMsg = `确认删除该次点名?`;
       if (row.fact > 0) {
-        this.dialogMsg = `确认删除该次点名和对应的缺勤信息吗?`;
+        this.dialogMsg = `确认删除该次点名和对应的考勤信息吗?`;
       }
       this.temDelRow = row;
       console.log(row);

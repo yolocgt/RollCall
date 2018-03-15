@@ -299,7 +299,10 @@ export default {
       });
     },
     resetSubmit(formName) {
-      this.$refs[formName].resetFields();
+      // this.$refs[formName].resetFields();
+      this.truancy = [];
+      this.tardiness = [];
+      this.leave = [];
     }
   }
 };

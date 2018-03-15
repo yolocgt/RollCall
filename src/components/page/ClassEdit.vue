@@ -87,8 +87,8 @@ export default {
         cyear: "",
         major: "",
         cno: "",
-        faculty: "",
-        counselor: ""
+        faculty: null,
+        counselor: null
       },
       rules: {
         cyear: [{ required: true, type: "number", message: "请选择年级" }],

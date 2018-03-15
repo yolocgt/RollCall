@@ -82,24 +82,24 @@ export default {
             validator: isExist,
             trigger: "blur"
           }
-        ]
-        // name: [
-        //   { required: true, message: "请输入用户姓名", trigger: "blur" },
-        //   {
-        //     pattern: /^[\u4E00-\u9FA5]+$/,
-        //     message: "用户名只能为中文"
-        //   }
-        // ],
-        // // password: [{ validator: validatePsw, trigger: "blur" }],
-        // password: [
-        //   { required: true, message: "请输入密码", trigger: "blur" },
-        //   { min: 6, max: 10, message: "密码长度至少6个字符" },
-        //   {
-        //     pattern: /^[a-zA-Z][0-9a-zA-Z_]{3,17}$/,
-        //     message: "以字母开头，只能包含字符、数字和下划线"
-        //   }
-        // ],
-        // rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
+        ],
+        name: [
+          { required: true, message: "请输入用户姓名", trigger: "blur" },
+          {
+            pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/,
+            message: "请输入正确的名字"
+          }
+        ],
+        // password: [{ validator: validatePsw, trigger: "blur" }],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, max: 10, message: "密码长度至少6个字符" },
+          {
+            pattern: /^[a-zA-Z][0-9a-zA-Z_]{3,17}$/,
+            message: "以字母开头，只能包含字符、数字和下划线"
+          }
+        ],
+        rePsw: [{ required: true, validator: validatePsw2, trigger: "blur" }]
       }
     };
   },

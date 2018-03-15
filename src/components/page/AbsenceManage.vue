@@ -10,7 +10,7 @@
 
     <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
       <template v-if="isShowDatail">
-        <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="150">
+        <el-table-column prop="rollcall.arrange.classInfo.className" label="点名班级" sortable width="170">
         </el-table-column>
         <el-table-column prop="rollcall.rollcallTime" :formatter="dateFormat" label="点名时间" sortable width="170">
         </el-table-column>
