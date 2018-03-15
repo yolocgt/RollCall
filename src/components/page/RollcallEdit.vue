@@ -42,25 +42,19 @@
           <el-input readonly v-model.number="form.actual"></el-input>
         </el-form-item>
 
-        <el-form-item label="未到人数" prop="fact">
-          <el-input readonly v-model.number="form.fact"></el-input>
-          <!-- <el-input-number controls-position="right" v-model="form.fact" :min="0" :max="form.actual" label="描述文字"></el-input-number> -->
-          <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number> -->
+        <el-form-item label="未到人数" prop="absent">
+          <el-input readonly v-model.number="form.absent"></el-input>
         </el-form-item>
 
         <el-form-item label="考勤记录" prop="actual">
-          <!-- <el-form-item label="迟到早退" prop="actual"> -->
           <el-select v-model="tardiness" multiple placeholder="迟到同学" @change="absenceChange">
             <el-option v-for="item in students" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
             </el-option>
           </el-select>
-          <!-- </el-form-item> -->
           <el-select v-model="leave" multiple placeholder="请假同学" @change="absenceChange">
             <el-option v-for="item in students" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
             </el-option>
           </el-select>
-          <!-- </el-form-item> -->
-          <!-- <el-form-item label="旷课" prop="actual"> -->
           <el-select v-model="truancy" multiple placeholder="旷课同学" @change="absenceChange">
             <el-option v-for="item in students" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
             </el-option>
@@ -120,7 +114,7 @@ export default {
       form: {
         arrange: "",
         actual: 0,
-        fact: 0,
+        absent: 0,
         rollcallTime: Date.now()
       },
       rules: {
@@ -128,7 +122,7 @@ export default {
         //   { required: true, message: "请输入人数" },
         //   { type: "number", message: "人数必须为数字值" }
         // ],
-        // fact: [
+        // absent: [
         // { required: true, message: "请输入实到人数" },
         // { type: "number", message: "人数必须为数字值" },
         // { message: "实到人数有误。应大于零并小于应到人数" }
@@ -137,7 +131,7 @@ export default {
     };
   },
   computed: {
-    // fact:function(){
+    // absent:function(){
     //   return leave.length
     // }
   },
@@ -162,7 +156,7 @@ export default {
 
         ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
           console.log(res.data.data);
-          // this.form.actual = this.form.fact = res.data.data.count; //应到学生总数
+          // this.form.actual = this.form.absent = res.data.data.count; //应到学生总数
           this.form.actual = res.data.data.count; //应到学生总数
 
           stus = res.data.data.res;
@@ -206,7 +200,7 @@ export default {
       console.log(this.value3);
     },
     absenceChange(val) {
-      this.form.fact = this.leave.length + this.truancy.length;
+      this.form.absent = this.leave.length + this.truancy.length;
       console.log(val);
       // console.log(this.students);
       // for (let i = 0; i < this.students.length; i++) {

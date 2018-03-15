@@ -153,9 +153,9 @@ export default {
             this.temDelRow.absenceReson == "旷课"
           ) {
             ApiRollcall.getDataById(this.temDelRow.rollcall._id, res => {
-              console.log(res.data.fact);
-              var absenceNum = res.data.fact;
-              var obj = { fact: absenceNum - 1 };
+              console.log(res.data.absent);
+              var absenceNum = res.data.absent;
+              var obj = { absent: absenceNum - 1 };
               ApiRollcall.update(this.temDelRow.rollcall._id, obj, data => {
                 console.log(data);
               });

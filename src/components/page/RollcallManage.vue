@@ -18,10 +18,10 @@
       <el-table-column prop="actual" label="总数"> </el-table-column>
       <el-table-column label="缺勤">
         <template slot-scope="scope">
-          <template v-if="scope.row.fact==0"> \ </template>
+          <template v-if="scope.row.absent==0"> \ </template>
           <template v-else>
             <router-link class="c_danger" :to="{path:'/absenceManage',query:{id:scope.row._id}}">
-              <el-tag type="danger">{{scope.row.fact}}人</el-tag>
+              <el-tag type="danger">{{scope.row.absent}}人</el-tag>
             </router-link>
           </template>
         </template>
@@ -138,7 +138,7 @@ export default {
     handleDelete(index, row) {
       this.dialogVisible = true;
       this.dialogMsg = `确认删除该次点名?`;
-      if (row.fact > 0) {
+      if (row.absent > 0) {
         this.dialogMsg = `确认删除该次点名和对应的考勤信息吗?`;
       }
       this.temDelRow = row;
