@@ -121,8 +121,8 @@ export default {
           if (res.data.count > 0) {
             isUsed = true;
             tables += "学生";
-            resolve();
           }
+          resolve();
         });
       }
       function f2(resolve) {
@@ -131,8 +131,8 @@ export default {
           if (res.data.length > 0) {
             isUsed = true;
             tables += " 排课";
-            resolve();
           }
+          resolve();
         });
       }
       new Promise(f1)

@@ -11,7 +11,7 @@
     </div>
     <div class="handle-box">
       <el-button type="primary" icon="delete" class="handle-del mr10" @click="handleDeleteAll">批量删除</el-button>
-      <el-select v-model="select_cate" placeholder="筛选" class="handle-select" @change="facultyChange" clearable>
+      <el-select v-model="select_cate" placeholder="筛选学院信息" class="handle-select" @change="facultyChange" clearable>
         <el-option v-for="f in faculty" :key="f._id" :label="f.facultyName" :value="f._id"></el-option>
       </el-select>
       <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" @change="getDataByPage"></el-input>
