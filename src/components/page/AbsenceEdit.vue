@@ -62,6 +62,10 @@ export default {
       ApiAbsence.getDataById(this.id, res => {
         console.log("获取到点名记录");
         console.log(res);
+        // 用于编辑页 修改成功跳转回来原来的点名信息
+        this.rollcall = res.data.rollcall;
+        console.log(this.rollcall);
+
         this.form.absenceReson = res.data.absenceReson;
         ApiStudent.getDataById(res.data.student, data => {
           console.log(data);
@@ -88,6 +92,7 @@ export default {
     },
     // 提交表单
     onSubmit(formName) {
+      var _this = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 修改
@@ -101,7 +106,7 @@ export default {
             }
           });
         }
-        this.$router.push({ name: "absenceManage" });
+        this.$router.push({ name: "absenceManage", query: { id: _this.rollcall } });
       });
     },
     // 重置表单
