@@ -16,12 +16,12 @@
       <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" width="112"> </el-table-column>
       <el-table-column prop="arrange.section" label="节次"> </el-table-column>
       <el-table-column prop="actual" label="总数"> </el-table-column>
-      <el-table-column label="缺勤">
+      <el-table-column prop="absentCount" label="缺勤">
         <template slot-scope="scope">
-          <template v-if="scope.row.absent==0"> \ </template>
+          <template v-if="scope.row.absentCount==0"> \ </template>
           <template v-else>
             <router-link class="c_danger" :to="{path:'/absenceManage',query:{id:scope.row._id}}">
-              <el-tag type="danger">{{scope.row.absent}}人</el-tag>
+              <el-tag type="danger">{{scope.row.absentCount}}人</el-tag>
             </router-link>
           </template>
         </template>
@@ -110,9 +110,20 @@ export default {
       ApiRollcall.getDataByPage(
         { page: this.cur_page, word: this.select_word },
         res => {
-          this.tableData = res.data.res; //获取分页数据
-          console.log(this.tableData);
-          this.pageCount = res.data.pageCount; //获取总页数
+          var rollcallData = res.data.res; //获取分页数据
+          for (let i = 0; i < rollcallData.length; i++) {
+            new Promise((resolve) => {
+              ApiAbsence.getData({ rollcall: rollcallData[i]._id }, (res) => {
+                console.log(res);
+                rollcallData[i].absentCount = res.data.length;
+                resolve();
+              })
+            }).then(() => {
+              this.tableData = rollcallData;
+              console.log(this.tableData);
+              this.pageCount = res.data.pageCount; //获取总页数
+            })
+          }
         }
       );
     },
@@ -176,14 +187,31 @@ export default {
       this.multipleSelection = val;
     },
     //时间格式化
-    dateFormat: function(row, column) {
+    dateFormat: function (row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";
       }
       return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
+    },
+    // 缺勤人数
+    absentCount(row, column) {
+      // var rid = row._id;
+      // console.log(rid);
+      // new Promise((resolve) => {
+      //   ApiAbsence.getData({ rollcall: rid }, (res) => {
+      //     console.log(res);
+      //     console.log(res.data.length);
+      //     resolve(res.data.length);
+      //   })
+      // }).then((val) => {
+      //   console.log('object');
+      //   return 3
+      // })
+      // console.log('结束');
+      // this.absentCount(row.column);
     }
-  }
+  },
 };
 </script>
 
