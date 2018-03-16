@@ -99,7 +99,6 @@ export default {
   data() {
     return {
       casYears: [],
-      select_cate: [],
       learnYears: [],
       select_learnYear: "",
       select_learnTerm: "",
@@ -107,10 +106,8 @@ export default {
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
-      select_cate: "",
       select_word: "",
-      del_list: [],
-      is_search: false,
+
 
       dialogVisible: false,
       temDelRow: {},
@@ -142,7 +139,6 @@ export default {
   },
   methods: {
     search() {
-      this.is_search = true;
       ApiClassInfo.getData({ className: this.select_word }, res => {
         console.log("模糊查询的班级数据：");
         console.log(res.data);

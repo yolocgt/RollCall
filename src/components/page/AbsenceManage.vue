@@ -68,10 +68,7 @@ export default {
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
-      select_cate: "",
-      select_word: "",
-      del_list: [],
-      is_search: false,
+
 
       dialogVisible: false,
       temDelRow: {},
@@ -107,9 +104,6 @@ export default {
         this.tableData = res.data.res; //获取分页数据
         this.pageCount = res.data.pageCount; //获取总页数
       });
-    },
-    search() {
-      this.is_search = true;
     },
     formatter(row, column) {
       return row.address;

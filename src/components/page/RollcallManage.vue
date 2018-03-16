@@ -84,10 +84,7 @@ export default {
       tableData: [],
       allData: [],
       multipleSelection: [],
-      // select_cate: "",
       select_word: "", //搜索内容
-      del_list: [],
-      is_search: false,
 
       dialogVisible: false,
       temDelRow: {},
