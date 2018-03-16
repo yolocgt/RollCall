@@ -83,7 +83,7 @@ export default {
       multipleSelection: [],
       select_word: "", //搜索内容
       del_list: [],
-      is_search: false,
+
 
       dialogVisible1: false,
       dialogVisible3: false,
@@ -129,25 +129,31 @@ export default {
       this.getDataByPage();
     },
     loadData() {
-      this.is_search = true;
-      new Promise((resolve) => {
+      // this.is_search = true;
+      // let self = this;
+      // if (process.env.NODE_ENV === "development") {
+      //   self.url = "/ms/table/list";
+      // }
+      // self.$axios.post(self.url).then(res => {
+      //   console.log(res);
+      // });
+      new Promise(resolve => {
         this.$axios
-          // .get("/users")
-          .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/admin")
-          .then(data => {
-            console.log(data.data.data.users);
-            var users = data.data.data.users;
+          .get("rc/admin")
+          .then(res => {
+            var users = res.data.data.users;
+            console.log(users);
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
               ApiAdmin.save(user, res => {
                 if (res.status == "y") {
-                  resolve()
+                  resolve(1)
                 }
               });
             }
           });
       }).then(() => {
-        this.$message.success("数据加载成功");
+        this.$message.success("Admins Mock Successful~");
         this.getDataByPage();
       })
     },
@@ -197,10 +203,10 @@ export default {
       ApiAdmin.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
-          this.$message.success("管理员删除成功~");
+          this.$message.success("删除成功~");
           this.getDataByPage();
         } else {
-          this.$message.success("管理员删除失败！");
+          this.$message.success("删除失败！");
         }
         //刷新页面
         // this.$router.go(0);

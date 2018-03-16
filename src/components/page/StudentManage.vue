@@ -18,12 +18,12 @@
       <!-- <el-input v-model="select_word" placeholder="查询关键词" class="handle-input mr10" ></el-input> -->
       <el-button type="primary" icon="search" @click="getDataByPage">搜索</el-button>
     </div>
-    <el-table :data="data"  stripe border height="390" style="width: 100%"  ref="multipleTable" @selection-change="handleSelectionChange">
+    <el-table :data="data" stripe border height="390" style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column fixed type="selection"></el-table-column>
-      <el-table-column fixed type="index"  width="60"></el-table-column>
-      <el-table-column fixed prop="name" label="姓名"  width="80"> </el-table-column>
+      <el-table-column fixed type="index" width="60"></el-table-column>
+      <el-table-column fixed prop="name" label="姓名" width="80"> </el-table-column>
       <el-table-column prop="sex" label="性别" width="65"> </el-table-column>
-      <el-table-column prop="id" label="学号"  width="150"> </el-table-column>
+      <el-table-column prop="id" label="学号" width="150"> </el-table-column>
       <el-table-column prop="phone" label="电话" width="130"> </el-table-column>
       <el-table-column prop="address" label="住址" width="138"> </el-table-column>
       <el-table-column prop="birth" :formatter="dateFormat" label="生日" width="130"> </el-table-column>
@@ -99,7 +99,6 @@ export default {
     };
   },
   created() {
-    this.is_search = true;
 
     ApiFaculty.getData({}, res => {
       this.faculty = res.data;
@@ -136,28 +135,8 @@ export default {
       this.cur_page = val;
       this.getDataByPage();
     },
-    search() {
-      this.is_search = true;
-      this.$axios
-        // .get("/users")
-        .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => {
-          console.log(data.data.data.users);
-          var users = data.data.data.users;
-          for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-            ApiStudent.save(user, res => {
-              if (res.status == "y") {
-                this.$message.success("数据加载成功");
-                this.getDataByPage();
-              }
-            });
-          }
-        });
-    },
-
     //时间格式化
-    dateFormat: function(row, column) {
+    dateFormat: function (row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";
@@ -252,7 +231,7 @@ export default {
         }
       }
       new Promise(fn1)
-        .then(function(val) {
+        .then(function (val) {
           _this.getDataByPage();
           _this.multipleSelection = [];
           if (isUsed) {
@@ -273,12 +252,10 @@ export default {
     loadData() {
       new Promise(resolve => {
         this.$axios
-          .get(
-            "https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/student"
-          )
-          .then(data => {
-            console.log(data.data.data.users);
-            var users = data.data.data.users;
+          .get("rc/student")
+          .then(res => {
+            var users = res.data.data.users;
+            console.log(users);
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
               ApiStudent.save(user, res => {
@@ -289,7 +266,7 @@ export default {
             }
           });
       }).then(() => {
-        this.$message.success("数据加载成功~");
+        this.$message.success("Students Mock Successful~");
         this.getDataByPage();
       });
     },

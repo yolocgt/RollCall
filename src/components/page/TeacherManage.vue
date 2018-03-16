@@ -56,10 +56,7 @@ export default {
       tableData: [],
       allData: [],
       multipleSelection: [],
-      select_cate: "",
       select_word: "", //搜索内容
-      del_list: [],
-      is_search: false,
 
       dialogVisible: false,
       temDelRow: {},
@@ -104,25 +101,6 @@ export default {
       this.cur_page = val;
       this.getDataByPage();
     },
-    search() {
-      this.is_search = true;
-      this.$axios
-        // .get("/users")
-        .get("https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80")
-        .then(data => {
-          console.log(data.data.data.users);
-          var users = data.data.data.users;
-          for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-            ApiTeacher.save(user, res => {
-              if (res.status == "y") {
-                this.$message.success("数据加载成功");
-                this.getDataByPage();
-              }
-            });
-          }
-        });
-    },
     formatter(row, column) {
       return row.address;
     },
@@ -166,12 +144,10 @@ export default {
     loadData() {
       new Promise(resolve => {
         this.$axios
-          .get(
-            "https://www.easy-mock.com/mock/5a5f683e0432ec5372566b80/teacher"
-          )
-          .then(data => {
-            console.log(data.data.data.users);
-            var users = data.data.data.users;
+          .get("rc/teacher")
+          .then(res => {
+            var users = res.data.data.users;
+            console.log(users);
             for (let i = 0; i < users.length; i++) {
               const user = users[i];
               // user.phone = user.phone.replace("|", "3");
@@ -183,7 +159,7 @@ export default {
             }
           });
       }).then(() => {
-        this.$message.success("数据加载成功~");
+        this.$message.success("Teachers Mock Successful~");
         this.getDataByPage();
       });
     },
