@@ -109,7 +109,7 @@ export default {
       var isUsed = false;
       var tables = "";
       // 关联的学生表
-      function f1(resolve) {
+      function fn1(resolve) {
         ApiStudent.getData({ classInfo: cid }, res => {
           console.log(res);
           if (res.data.count > 0) {
@@ -119,7 +119,7 @@ export default {
           resolve();
         });
       }
-      function f2(resolve) {
+      function fn2(resolve) {
         ApiArrange.getData({ classInfo: cid }, res => {
           console.log(res);
           if (res.data.length > 0) {
@@ -129,9 +129,9 @@ export default {
           resolve();
         });
       }
-      new Promise(f1)
+      new Promise(fn1)
         .then(params => {
-          return new Promise(f2);
+          return new Promise(fn2);
         })
         .then(params => {
           if (isUsed) {
