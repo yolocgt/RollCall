@@ -7,7 +7,7 @@
         <el-breadcrumb-item>管理点名信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-table :data="data" stripe :class="'rollcall'" border ref="multipleTable" @selection-change="handleSelectionChange">
+    <el-table :data="data" @current-change="hh" stripe :class="'rollcall'" border ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column prop="arrange.learnYear" label="学年" min-width="90"> </el-table-column>
       <el-table-column prop="arrange.learnTerm" label="学期"> </el-table-column>
       <el-table-column prop="arrange.classInfo.className" label="班级"> </el-table-column>
@@ -15,21 +15,17 @@
       <el-table-column prop="arrange.teacher.name" label="教师"> </el-table-column>
       <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" width="112"> </el-table-column>
       <el-table-column prop="arrange.section" label="节次"> </el-table-column>
-      <el-table-column prop="actualNum" label="总数"> </el-table-column>
-      <el-table-column prop="tardinessNum" label="迟到"> </el-table-column>
-      <el-table-column prop="absentNum" label="缺勤">
+      <el-table-column prop="absentNum" label="总数"> </el-table-column>
+      <el-table-column prop="absentNum" label="缺勤" >
         <template slot-scope="scope">
-          <template v-if="scope.row.absentNum==0">
+          <!-- <template v-if="scope.row.absentNum==0"> \ </template>
+          <template v-else> -->
             <router-link class="c_danger" :to="{path:'/absenceManage',query:{id:scope.row._id}}">
-              <el-tag type="success">/</el-tag>
-            </router-link>
-          </template>
-          <template v-else>
-            <router-link :to="{path:'/absenceManage',query:{id:scope.row._id}}">
               <el-tag type="danger">{{scope.row.absentNum}}人</el-tag>
             </router-link>
-          </template>
+          <!-- </template> -->
         </template>
+
       </el-table-column>
 
       <el-table-column label="操作" width="">
@@ -62,7 +58,7 @@
 } */
 a {
   color: #000;
-  /* cursor: default; */
+  cursor: default;
   text-decoration: none;
 }
 /* 缺勤人数样式 */
@@ -101,6 +97,7 @@ export default {
     };
   },
   created() {
+    console.log('created>>>>>>>>');
     this.getDataByPage();
   },
   computed: {
@@ -121,19 +118,20 @@ export default {
               ApiAbsence.getData({ rollcall: rollcallData[i]._id }, (res) => {
                 console.log(res);
                 rollcallData[i].absentNum = res.data.length;
-              })
-              ApiAbsence.getData({ rollcall2: rollcallData[i]._id }, (res) => {
-                console.log('迟到的、、、');
-                console.log(res);
-                rollcallData[i].tardinessNum = res.data.length;
+                // rollcallData[i].absentNum = res.data.length;
               })
             }
             console.clear();
+            console.log('1111111');
             console.log(rollcallData);
-            resolve();
-          }).then(() => {
-            this.tableData = rollcallData;
+            // console.log(rollcallData);
+            resolve(rollcallData);
+          }).then((val) => {
+            console.log('2222222222');
+            console.log(val);
+            this.tableData = val;
             this.pageCount = res.data.pageCount; //获取总页数
+            this.$refs.multipleTable.doLayout();
           })
         }
       );
@@ -206,7 +204,7 @@ export default {
       return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     // 缺勤人数
-    absentCount(row, column) {
+    absentNum(row, column) {
       // var rid = row._id;
       // console.log(rid);
       // new Promise((resolve) => {
@@ -220,7 +218,10 @@ export default {
       //   return 3
       // })
       // console.log('结束');
-      // this.absentCount(row.column);
+      // this.absentNum(row.column);
+    },
+    hh(){
+      console.log('改变');
     }
   },
 };

@@ -38,15 +38,15 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="应到人数" prop="actual">
-          <el-input readonly v-model.number="form.actual"></el-input>
+        <el-form-item label="应到人数" prop="actualNum">
+          <el-input readonly v-model.number="form.actualNum"></el-input>
         </el-form-item>
 
-        <el-form-item label="未到人数" prop="absent">
-          <el-input readonly v-model.number="form.absent"></el-input>
+        <el-form-item label="未到人数" prop="absentNum">
+          <el-input readonly v-model.number="form.absentNum"></el-input>
         </el-form-item>
 
-        <el-form-item label="考勤记录" prop="actual">
+        <el-form-item label="考勤记录" prop="actualNum">
           <el-select v-model="tardiness" multiple placeholder="迟到同学" @change="absenceChange">
             <el-option v-for="item in students" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
             </el-option>
@@ -113,16 +113,16 @@ export default {
       status: "添加",
       form: {
         arrange: "",
-        actual: 0,
-        absent: 0,
+        actualNum: 0,
+        absentNum: 0,
         rollcallTime: Date.now()
       },
       rules: {
-        // actual: [
+        // actualNum: [
         //   { required: true, message: "请输入人数" },
         //   { type: "number", message: "人数必须为数字值" }
         // ],
-        // absent: [
+        // absentNum: [
         // { required: true, message: "请输入实到人数" },
         // { type: "number", message: "人数必须为数字值" },
         // { message: "实到人数有误。应大于零并小于应到人数" }
@@ -131,9 +131,6 @@ export default {
     };
   },
   computed: {
-    // absent:function(){
-    //   return leave.length
-    // }
   },
   created: function() {
     const data = [];
@@ -156,8 +153,8 @@ export default {
 
         ApiStudent.queryStuCount({ classid: arrange.classInfo._id }, res => {
           console.log(res.data.data);
-          // this.form.actual = this.form.absent = res.data.data.count; //应到学生总数
-          this.form.actual = res.data.data.count; //应到学生总数
+          // this.form.actualNum = this.form.absentNum = res.data.data.count; //应到学生总数
+          this.form.actualNum = res.data.data.count; //应到学生总数
 
           stus = res.data.data.res;
           console.log("学生");
@@ -200,7 +197,7 @@ export default {
       console.log(this.value3);
     },
     absenceChange(val) {
-      this.form.absent = this.leave.length + this.truancy.length;
+      this.form.absentNum = this.leave.length + this.truancy.length;
       console.log(val);
       // console.log(this.students);
       // for (let i = 0; i < this.students.length; i++) {

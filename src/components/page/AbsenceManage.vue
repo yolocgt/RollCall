@@ -21,9 +21,9 @@
           <template v-if="scope.row.absenceReson=='旷课'">
             <el-tag type="danger">{{scope.row.absenceReson}}</el-tag>
           </template>
-          <template v-else-if="scope.row.absenceReson=='迟到早退'">
+          <!-- <template v-else-if="scope.row.absenceReson=='迟到早退'">
             <el-tag type="warning">{{scope.row.absenceReson}}</el-tag>
-          </template>
+          </template> -->
           <template v-else>
             <!-- <el-tag type="info">{{scope.row.absenceReson}}</el-tag> -->
             {{scope.row.absenceReson}}
@@ -142,19 +142,19 @@ export default {
       ApiAbsence.deleteById(this.temDelRow._id, res => {
         console.log(res);
         if (res.status == "y") {
-          if (
-            this.temDelRow.absenceReson == "请假" ||
-            this.temDelRow.absenceReson == "旷课"
-          ) {
-            ApiRollcall.getDataById(this.temDelRow.rollcall._id, res => {
-              console.log(res.data.absent);
-              var absenceNum = res.data.absent;
-              var obj = { absent: absenceNum - 1 };
-              ApiRollcall.update(this.temDelRow.rollcall._id, obj, data => {
-                console.log(data);
-              });
-            });
-          }
+          // if (
+          //   this.temDelRow.absenceReson == "请假" ||
+          //   this.temDelRow.absenceReson == "旷课"
+          // ) {
+          //   ApiRollcall.getDataById(this.temDelRow.rollcall._id, res => {
+          //     console.log(res.data.absent1);
+          //     var absenceNum = res.data.absent1;
+          //     var obj = { absent1: absenceNum - 1 };
+          //     ApiRollcall.update(this.temDelRow.rollcall._id, obj, data => {
+          //       console.log(data);
+          //     });
+          //   });
+          // }
           this.$message.success("考勤记录删除成功~");
         } else {
           this.$message.success("考勤记录删除失败！");
