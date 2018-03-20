@@ -118,7 +118,11 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别" }],
         id: [
-          { required: true, type: "number", message: "请输入学号" },
+          { required: true, message: "请输入学号" },
+          {
+            pattern: /^[a-zA-Z0-9]+$/,
+            message: "请输入正确的手机号"
+          },
           {
             validator: isExist,
             trigger: "blur"
