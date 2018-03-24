@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo">管理系统</div>
+        <div class="logo"><img class="user-logo" src="../../../static/img/LOGO.png">学生点名管理系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -52,7 +52,7 @@ export default {
 }
 .header .logo {
   float: left;
-  width: 250px;
+  width: 380px;
   text-align: center;
 }
 .user-info {
@@ -75,6 +75,14 @@ export default {
   top: 15px;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+}
+.logo .user-logo {
+  position: absolute;
+  left: 20px;
+  top: 5px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 .el-dropdown-menu__item {
