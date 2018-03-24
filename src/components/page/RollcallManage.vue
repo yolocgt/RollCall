@@ -15,8 +15,15 @@
       <el-table-column prop="arrange.teacher.name" label="教师"> </el-table-column>
       <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" width="112"> </el-table-column>
       <el-table-column prop="arrange.section" label="节次"> </el-table-column>
-      <el-table-column prop="actualNum" label="总数"> </el-table-column>
-      <el-table-column prop="tardinessNum" label="迟到"> </el-table-column>
+      <el-table-column prop="actualNum" label="总人数"> </el-table-column>
+      <!-- <el-table-column prop="tardinessNum" label="迟到"> 
+        <template slot-scope="scope">
+          <router-link :to="{path:'/absenceManage',query:{id:scope.row._id}}">
+            <el-tag type="danger">{{scope.row.tardinessNum}}人</el-tag>
+          </router-link>
+        </template>
+      </el-table-column> -->
+      
       <el-table-column prop="absentNum" label="缺勤">
         <template slot-scope="scope">
           <template v-if="scope.row.absentNum==0">
@@ -116,17 +123,14 @@ export default {
         { page: this.cur_page, word: this.select_word },
         res => {
           var rollcallData = res.data.res; //获取分页数据
-          new Promise((resolve) => {
+          new Promise(resolve => {
             for (let i = 0; i < rollcallData.length; i++) {
-              ApiAbsence.getData({ rollcall: rollcallData[i]._id }, (res) => {
-                console.log(res);
-                rollcallData[i].absentNum = res.data.length;
-              })
-              ApiAbsence.getData({ rollcall2: rollcallData[i]._id }, (res) => {
-                console.log('迟到的、、、');
-                console.log(res);
+              ApiAbsence.getData({ rollcall2: rollcallData[i]._id }, res => {
                 rollcallData[i].tardinessNum = res.data.length;
-              })
+              });
+              ApiAbsence.getData({ rollcall: rollcallData[i]._id }, res => {
+                rollcallData[i].absentNum = res.data.length;
+              });
             }
             console.clear();
             console.log(rollcallData);
@@ -134,7 +138,7 @@ export default {
           }).then(() => {
             this.tableData = rollcallData;
             this.pageCount = res.data.pageCount; //获取总页数
-          })
+          });
         }
       );
     },
@@ -184,7 +188,6 @@ export default {
           // 删除点名对应的考勤信息?
           ApiAbsence.deleteMany(this.temDelRow._id, res => {
             console.log(res);
-
           });
           this.getDataByPage();
         } else {
@@ -198,7 +201,7 @@ export default {
       this.multipleSelection = val;
     },
     //时间格式化
-    dateFormat: function (row, column) {
+    dateFormat: function(row, column) {
       var date = row[column.property];
       if (date == undefined) {
         return "";
@@ -222,7 +225,7 @@ export default {
       // console.log('结束');
       // this.absentCount(row.column);
     }
-  },
+  }
 };
 </script>
 
