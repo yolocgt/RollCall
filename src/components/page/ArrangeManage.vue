@@ -37,9 +37,9 @@
       <!-- <template v-if="!select_learnTerm"> -->
       <el-table-column prop="learnTerm" label="学期" sortable width="95"> </el-table-column>
       <!-- </template> -->
-      <el-table-column prop="classInfo.className" label="班级" sortable>
+      <el-table-column prop="classInfo.className" label="班级" sortable width="100">
       </el-table-column>
-      <el-table-column prop="teacher.name" label="教师">
+      <el-table-column prop="teacher.name" label="教师" width="80">
       </el-table-column>
       <el-table-column prop="course.courseName" label="课程">
       </el-table-column>

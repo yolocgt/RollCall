@@ -204,21 +204,21 @@ export default {
           ]
         },
 
-        {
-          icon: "el-icon-menu",
-          index: "7",
-          title: "表格",
-          subs: [
-            {
-              index: "basetable",
-              title: "基础表格"
-            },
-            {
-              index: "vuetable",
-              title: "Vue表格组件"
-            }
-          ]
-        },
+        // {
+        //   icon: "el-icon-menu",
+        //   index: "7",
+        //   title: "表格",
+        //   subs: [
+        //     {
+        //       index: "basetable",
+        //       title: "基础表格"
+        //     },
+        //     {
+        //       index: "vuetable",
+        //       title: "Vue表格组件"
+        //     }
+        //   ]
+        // },
         // {
         //   icon: "el-icon-date",
         //   index: "4",
@@ -329,7 +329,18 @@ export default {
               title: "管理点名信息"
             }
           ]
-        }
+        },
+        {
+          icon: "el-icon-date",
+          index: "course2",
+          title: "考勤信息管理",
+          subs: [
+            {
+              index: "absenceManage",
+              title: "管理考勤信息"
+            }
+          ] 
+        },
       );
     } else if (role == "counselor") {
       //辅导员

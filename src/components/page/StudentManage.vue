@@ -23,10 +23,10 @@
       <el-table-column fixed type="index" width="60"></el-table-column>
       <el-table-column fixed prop="name" label="姓名" width="80"> </el-table-column>
       <el-table-column prop="sex" label="性别" width="65"> </el-table-column>
-      <el-table-column prop="id" label="学号" width="150"> </el-table-column>
-      <el-table-column prop="phone" label="电话" width="130"> </el-table-column>
+      <el-table-column prop="id" label="学号" width="120"> </el-table-column>
+      <el-table-column prop="phone" label="电话" width="125"> </el-table-column>
       <el-table-column prop="address" label="住址" width="138"> </el-table-column>
-      <el-table-column prop="birth" :formatter="dateFormat" label="生日" width="130"> </el-table-column>
+      <el-table-column prop="birth" :formatter="dateFormat" label="生日" width="120"> </el-table-column>
       <!-- <el-table-column prop="password" label="密码" > </el-table-column> -->
       <el-table-column prop="classInfo.faculty.facultyName" label="学院" width="105"> </el-table-column>
       <el-table-column prop="classInfo.className" label="班级" width="138"> </el-table-column>
