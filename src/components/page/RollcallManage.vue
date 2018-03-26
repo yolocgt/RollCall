@@ -16,7 +16,12 @@
       <el-table-column prop="rollcallTime" label="时间" :formatter="dateFormat" width="112"> </el-table-column>
       <el-table-column prop="arrange.section" label="节次"> </el-table-column>
       <el-table-column prop="actualNum" label="总数"> </el-table-column>
-      <el-table-column prop="tardinessNum" label="迟到"> </el-table-column>
+      <el-table-column prop="tardinessNum" label="迟到">
+        <template slot-scope="scope">
+          {{scope.row.tardinessNum}}
+        </template>
+
+      </el-table-column>
       <el-table-column prop="absentNum" label="缺勤">
         <template slot-scope="scope">
           <template v-if="scope.row.absentNum==0">
