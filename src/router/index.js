@@ -169,6 +169,11 @@ export default new Router({
                     name: 'absenceManage',
                     component: resolve => require(['../components/page/AbsenceManage.vue'], resolve)    // 管理点名信息
                 }
+                , {
+                    path: '/chart',
+                    name: 'chart',
+                    component: resolve => require(['../components/page/chart.vue'], resolve)    // 管理点名信息
+                }
 
             ]
         },

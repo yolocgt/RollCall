@@ -177,6 +177,10 @@ export default {
             //   index: "absenceManage",
             //   title: "管理考勤信息"
             // }
+              ,{
+              index: "chart",
+              title: "出勤率报表"
+            },
           ]
         },
         {
