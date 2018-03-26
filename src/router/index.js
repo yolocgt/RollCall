@@ -174,6 +174,11 @@ export default new Router({
                     name: 'chart',
                     component: resolve => require(['../components/page/chart.vue'], resolve)    // 管理点名信息
                 }
+                , {
+                    path: '/eat',
+                    name: 'eat',
+                    component: resolve => require(['../components/page/eat.vue'], resolve)    // 管理点名信息
+                }
 
             ]
         },

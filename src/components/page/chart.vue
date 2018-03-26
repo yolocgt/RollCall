@@ -12,7 +12,7 @@
         </div>
         <div class="schart">
             <div class="content-title">柱状图</div>
-            <schart canvasId="bar" width="500" height="400" :data="data1" type="bar" :options="options1"></schart>
+            <schart canvasId="bar" width="500" height="400" :data="getData" type="bar" :options="options1"></schart>
         </div>
         <div class="schart">
         <div class="content-title">折线图</div>
@@ -30,57 +30,94 @@
 </template>
 
 <script>
-    import Schart from 'vue-schart';
-    export default {
-        components: {
-            Schart
-        },
-        data: () => ({
-            data1:[
-                {name:'2012',value:1141},
-                {name:'2013',value:1499},
-                {name:'2014',value:5260},
-                {name:'2015',value:1170},
-                {name:'2016',value:970},
-                {name:'2017',value:1450}
-            ],
-            data2 : [
-                {name:'短袖',value:1200},
-                {name:'休闲裤',value:1222},
-                {name:'连衣裙',value:1283},
-                {name:'外套',value:1314},
-                {name:'羽绒服',value:2314}
-            ],
-            options1: {
-                title: '某商店近年营业总额',
-                bgColor: '#009688',
-                titleColor: '#ffffff',
-                fillColor: '#e0f2f1',
-                axisColor: '#ffffff',
-                contentColor: '#999'
-            },
-            options2: {
-                title: '某商店各商品年度销量',
-                bgColor: '#607d8b',
-                titleColor: '#ffffff',
-                legendColor: '#ffffff'
-            }
-        })
+import Schart from "vue-schart";
+import { ApiRollcall, ApiAbsence } from "../../service/apis";
+
+export default {
+  components: {
+    Schart
+  },
+  data: () => ({
+    data1: [
+      { name: "2012", value: 1141 },
+      { name: "2013", value: 1499 },
+      { name: "2014", value: 5260 },
+      { name: "2015", value: 1170 },
+      { name: "2016", value: 970 },
+      { name: "2017", value: 1450 }
+    ],
+    data2: [
+      { name: "短袖", value: 1200 },
+      { name: "休闲裤", value: 1222 },
+      { name: "连衣裙", value: 1283 },
+      { name: "外套", value: 1314 },
+      { name: "羽绒服", value: 2314 }
+    ],
+    options1: {
+      title: "某商店近年营业总额",
+      bgColor: "#009688",
+      titleColor: "#ffffff",
+      fillColor: "#e0f2f1",
+      axisColor: "#ffffff",
+      contentColor: "#999"
+    },
+    options2: {
+      title: "某商店各商品年度销量",
+      bgColor: "#607d8b",
+      titleColor: "#ffffff",
+      legendColor: "#ffffff"
     }
+  }),
+  computed: {
+    getData() {
+      ApiRollcall.getDataByPage({ page: this.cur_page }, res => {
+        var rollcallData = res.data.res; //获取分页数据
+        new Promise(resolve => {
+          for (let i = 0; i < rollcallData.length; i++) {
+            ApiAbsence.getData({ rollcall: rollcallData[i]._id }, res => {
+            //   console.log(res);
+              rollcallData[i].absentNum = res.data.length;
+            });
+            ApiAbsence.getData({ rollcall2: rollcallData[i]._id }, res => {
+            //   console.log("迟到的、、、");
+            //   console.log(res);
+              rollcallData[i].tardinessNum = res.data.length;
+            });
+          }
+          console.clear();
+        //   console.log(rollcallData);
+          resolve();
+        }).then(() => {
+          //   this.tableData = rollcallData;
+          //   this.pageCount = res.data.pageCount; //获取总页数
+        //   console.log(rollcallData);
+          var mydata=[];
+          rollcallData.forEach(item => {
+              var obj={};
+              obj.name=item.arrange.classInfo.className;
+              obj.value=item.absentNum;
+              mydata.push(obj);
+          });
+          console.log(mydata);
+          return mydata;
+        });
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>
-    .schart{
-        width: 600px;
-        display: inline-block;
-    }
-    .content-title{
-        clear: both;
-        font-weight: 400;
-        line-height: 50px;
-        margin: 10px 0;
-        font-size: 22px;
-        color: #1f2f3d;
-    }
-
+.schart {
+  width: 600px;
+  display: inline-block;
+}
+.content-title {
+  clear: both;
+  font-weight: 400;
+  line-height: 50px;
+  margin: 10px 0;
+  font-size: 22px;
+  color: #1f2f3d;
+}
 </style>

@@ -181,6 +181,10 @@ export default {
               index: "chart",
               title: "出勤率报表"
             },
+              ,{
+              index: "eat",
+              title: "出勤率报表2"
+            },
           ]
         },
         {

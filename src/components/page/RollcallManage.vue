@@ -118,7 +118,7 @@ export default {
     getDataByPage() {
       console.log("开始分页");
       ApiRollcall.getDataByPage(
-        { page: this.cur_page, word: this.select_word },
+        { page: this.cur_page},
         res => {
           var rollcallData = res.data.res; //获取分页数据
           new Promise((resolve) => {
