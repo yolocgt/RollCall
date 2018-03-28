@@ -4,13 +4,13 @@ var webpack = require('webpack')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill','./src/main.js']
+    app: ['babel-polyfill', './src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -39,6 +39,10 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
@@ -61,10 +65,10 @@ module.exports = {
       }
     ]
   },
-    // plugins: [
-    //     new webpack.DllReferencePlugin({
-    //       context: path.resolve(__dirname, '..'),
-    //       manifest: require('./vendor-manifest.json')
-    //     })
-    // ]
+  // plugins: [
+  //     new webpack.DllReferencePlugin({
+  //       context: path.resolve(__dirname, '..'),
+  //       manifest: require('./vendor-manifest.json')
+  //     })
+  // ]
 }
